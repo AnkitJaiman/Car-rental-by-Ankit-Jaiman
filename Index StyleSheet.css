@@ -1,0 +1,343 @@
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+/* Header Section
+ */
+header {
+  background-color: black;
+  color: white;
+  padding: 10px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+header .logo img {
+  width: 5px;
+}
+header nav ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+}
+header nav ul li {
+  margin-left: 20px;
+}
+header nav ul li a {
+  color: white;
+  text-decoration: none;
+  font-weight: bold;
+}
+/* hearder boady Section */
+
+.intro {
+  background-color: rgba(245, 245, 245, 0.475);
+  color: black;
+  padding: 100px 20px;
+  text-align: center;
+}
+.intro h2 {
+  font-size: 3em;
+}
+
+.intro p {
+  font-size: 1.2em;
+}
+.intro .btn {   display: inline-block;
+    margin: 10px 0;
+    padding: 10px 20px;
+    background-color: #f4970c;
+    color: rgb(8, 8, 8);
+    text-decoration: none;
+    border-radius: 5px;
+}
+section.hotcar {
+  background-color: white;
+  color: rgb(255, 252, 252);
+  padding: 100px 20px;
+  text-align: center;
+}
+section.hotcar h2 {
+  font-size: 28px;
+  margin-bottom: 20px;
+}
+section.hotcar a {
+  display: inline-block;
+  margin: 0 10px;
+  transition: 0.3s ease;
+}
+section.hotcar a img {
+  width: 100%;
+  max-width: 300px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  transition: transform 0.3s ease;
+}
+section.hotcar a:hover img {
+  transform: scale(1.05);
+}
+
+.hotcar a p {
+  background-color: whitesmoke;
+  margin: 10px 0 0; 
+  color: black; 
+  font-size: 18px;
+  font-weight: bold;
+  text-align: center;
+  text-decoration: none; 
+}
+
+/* Footer section */
+
+.footer {
+  background-color: black;
+  color: white;
+  padding: 20px 0;
+  text-align: center;
+}
+
+/* about page */
+/* About Page Main section */
+
+.about-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: white;
+  padding: 20px;
+}
+
+.about-frame {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  max-width: 1200px;
+  margin: 20px 0;
+  padding: 20px;
+  background-color: rgb(235, 232, 226);
+  box-shadow: 0 0 10px rgb(0, 0, 0);
+  border-radius: 10px;
+}
+
+.about-frame .about-text ,
+.about-frame .about-image{
+    width: 50%;
+    padding: 20px;
+
+}
+.about-frame .about-text h2{
+    margin: 0;
+    color: rgb(37, 35, 35);
+    font-size: 24px;
+    font-weight: bolder;
+}
+.about-frame .about-text p {
+    color: #555555;
+    font-size: 16px;
+    font-weight: bold;
+}
+.about-frame .about-image img{
+    width: 100%;
+    border-radius: 10px;
+    object-fit: cover;
+}
+
+.about-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: white;
+  padding: 20px;
+}
+
+.about-frame {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  max-width: 1200px;
+  margin: 20px 0;
+  padding: 20px;
+  background-color: rgb(235, 232, 226);
+  box-shadow: 0 0 10px rgb(0, 0, 0);
+  border-radius: 10px;
+}
+
+.about-frame .about-text ,
+.about-frame .about-image{
+    width: 50%;
+    padding: 20px;
+
+}
+.about-frame .about-text h2{
+    margin: 0;
+    color: rgb(37, 35, 35);
+    font-size: 24px;
+    font-weight: bolder;
+}
+.about-frame .about-text p {
+    color: #555555;
+    font-size: 16px;
+    font-weight: bold;
+}
+.about-frame .about-image img{
+    width: 100%;
+    border-radius: 10px;
+    object-fit: cover;
+}
+
+/* We with number */
+
+.car-rental-numbers{
+    background-color: white;
+    padding: 20px 40px;
+    text-align: center;
+}
+.car-rental-numbers h1{
+    margin-top: 0;
+    color: #333333;
+    font-size: 28px;
+    font-weight: bold;
+
+}
+.blocks-container{
+    display: flex;
+    justify-content: space-around;
+    margin-top: 20px;
+
+}
+.block {
+    background-color: #ffffff; /* White background */
+    padding: 20px;
+    border-radius: 10px;
+    width: 30%;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    text-align: center;
+  }
+  .block img {
+    width: 60%; /* Mid-sized image */
+    border-radius: 10px;
+    object-fit: cover;
+  }
+
+  .block h3 {
+    margin-top: 10px;
+    color: #333333;
+    font-size: 16px;
+    font-weight: bold;
+  }
+
+  /* Car Page  */
+
+  .car-list{
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
+    
+  }
+  .car-item{
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    text-align: center;
+    flex: 1 1 calc(33.333% - 40px);
+    max-width: calc(33.333% - 40px);
+  }
+
+  .car-item img {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+.car-item h2 {
+    font-size: 18px;
+    font-weight: bold;
+    margin: 10px 0;
+}
+
+.car-item p {
+    margin: 5px 0;
+}
+
+
+.car-item .price {
+    color: gray;
+    font-weight: bold;
+}
+
+.car-item .btn {
+    display: inline-block;
+    margin: 10px 0;
+    padding: 10px 20px;
+    background-color: #f4970c;
+    color: rgb(8, 8, 8);
+    text-decoration: none;
+    border-radius: 5px;
+}
+
+/*  Rating Page */
+
+.container{
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+
+}
+.h1{
+    text-align: center;
+    margin-bottom: 20px;
+}
+.review {
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    padding: 20px;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  .review h2 {
+    margin-top: 0;
+    font-size: 1.5em;
+    color: #333;
+  }
+  .review p {
+    font-size: 1em;
+    color: #555;
+    line-height: 1.5;
+  }
+  .review .rating {
+    font-size: 1.2em;
+    color: #f39c12;
+  }
+  .add-review {
+    text-align: center;
+    margin-top: 40px;
+  }
+  .add-review input,
+  .add-review textarea {
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    box-sizing: border-box;
+  }
+  .add-review button {
+    padding: 10px 20px;
+    background-color: #ffc61b;
+    color: black;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  .add-review button:hover {
+    background-color: #ffc61b;
+  }
+ 
