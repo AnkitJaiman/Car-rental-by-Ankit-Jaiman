@@ -13,7 +13,6 @@ header {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  position: relative; /* Added for absolute positioning of the hamburger icon */
 }
 
 header .logo img {
@@ -35,22 +34,6 @@ header nav ul li a {
   color: white;
   text-decoration: none;
   font-weight: bold;
-}
-
-/* Hamburger Icon */
-header .hamburger {
-  display: none;
-  flex-direction: column;
-  cursor: pointer;
-}
-
-header .hamburger span {
-  background: white;
-  border-radius: 2px;
-  display: block;
-  height: 3px;
-  margin: 5px 0;
-  width: 25px;
 }
 
 /* Intro Section */
@@ -326,12 +309,10 @@ section.hotcar a:hover img {
   border: none;
   border-radius: 5px;
   cursor: pointer;
-  margin-bottom: 20px;
 }
 
 .add-review button:hover {
   background-color: #ffc61b;
-  margin-bottom: 20px;
 }
 
 /* Media Queries */
@@ -339,22 +320,11 @@ section.hotcar a:hover img {
   header nav ul {
     flex-direction: column;
     align-items: flex-start;
-    display: none; /* Hide the nav by default */
-    width: 100%;
-    background-color: black;
   }
 
   header nav ul li {
     margin-left: 0;
     margin-bottom: 10px;
-  }
-
-  header .hamburger {
-    display: flex; /* Show the hamburger icon */
-  }
-
-  header.nav-open ul {
-    display: flex; /* Show the nav when the nav-open class is added */
   }
 
   .intro h2 {
