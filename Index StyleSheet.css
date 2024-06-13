@@ -223,6 +223,7 @@ section.hotcar a:hover img {
   flex-wrap: wrap;
   gap: 20px;
   justify-content: center;
+  margin-bottom: 40px;
 }
 
 .car-item {
@@ -326,10 +327,12 @@ section.hotcar a:hover img {
   border: none;
   border-radius: 5px;
   cursor: pointer;
+  margin-bottom: 20px;
 }
 
 .add-review button:hover {
   background-color: #ffc61b;
+  
 }
 
 /* Media Queries */
