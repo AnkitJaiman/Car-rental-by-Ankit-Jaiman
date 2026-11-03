@@ -1,0 +1,86 @@
+{%- comment -%}
+  One Inspiration Station post.
+  Params: size (sm|md|lg), image, video (Shopify video), video_url (mp4 string), poster, name, username, profile_url,
+          caption, product, sizes, autoplay, show_creator, show_caption, show_product, attrs, index
+{%- endcomment -%}
+{%- liquid
+  assign poster_img = poster
+  if poster_img == blank and video != blank
+    assign poster_img = video.preview_image
+  endif
+  if poster_img == blank
+    assign poster_img = image
+  endif
+  assign has_video = false
+  if video != blank or video_url != blank
+    assign has_video = true
+  endif
+  assign media_label = name | default: username | default: product.title
+-%}
+<li class="inspo-card inspo-card--{{ size }} reveal" {{ attrs }}>
+  <div class="inspo-card__media"{% if has_video %} data-inspo-video{% endif %}>
+    {%- if has_video -%}
+      {%- if poster_img != blank -%}
+        {% render 'image', image: poster_img, sizes: sizes, alt: media_label, widths: '240, 360, 480, 640, 800', class: 'inspo-card__poster' %}
+      {%- endif -%}
+      {%- if video != blank -%}
+        {%- assign source = video.sources | where: 'format', 'mp4' | sort: 'height' | last -%}
+        {%- for s in video.sources -%}{%- if s.format == 'mp4' and s.height <= 1080 -%}{%- assign source = s -%}{%- endif -%}{%- endfor -%}
+        <video muted loop playsinline preload="none" disablepictureinpicture
+          {% if poster_img != blank %}poster="{{ poster_img | image_url: width: 720 }}"{% endif %}
+          data-src="{{ source.url }}" aria-label="{{ media_label | escape }}"></video>
+      {%- else -%}
+        <video muted loop playsinline preload="none" disablepictureinpicture
+          {% if poster_img != blank %}poster="{{ poster_img | image_url: width: 720 }}"{% endif %}
+          data-src="{{ video_url | escape }}" aria-label="{{ media_label | escape }}"></video>
+      {%- endif -%}
+      <button type="button" class="inspo-card__play" data-inspo-play aria-pressed="{% if autoplay %}true{% else %}false{% endif %}" aria-label="{{ 'accessibility.play_video' | t }}">
+        {% render 'icon', name: 'pause' %}{% render 'icon', name: 'play' %}
+      </button>
+    {%- elsif image != blank -%}
+      {%- if product != blank and show_product -%}
+        <a href="{{ product.url }}" tabindex="-1" aria-hidden="true" style="position:absolute;inset:0">{% render 'image', image: image, sizes: sizes, alt: media_label, widths: '240, 360, 480, 640, 800' %}</a>
+      {%- else -%}
+        {% render 'image', image: image, sizes: sizes, alt: media_label, widths: '240, 360, 480, 640, 800' %}
+      {%- endif -%}
+    {%- else -%}
+      {{ 'lifestyle-2' | placeholder_svg_tag: 'placeholder-svg' }}
+    {%- endif -%}
+
+    {%- if show_creator and name != blank or show_creator and username != blank -%}
+      <div class="inspo-card__creator">
+        {%- if name != blank -%}<strong>{{ name | escape }}</strong>{%- endif -%}
+        {%- if username != blank -%}
+          {%- if profile_url != blank -%}
+            <a href="{{ profile_url }}" target="_blank" rel="noopener nofollow" style="pointer-events:auto">{{ username | escape }}</a>
+          {%- else -%}
+            <span>{{ username | escape }}</span>
+          {%- endif -%}
+        {%- endif -%}
+      </div>
+    {%- endif -%}
+  </div>
+
+  {%- if show_caption and caption != blank -%}
+    <p class="inspo-card__caption">{{ caption | escape }}</p>
+  {%- endif -%}
+
+  {%- if show_product and product != blank -%}
+    <a href="{{ product.url }}" class="inspo-product">
+      <span class="inspo-product__thumb">
+        {%- if product.featured_media -%}
+          {{ product.featured_media.preview_image | image_url: width: 160 | image_tag: loading: 'lazy', alt: '', widths: '80, 120, 160', sizes: '52px' }}
+        {%- endif -%}
+      </span>
+      <span>
+        <span class="inspo-product__title">{{ product.title | escape }}</span>
+        {% render 'price', product: product, show_from: true %}
+      </span>
+    </a>
+  {%- elsif show_product and request.design_mode -%}
+    <div class="inspo-product" style="opacity:.5">
+      <span class="inspo-product__thumb"></span>
+      <span class="inspo-product__title">{{ 'products.product.view_details' | t }}</span>
+    </div>
+  {%- endif -%}
+</li>

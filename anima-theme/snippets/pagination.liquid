@@ -1,0 +1,29 @@
+{%- comment -%} Params: paginate, style ('numbers' | 'load_more') {%- endcomment -%}
+{%- if paginate.pages > 1 -%}
+  {%- if style == 'load_more' -%}
+    <div class="load-more" data-load-more>
+      <span>{{ 'general.pagination.page' | t: number: paginate.current_page }} / {{ paginate.pages }}</span>
+      {%- if paginate.next -%}
+        <a href="{{ paginate.next.url }}" class="button button--secondary" data-load-more-link>{{ 'general.pagination.load_more' | t }}</a>
+      {%- endif -%}
+    </div>
+  {%- else -%}
+    <nav aria-label="{{ 'general.pagination.label' | t }}">
+      <ul class="pagination" role="list">
+        {%- if paginate.previous -%}<li><a href="{{ paginate.previous.url }}" aria-label="{{ 'general.previous' | t }}" data-facet-link>{% render 'icon', name: 'chevron-left' %}</a></li>{%- endif -%}
+        {%- for part in paginate.parts -%}
+          <li>
+            {%- if part.is_link -%}
+              <a href="{{ part.url }}" aria-label="{{ 'general.pagination.page' | t: number: part.title }}" data-facet-link>{{ part.title }}</a>
+            {%- elsif part.title == paginate.current_page -%}
+              <span aria-current="page">{{ part.title }}</span>
+            {%- else -%}
+              <span>{{ part.title }}</span>
+            {%- endif -%}
+          </li>
+        {%- endfor -%}
+        {%- if paginate.next -%}<li><a href="{{ paginate.next.url }}" aria-label="{{ 'general.next' | t }}" data-facet-link>{% render 'icon', name: 'chevron-right' %}</a></li>{%- endif -%}
+      </ul>
+    </nav>
+  {%- endif -%}
+{%- endif -%}

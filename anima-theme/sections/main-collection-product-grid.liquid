@@ -1,0 +1,74 @@
+{%- liquid
+  assign per_page = section.settings.per_page
+  assign cols = section.settings.columns
+  assign filter_layout = section.settings.filter_layout
+  case cols
+    when 2
+      assign sizes = '(min-width: 990px) 40vw, 50vw'
+    when 3
+      assign sizes = '(min-width: 990px) 26vw, 50vw'
+    else
+      assign sizes = '(min-width: 990px) 20vw, 50vw'
+  endcase
+-%}
+<div class="section" style="--pt: {{ section.settings.padding_top }}px; --pb: {{ section.settings.padding_bottom }}px;" data-collection-section data-section-id="{{ section.id }}">
+  <div class="page-width">
+    {%- paginate collection.products by per_page -%}
+      {%- render 'collection-toolbar', results: collection, section: section, filter_layout: filter_layout -%}
+      <div class="collection-layout{% if filter_layout == 'sidebar' and section.settings.enable_filtering %} collection-layout--sidebar{% endif %}">
+        {%- if section.settings.enable_filtering and filter_layout == 'sidebar' -%}
+          <aside class="hide-mobile-sidebar" aria-label="{{ 'products.facets.filter' | t }}">
+            {% render 'facets', results: collection, id_prefix: 'Sidebar' %}
+          </aside>
+        {%- endif -%}
+        <div data-collection-results>
+          {% render 'active-facets', results: collection %}
+          {%- if collection.products.size == 0 -%}
+            <div class="collection-empty">
+              <p>{{ 'products.facets.no_products' | t }}</p>
+              {%- if collection.filters.size > 0 -%}<a href="{{ collection.url }}?sort_by={{ collection.sort_by | default: collection.default_sort_by }}" class="button button--secondary" data-facet-link>{{ 'products.facets.clear_all' | t }}</a>{%- endif -%}
+            </div>
+          {%- else -%}
+            <ul class="grid collection-grid" role="list" id="ProductGrid-{{ section.id }}" data-product-grid style="--cols: {{ cols }}; --cols-tablet: {% if cols > 3 %}3{% else %}{{ cols }}{% endif %}; --cols-mobile: {{ section.settings.columns_mobile }};">
+              {%- for product in collection.products -%}
+                {%- liquid
+                  if forloop.index <= cols
+                    assign lazy_load = false
+                  else
+                    assign lazy_load = true
+                  endif
+                -%}
+                <li>{% render 'product-card', product: product, sizes: sizes, lazy: lazy_load %}</li>
+              {%- endfor -%}
+            </ul>
+            {% render 'pagination', paginate: paginate, style: section.settings.pagination_style %}
+          {%- endif -%}
+        </div>
+      </div>
+    {%- endpaginate -%}
+  </div>
+  {%- if section.settings.enable_filtering -%}
+    {% render 'facets-drawer', results: collection, section: section %}
+  {%- endif -%}
+</div>
+{%- if filter_layout == 'sidebar' -%}<style>@media (max-width: 989px) { .hide-mobile-sidebar { display: none; } }</style>{%- endif -%}
+
+{% schema %}
+{
+  "name": "Product grid",
+  "class": "section-collection-grid",
+  "settings": [
+    { "type": "range", "id": "per_page", "label": "Products per page", "min": 8, "max": 48, "step": 4, "default": 24 },
+    { "type": "range", "id": "columns", "label": "Columns (desktop)", "min": 2, "max": 5, "step": 1, "default": 4 },
+    { "type": "range", "id": "columns_mobile", "label": "Columns (mobile)", "min": 1, "max": 2, "step": 1, "default": 2 },
+    { "type": "header", "content": "Filtering and sorting" },
+    { "type": "checkbox", "id": "enable_filtering", "label": "Enable filtering", "info": "Customize filters with the Shopify Search & Discovery app.", "default": true },
+    { "type": "select", "id": "filter_layout", "label": "Desktop filter layout", "default": "drawer", "options": [{ "value": "drawer", "label": "Drawer" }, { "value": "sidebar", "label": "Sidebar" }] },
+    { "type": "checkbox", "id": "enable_sorting", "label": "Enable sorting", "default": true },
+    { "type": "select", "id": "pagination_style", "label": "Pagination", "default": "load_more", "options": [{ "value": "numbers", "label": "Page numbers" }, { "value": "load_more", "label": "Load more button" }] },
+    { "type": "header", "content": "Spacing" },
+    { "type": "range", "id": "padding_top", "label": "Top padding", "min": 0, "max": 120, "step": 8, "unit": "px", "default": 32 },
+    { "type": "range", "id": "padding_bottom", "label": "Bottom padding", "min": 0, "max": 160, "step": 8, "unit": "px", "default": 80 }
+  ]
+}
+{% endschema %}

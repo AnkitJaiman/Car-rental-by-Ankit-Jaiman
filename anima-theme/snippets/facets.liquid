@@ -1,0 +1,62 @@
+{%- comment -%}
+  Storefront filtering (Shopify Search & Discovery). Params: results, id_prefix
+  Works without JavaScript (form submit); JavaScript updates results in place.
+{%- endcomment -%}
+<form class="facets" data-facets-form action="{{ results.url | default: routes.search_url }}" method="get">
+  {%- if results.terms -%}
+    <input type="hidden" name="q" value="{{ results.terms | escape }}">
+    <input type="hidden" name="options[prefix]" value="last">
+  {%- endif -%}
+  {%- if results.sort_by -%}<input type="hidden" name="sort_by" value="{{ results.sort_by }}">{%- endif -%}
+  {%- for filter in results.filters -%}
+    {%- liquid
+      assign active_count = filter.active_values.size
+      if filter.type == 'price_range'
+        if filter.min_value.value != nil or filter.max_value.value != nil
+          assign active_count = 1
+        endif
+      endif
+    -%}
+    <details class="facets__group"{% if forloop.index <= 2 or active_count > 0 %} open{% endif %}>
+      <summary>
+        <span>{{ filter.label | escape }}{% if active_count > 0 %} ({{ active_count }}){% endif %}</span>
+        {% render 'icon', name: 'chevron-down' %}
+      </summary>
+      {%- case filter.type -%}
+        {%- when 'price_range' -%}
+          {%- assign max_price = filter.range_max | money_without_currency | remove: ',' -%}
+          <div class="facets__price">
+            <label class="field"><span class="field__label">{{ 'products.facets.from' | t }} ({{ cart.currency.symbol }})</span>
+              <input class="field__input" type="number" inputmode="decimal" min="0" max="{{ max_price }}" name="{{ filter.min_value.param_name }}"
+                value="{%- if filter.min_value.value -%}{{ filter.min_value.value | money_without_currency | remove: ',' }}{%- endif -%}" placeholder="0">
+            </label>
+            <label class="field"><span class="field__label">{{ 'products.facets.to' | t }} ({{ cart.currency.symbol }})</span>
+              <input class="field__input" type="number" inputmode="decimal" min="0" max="{{ max_price }}" name="{{ filter.max_value.param_name }}"
+                value="{%- if filter.max_value.value -%}{{ filter.max_value.value | money_without_currency | remove: ',' }}{%- endif -%}" placeholder="{{ max_price }}">
+            </label>
+          </div>
+          <p class="text-muted" style="font-size:1.2rem;margin:-6px 0 16px">{{ 'products.facets.max_price' | t: price: filter.range_max | money }}</p>
+        {%- when 'boolean' -%}
+          <ul class="facets__list" role="list">
+            {%- for value in filter.values -%}
+              <li><label class="facets__check{% if value.count == 0 and value.active == false %} facets__check--disabled{% endif %}">
+                <input type="checkbox" name="{{ value.param_name }}" value="{{ value.value }}"{% if value.active %} checked{% endif %}{% if value.count == 0 and value.active == false %} disabled{% endif %}>
+                {{ value.label | escape }} <span class="facets__count">{{ value.count }}</span>
+              </label></li>
+            {%- endfor -%}
+          </ul>
+        {%- else -%}
+          <ul class="facets__list" role="list">
+            {%- for value in filter.values -%}
+              <li><label class="facets__check{% if value.count == 0 and value.active == false %} facets__check--disabled{% endif %}">
+                <input type="checkbox" name="{{ value.param_name }}" value="{{ value.value | escape }}"{% if value.active %} checked{% endif %}{% if value.count == 0 and value.active == false %} disabled{% endif %}>
+                {%- if value.swatch.color -%}<span class="swatch" style="--swatch: {{ value.swatch.color }}"></span>{%- endif -%}
+                {{ value.label | escape }} <span class="facets__count">{{ value.count }}</span>
+              </label></li>
+            {%- endfor -%}
+          </ul>
+      {%- endcase -%}
+    </details>
+  {%- endfor -%}
+  <noscript><button type="submit" class="button button--full" style="margin-top:16px">{{ 'products.facets.apply' | t }}</button></noscript>
+</form>

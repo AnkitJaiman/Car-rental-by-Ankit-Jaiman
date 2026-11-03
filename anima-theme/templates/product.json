@@ -1,0 +1,136 @@
+{
+  "sections": {
+    "main": {
+      "type": "main-product",
+      "settings": {
+        "gallery_layout": "grid",
+        "image_ratio": "portrait",
+        "show_breadcrumbs": true,
+        "show_view_details": false,
+        "padding_top": 24,
+        "padding_bottom": 80
+      },
+      "blocks": {
+        "vendor": {
+          "type": "text",
+          "settings": {
+            "text": "Anima Jewels",
+            "style": "eyebrow"
+          }
+        },
+        "title": {
+          "type": "title",
+          "settings": {}
+        },
+        "price": {
+          "type": "price",
+          "settings": {}
+        },
+        "inventory": {
+          "type": "inventory",
+          "settings": {
+            "threshold": 5
+          }
+        },
+        "variants": {
+          "type": "variant_picker",
+          "settings": {
+            "show_swatches": true,
+            "size_guide_page": "ring-size-guide"
+          }
+        },
+        "quantity": {
+          "type": "quantity",
+          "settings": {}
+        },
+        "buy": {
+          "type": "buy_buttons",
+          "settings": {
+            "show_dynamic_checkout": true
+          }
+        },
+        "benefits": {
+          "type": "benefits",
+          "settings": {
+            "text_1": "Free US shipping over $35",
+            "icon_1": "truck",
+            "text_2": "Free 30-day returns",
+            "icon_2": "return",
+            "text_3": "925 sterling silver · nickel & lead free",
+            "icon_3": "silver",
+            "text_4": "",
+            "icon_4": "lock"
+          }
+        },
+        "description": {
+          "type": "description",
+          "settings": {
+            "collapsible": true,
+            "heading": "Details",
+            "open": true
+          }
+        },
+        "shipping": {
+          "type": "collapsible_tab",
+          "settings": {
+            "heading": "Shipping & returns",
+            "content": "<p>Free standard shipping on US orders over $35. Orders are processed and dispatched within 1–2 business days; delivery usually takes 3–7 business days. We currently ship within the United States only.</p><p>Free 30-day returns on unworn items in original packaging — we cover the return shipping.</p>",
+            "open": false
+          }
+        },
+        "care": {
+          "type": "collapsible_tab",
+          "settings": {
+            "heading": "Jewellery care",
+            "content": "<p>Remove jewelry before bathing or swimming, apply perfume and lotion first, store each piece in its anti-tarnish pouch and buff with a soft silver cloth. Avoid toothpaste, baking soda and ultrasonic cleaners on gemstone pieces.</p>",
+            "open": false
+          }
+        },
+        "share": {
+          "type": "share",
+          "settings": {}
+        }
+      },
+      "block_order": [
+        "vendor",
+        "title",
+        "price",
+        "inventory",
+        "variants",
+        "quantity",
+        "buy",
+        "benefits",
+        "description",
+        "shipping",
+        "care",
+        "share"
+      ]
+    },
+    "related": {
+      "type": "related-products",
+      "settings": {
+        "heading": "You may also like",
+        "header_alignment": "left",
+        "intent": "related",
+        "limit": 4,
+        "columns": 4,
+        "padding_top": 64,
+        "padding_bottom": 32
+      }
+    },
+    "recent": {
+      "type": "recently-viewed",
+      "settings": {
+        "heading": "Recently viewed",
+        "limit": 4,
+        "padding_top": 32,
+        "padding_bottom": 88
+      }
+    }
+  },
+  "order": [
+    "main",
+    "related",
+    "recent"
+  ]
+}

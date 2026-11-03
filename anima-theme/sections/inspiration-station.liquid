@@ -1,0 +1,242 @@
+{%- comment -%}
+  INSPIRATION STATION
+  Editorial, staggered horizontal gallery of influencer / customer / UGC images and videos.
+  Each post links to a Shopify product (live title + price).
+  Sources: section blocks (up to 50) and, optionally, the shop-wide metaobject library
+  `inspiration_post` (see docs/04-THEME-EDITOR-GUIDE.md for the definition).
+{%- endcomment -%}
+{%- liquid
+  assign max_posts = section.settings.max_posts
+  assign pattern = 'sm,md,lg,md,sm' | split: ','
+  if section.settings.pattern == 'rise'
+    assign pattern = 'sm,md,lg,lg,md' | split: ','
+  elsif section.settings.pattern == 'alternate'
+    assign pattern = 'md,lg,md,lg' | split: ','
+  elsif section.settings.pattern == 'uniform'
+    assign pattern = 'md' | split: ','
+  endif
+  assign pattern_size = pattern.size
+  assign autoplay = false
+  if section.settings.video_playback == 'autoplay'
+    assign autoplay = true
+  endif
+  assign rendered = 0
+  assign library = nil
+  if section.settings.use_library
+    assign library = shop.metaobjects.inspiration_post.values
+  endif
+-%}
+{%- capture inspo_items -%}
+    {%- for block in section.blocks -%}
+      {%- if rendered >= max_posts -%}{%- break -%}{%- endif -%}
+      {%- if block.settings.visible == false -%}{%- continue -%}{%- endif -%}
+      {%- liquid
+        assign b = block.settings
+        assign has_media = false
+        if b.image != blank or b.video != blank or b.video_url != blank
+          assign has_media = true
+        endif
+        unless has_media or request.design_mode
+          continue
+        endunless
+        assign size = b.size
+        if size == 'auto'
+          assign idx = rendered | modulo: pattern_size
+          assign size = pattern[idx]
+        endif
+        if size == 'lg'
+          assign img_sizes = section.settings.width_lg | append: 'px'
+        elsif size == 'sm'
+          assign img_sizes = section.settings.width_sm | append: 'px'
+        else
+          assign img_sizes = section.settings.width_md | append: 'px'
+        endif
+        assign rendered = rendered | plus: 1
+      -%}
+      {% render 'inspiration-card',
+        size: size,
+        image: b.image,
+        video: b.video,
+        video_url: b.video_url,
+        poster: b.poster,
+        name: b.creator_name,
+        username: b.username,
+        profile_url: b.profile_url,
+        caption: b.caption,
+        product: b.product,
+        sizes: img_sizes,
+        autoplay: autoplay,
+        show_creator: section.settings.show_creator,
+        show_caption: section.settings.show_caption,
+        show_product: section.settings.show_product,
+        attrs: block.shopify_attributes,
+        index: rendered
+      %}
+    {%- endfor -%}
+
+    {%- if library != blank -%}
+      {%- for post in library -%}
+        {%- if rendered >= max_posts -%}{%- break -%}{%- endif -%}
+        {%- liquid
+          assign media_file = post.media.value
+          assign is_video = false
+          if media_file.media_type == 'video'
+            assign is_video = true
+          endif
+          assign size = post.size.value | default: 'auto' | downcase
+          unless size == 'sm' or size == 'md' or size == 'lg'
+            assign idx = rendered | modulo: pattern_size
+            assign size = pattern[idx]
+          endunless
+          if size == 'lg'
+            assign img_sizes = section.settings.width_lg | append: 'px'
+          elsif size == 'sm'
+            assign img_sizes = section.settings.width_sm | append: 'px'
+          else
+            assign img_sizes = section.settings.width_md | append: 'px'
+          endif
+          assign rendered = rendered | plus: 1
+        -%}
+        {%- if is_video -%}
+          {% render 'inspiration-card', size: size, video: media_file, poster: post.poster.value, name: post.creator_name.value, username: post.username.value, profile_url: post.profile_url.value, caption: post.caption.value, product: post.product.value, sizes: img_sizes, autoplay: autoplay, show_creator: section.settings.show_creator, show_caption: section.settings.show_caption, show_product: section.settings.show_product, index: rendered %}
+        {%- else -%}
+          {% render 'inspiration-card', size: size, image: media_file, name: post.creator_name.value, username: post.username.value, profile_url: post.profile_url.value, caption: post.caption.value, product: post.product.value, sizes: img_sizes, autoplay: autoplay, show_creator: section.settings.show_creator, show_caption: section.settings.show_caption, show_product: section.settings.show_product, index: rendered %}
+        {%- endif -%}
+      {%- endfor -%}
+    {%- endif -%}
+  {%- endcapture -%}
+{%- if inspo_items != blank or request.design_mode -%}
+<section class="section inspo{% if section.settings.mobile_layout == 'uniform' %} inspo--mobile-uniform{% endif %}{% if section.settings.center_track %} inspo--centered{% endif %}"
+  style="--pt: {{ section.settings.padding_top }}px; --pb: {{ section.settings.padding_bottom }}px; --inspo-bg: {{ section.settings.color_bg }};
+    --inspo-gap: {{ section.settings.gap }}px; --inspo-gap-mobile: {{ section.settings.gap_mobile }}px; --inspo-align: {{ section.settings.align }};
+    --inspo-w-sm: {{ section.settings.width_sm }}px; --inspo-w-md: {{ section.settings.width_md }}px; --inspo-w-lg: {{ section.settings.width_lg }}px;
+    --inspo-h-sm: {{ section.settings.height_sm }}px; --inspo-h-md: {{ section.settings.height_md }}px; --inspo-h-lg: {{ section.settings.height_lg }}px;
+    --inspo-mobile-scale: {{ section.settings.mobile_scale | divided_by: 100.0 }}; --inspo-shade: {% if section.settings.show_creator %}1{% else %}0{% endif %};"
+  data-inspiration data-autoplay-video="{{ autoplay }}" data-start-centered="{{ section.settings.start_centered }}"
+  aria-labelledby="InspoHeading-{{ section.id }}">
+  <div class="page-width">
+    <div class="section-header section-header--{{ section.settings.header_alignment }}">
+      <div>
+        {%- if section.settings.eyebrow != blank -%}<p class="eyebrow">{{ section.settings.eyebrow | escape }}</p>{%- endif -%}
+        <h2 class="section-header__title" id="InspoHeading-{{ section.id }}">{{ section.settings.heading | escape }}</h2>
+        {%- if section.settings.text != blank -%}<div class="section-header__text">{{ section.settings.text }}</div>{%- endif -%}
+      </div>
+      {%- if section.settings.link_label != blank and section.settings.header_alignment != 'center' -%}
+        <a href="{{ section.settings.link | default: settings.social_instagram | default: '#' }}" class="text-link link-underline"{% if section.settings.link contains 'http' %} target="_blank" rel="noopener"{% endif %}>{{ section.settings.link_label | escape }}</a>
+      {%- endif -%}
+    </div>
+  </div>
+
+
+  <ul class="inspo__track" role="list" data-inspo-track tabindex="0" aria-label="{{ section.settings.heading | escape }}">{{ inspo_items }}</ul>
+
+  <div class="page-width">
+    <div class="inspo__footer">
+      <div class="inspo__progress" aria-hidden="true"><span class="inspo__progress-bar" data-inspo-progress></span></div>
+      <div class="slider-controls">
+        {%- if section.settings.link_label != blank and section.settings.header_alignment == 'center' -%}
+          <a href="{{ section.settings.link | default: settings.social_instagram | default: '#' }}" class="text-link link-underline" style="margin-right:16px">{{ section.settings.link_label | escape }}</a>
+        {%- endif -%}
+        <button type="button" class="slider-button" data-inspo-prev aria-label="{{ 'general.previous' | t }}">{% render 'icon', name: 'chevron-left' %}</button>
+        <button type="button" class="slider-button" data-inspo-next aria-label="{{ 'general.next' | t }}">{% render 'icon', name: 'chevron-right' %}</button>
+      </div>
+    </div>
+  </div>
+</section>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "Inspiration Station",
+  "tag": "div",
+  "class": "section-inspiration",
+  "max_blocks": 50,
+  "settings": [
+    { "type": "header", "content": "Heading" },
+    { "type": "text", "id": "eyebrow", "label": "Small text above heading", "default": "As worn by you" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Inspiration Station" },
+    { "type": "richtext", "id": "text", "label": "Text", "default": "<p>See how our community styles Anima Jewels. Tap a piece to shop the look.</p>" },
+    { "type": "select", "id": "header_alignment", "label": "Heading alignment", "default": "center", "options": [
+      { "value": "left", "label": "Left" }, { "value": "center", "label": "Center" }
+    ]},
+    { "type": "text", "id": "link_label", "label": "Link label", "default": "Follow us on Instagram" },
+    { "type": "url", "id": "link", "label": "Link", "info": "Defaults to the Instagram URL in Theme settings." },
+    { "type": "header", "content": "Posts" },
+    { "type": "range", "id": "max_posts", "label": "Number of visible posts", "min": 3, "max": 50, "step": 1, "default": 12 },
+    { "type": "checkbox", "id": "use_library", "label": "Also show posts from the Inspiration library", "info": "Adds entries from Content › Metaobjects › “Inspiration post” after the blocks below. See the theme guide.", "default": false },
+    { "type": "checkbox", "id": "show_creator", "label": "Show creator name on image", "default": true },
+    { "type": "checkbox", "id": "show_caption", "label": "Show caption", "default": false },
+    { "type": "checkbox", "id": "show_product", "label": "Show product card under each post", "default": true },
+    { "type": "header", "content": "Desktop layout" },
+    { "type": "select", "id": "pattern", "label": "Card size pattern", "info": "Used by posts set to “Automatic” size.", "default": "wave", "options": [
+      { "value": "wave", "label": "Wave (small → large → small)" },
+      { "value": "rise", "label": "Rise" },
+      { "value": "alternate", "label": "Alternate" },
+      { "value": "uniform", "label": "Uniform" }
+    ]},
+    { "type": "select", "id": "align", "label": "Vertical alignment", "default": "center", "options": [
+      { "value": "center", "label": "Center (staggered)" },
+      { "value": "flex-end", "label": "Bottom" },
+      { "value": "flex-start", "label": "Top" }
+    ]},
+    { "type": "checkbox", "id": "center_track", "label": "Center posts when they all fit on screen", "default": true },
+    { "type": "checkbox", "id": "start_centered", "label": "Start scrolled to the middle post", "default": true },
+    { "type": "range", "id": "width_sm", "label": "Small card width", "min": 140, "max": 360, "step": 10, "unit": "px", "default": 220 },
+    { "type": "range", "id": "height_sm", "label": "Small card image height", "min": 180, "max": 560, "step": 10, "unit": "px", "default": 330 },
+    { "type": "range", "id": "width_md", "label": "Medium card width", "min": 160, "max": 400, "step": 10, "unit": "px", "default": 250 },
+    { "type": "range", "id": "height_md", "label": "Medium card image height", "min": 220, "max": 640, "step": 10, "unit": "px", "default": 400 },
+    { "type": "range", "id": "width_lg", "label": "Large card width", "min": 200, "max": 480, "step": 10, "unit": "px", "default": 300 },
+    { "type": "range", "id": "height_lg", "label": "Large card image height", "min": 260, "max": 760, "step": 10, "unit": "px", "default": 500 },
+    { "type": "range", "id": "gap", "label": "Spacing between cards", "min": 4, "max": 48, "step": 2, "unit": "px", "default": 20 },
+    { "type": "header", "content": "Mobile layout" },
+    { "type": "select", "id": "mobile_layout", "label": "Layout", "default": "staggered", "options": [
+      { "value": "staggered", "label": "Staggered (scaled desktop sizes)" },
+      { "value": "uniform", "label": "Uniform cards" }
+    ]},
+    { "type": "range", "id": "mobile_scale", "label": "Card scale (staggered)", "min": 50, "max": 100, "step": 2, "unit": "%", "default": 72 },
+    { "type": "range", "id": "gap_mobile", "label": "Spacing between cards", "min": 4, "max": 32, "step": 2, "unit": "px", "default": 12 },
+    { "type": "header", "content": "Video" },
+    { "type": "select", "id": "video_playback", "label": "Video playback", "info": "Videos are always muted and only load when they scroll into view.", "default": "autoplay", "options": [
+      { "value": "autoplay", "label": "Autoplay when visible (muted, looping)" },
+      { "value": "click", "label": "Play on tap" }
+    ]},
+    { "type": "header", "content": "Style" },
+    { "type": "color", "id": "color_bg", "label": "Background", "default": "#FFFFFF" },
+    { "type": "range", "id": "padding_top", "label": "Top padding", "min": 0, "max": 160, "step": 8, "unit": "px", "default": 88 },
+    { "type": "range", "id": "padding_bottom", "label": "Bottom padding", "min": 0, "max": 160, "step": 8, "unit": "px", "default": 88 }
+  ],
+  "blocks": [
+    {
+      "type": "post",
+      "name": "Post",
+      "settings": [
+        { "type": "checkbox", "id": "visible", "label": "Show this post", "default": true },
+        { "type": "header", "content": "Media" },
+        { "type": "image_picker", "id": "image", "label": "Image", "info": "Vertical photos work best (e.g. 1080 × 1350 or 1080 × 1920)." },
+        { "type": "video", "id": "video", "label": "Video (Shopify-hosted)", "info": "Replaces the image. Upload MP4 in Content › Files or here." },
+        { "type": "text", "id": "video_url", "label": "External MP4 URL", "info": "Optional. Direct link to an .mp4 file. Used when no Shopify video is chosen." },
+        { "type": "image_picker", "id": "poster", "label": "Video poster image", "info": "Shown before the video plays. Defaults to the Shopify video preview or the image above." },
+        { "type": "select", "id": "size", "label": "Card size", "default": "auto", "options": [
+          { "value": "auto", "label": "Automatic (pattern)" },
+          { "value": "sm", "label": "Small" },
+          { "value": "md", "label": "Medium" },
+          { "value": "lg", "label": "Large (featured)" }
+        ]},
+        { "type": "header", "content": "Creator" },
+        { "type": "text", "id": "creator_name", "label": "Name", "info": "Influencer or customer name. Only use with their permission." },
+        { "type": "text", "id": "username", "label": "Social username", "info": "e.g. @username" },
+        { "type": "url", "id": "profile_url", "label": "Link to original post or profile" },
+        { "type": "textarea", "id": "caption", "label": "Caption" },
+        { "type": "header", "content": "Shop the look" },
+        { "type": "product", "id": "product", "label": "Product", "info": "Title, image and price are pulled live from Shopify." }
+      ]
+    }
+  ],
+  "presets": [{
+    "name": "Inspiration Station",
+    "blocks": [
+      { "type": "post" }, { "type": "post" }, { "type": "post" }, { "type": "post" }, { "type": "post" }
+    ]
+  }]
+}
+{% endschema %}

@@ -1,0 +1,12 @@
+{
+  "current": {
+    "favicon": "shopify://shop_images/anima-logo-solid.png",
+    "support_email": "animajewels@animajewel.in"
+  },
+  "presets": {
+    "Default": {
+      "favicon": "shopify://shop_images/anima-logo-solid.png",
+      "support_email": "animajewels@animajewel.in"
+    }
+  }
+}

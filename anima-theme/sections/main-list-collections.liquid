@@ -1,0 +1,33 @@
+<div class="section" style="--pt: 0px; --pb: 96px;">
+  <div class="page-width">
+    <header class="page-header"><h1 class="page-header__title">{{ section.settings.heading | escape }}</h1></header>
+    <ul class="grid" role="list" style="--cols: 3; --cols-tablet: 2; --cols-mobile: 2;">
+      {%- for collection in collections -%}
+        {%- if collection.products_count == 0 or collection.handle == 'frontpage' or collection.handle == 'for-shopify-performance-tracking' -%}{%- continue -%}{%- endif -%}
+        <li>
+          <a href="{{ collection.url }}" class="category-card">
+            <div class="media media--portrait">
+              {%- assign cimg = collection.featured_image -%}
+              {%- if cimg -%}{% render 'image', image: cimg, sizes: '(min-width: 990px) 33vw, 50vw' %}{%- else -%}{{ 'collection-1' | placeholder_svg_tag: 'placeholder-svg' }}{%- endif -%}
+            </div>
+            <div class="category-card__info">
+              <h2 class="category-card__title">{{ collection.title | escape }}</h2>
+              <span class="category-card__cta">{{ collection.products_count }}</span>
+            </div>
+          </a>
+        </li>
+      {%- endfor -%}
+    </ul>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Collections list",
+  "class": "section-list-collections",
+  "settings": [
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Collections" },
+    { "type": "paragraph", "content": "Empty collections and internal collections (Home page, Faire performance tracking) are hidden automatically." }
+  ]
+}
+{% endschema %}

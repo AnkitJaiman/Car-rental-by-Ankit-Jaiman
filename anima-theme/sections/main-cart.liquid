@@ -1,0 +1,40 @@
+<div class="section" style="--pt: 48px; --pb: 96px;" data-cart-page data-section-id="{{ section.id }}">
+  <div class="page-width">
+    <header class="page-header" style="padding-top:0"><h1 class="page-header__title">{{ 'cart.title' | t }}</h1></header>
+    {%- if cart.item_count > 0 -%}
+      <div class="cart-page">
+        <div>
+          {% render 'cart-progress' %}
+          <form action="{{ routes.cart_url }}" method="post" id="CartFormPage" novalidate>
+            {% render 'cart-line-items' %}
+            <noscript><button type="submit" class="button button--secondary" style="margin-top:16px">{{ 'cart.update' | t }}</button></noscript>
+          </form>
+          <p style="margin-top:24px"><a href="{{ routes.all_products_collection_url }}" class="text-link link-underline">{{ 'cart.continue_shopping' | t }}</a></p>
+        </div>
+        <aside class="cart-page__summary">
+          {%- if settings.cart_show_note -%}
+            <label class="field cart-note"><span class="field__label">{{ 'cart.note' | t }}</span>
+              <textarea class="field__input" name="note" form="CartFormPage" data-cart-note>{{ cart.note }}</textarea>
+            </label>
+          {%- endif -%}
+          {% render 'cart-summary', form_suffix: 'Page', show_dynamic: section.settings.show_dynamic %}
+        </aside>
+      </div>
+    {%- else -%}
+      <div class="cart-empty">
+        <p>{{ 'cart.empty' | t }}</p>
+        <a href="{{ routes.all_products_collection_url }}" class="button">{{ 'cart.continue_shopping' | t }}</a>
+      </div>
+    {%- endif -%}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Cart",
+  "class": "section-main-cart",
+  "settings": [
+    { "type": "checkbox", "id": "show_dynamic", "label": "Show accelerated checkout buttons", "info": "Shop Pay, PayPal, Apple Pay… when enabled in Shopify payments settings.", "default": true }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,20 @@
+<div class="page-width page-width--narrow">
+  <header class="page-header">
+    <h1 class="page-header__title">{{ page.title | escape }}</h1>
+  </header>
+  {%- if page.content != blank -%}
+    <div class="rte main-page__content" style="padding-bottom: {{ section.settings.padding_bottom }}px">{{ page.content }}</div>
+  {%- endif -%}
+</div>
+
+{% schema %}
+{
+  "name": "Page content",
+  "tag": "section",
+  "class": "section-main-page",
+  "settings": [
+    { "type": "paragraph", "content": "Shows the title and content written in Online Store › Pages." },
+    { "type": "range", "id": "padding_bottom", "label": "Bottom padding", "min": 0, "max": 160, "step": 8, "unit": "px", "default": 64 }
+  ]
+}
+{% endschema %}

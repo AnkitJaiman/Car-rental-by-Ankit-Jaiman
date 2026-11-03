@@ -1,0 +1,42 @@
+{%- comment -%}
+  Cart drawer. Rendered once from layout/theme.liquid and re-rendered with the Section Rendering API after cart changes.
+{%- endcomment -%}
+<div class="drawer drawer--right" id="CartDrawer" data-cart-drawer aria-hidden="true">
+  <button type="button" class="drawer__overlay" data-drawer-close tabindex="-1" aria-label="{{ 'general.close' | t }}"></button>
+  <div class="drawer__panel" role="dialog" aria-modal="true" aria-labelledby="CartDrawerTitle" tabindex="-1">
+    <div class="drawer__header">
+      <h2 class="drawer__title" id="CartDrawerTitle">{{ 'cart.title' | t }} <span class="text-muted">({{ cart.item_count }})</span></h2>
+      <button type="button" class="icon-button" data-drawer-close aria-label="{{ 'general.close' | t }}">{% render 'icon', name: 'close' %}</button>
+    </div>
+    <div id="CartDrawerContents" class="drawer__body" data-cart-contents>
+      {%- if cart.item_count > 0 -%}
+        {% render 'cart-progress' %}
+        <form action="{{ routes.cart_url }}" method="post" id="CartFormDrawer" novalidate>
+          {% render 'cart-line-items' %}
+        </form>
+      {%- else -%}
+        <div class="cart-empty">
+          <p>{{ 'cart.empty' | t }}</p>
+          <a href="{{ routes.all_products_collection_url }}" class="button">{{ 'cart.continue_shopping' | t }}</a>
+        </div>
+      {%- endif -%}
+    </div>
+    {%- if cart.item_count > 0 -%}
+      <div class="drawer__footer" data-cart-footer>
+        {%- if settings.cart_show_note -%}
+          <details class="cart-note" style="margin-bottom:12px">
+            <summary class="text-link">{{ 'cart.note' | t }}</summary>
+            <textarea class="field__input" name="note" form="CartFormDrawer" data-cart-note aria-label="{{ 'cart.note' | t }}">{{ cart.note }}</textarea>
+          </details>
+        {%- endif -%}
+        {% render 'cart-summary', form_suffix: 'Drawer' %}
+        <p style="text-align:center;margin:12px 0 0"><a href="{{ routes.cart_url }}" class="text-link link-underline">{{ 'cart.view_cart' | t }}</a></p>
+      </div>
+    {%- endif -%}
+  </div>
+</div>
+<span hidden data-cart-count-source>{{ cart.item_count }}</span>
+
+{% schema %}
+{ "name": "Cart drawer", "settings": [] }
+{% endschema %}

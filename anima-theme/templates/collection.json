@@ -1,0 +1,33 @@
+{
+  "sections": {
+    "banner": {
+      "type": "main-collection-banner",
+      "settings": {
+        "show_image": true,
+        "height": 380,
+        "overlay": 25,
+        "show_description": true,
+        "show_breadcrumbs": true,
+        "alignment": "center"
+      }
+    },
+    "grid": {
+      "type": "main-collection-product-grid",
+      "settings": {
+        "per_page": 24,
+        "columns": 4,
+        "columns_mobile": 2,
+        "enable_filtering": true,
+        "filter_layout": "drawer",
+        "enable_sorting": true,
+        "pagination_style": "load_more",
+        "padding_top": 32,
+        "padding_bottom": 80
+      }
+    }
+  },
+  "order": [
+    "banner",
+    "grid"
+  ]
+}

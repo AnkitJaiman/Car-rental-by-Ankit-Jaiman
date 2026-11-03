@@ -1,0 +1,180 @@
+{
+  "sections": {
+    "faq": {
+      "type": "collapsible-content",
+      "settings": {
+        "eyebrow": "Help center",
+        "heading": "Frequently asked questions",
+        "text": "<p>Everything you want to know about Anima Jewels.</p>",
+        "open_first": false,
+        "faq_schema": true,
+        "padding_top": 64,
+        "padding_bottom": 96,
+        "heading_tag": "h1"
+      },
+      "blocks": {
+        "g0": {
+          "type": "group",
+          "settings": {
+            "title": "About our products"
+          }
+        },
+        "q1": {
+          "type": "item",
+          "settings": {
+            "question": "Is your silver genuine 925 sterling silver?",
+            "answer": "<p>Yes. All Anima Jewels pieces are crafted from genuine 925 sterling silver, meaning 92.5% pure silver. Gold-tone options are 925 sterling silver with gold plating.</p>"
+          }
+        },
+        "q2": {
+          "type": "item",
+          "settings": {
+            "question": "What does 925 sterling silver mean?",
+            "answer": "<p>925 sterling silver means the metal is 92.5% pure silver and 7.5% other metals (usually copper) for durability. It is the standard for quality silver jewelry and is safe for daily wear.</p>"
+          }
+        },
+        "q3": {
+          "type": "item",
+          "settings": {
+            "question": "Is your jewelry nickel-free?",
+            "answer": "<p>Yes. All our jewelry is nickel-free and hypoallergenic. It is safe for sensitive skin and suitable for everyday wear.</p>"
+          }
+        },
+        "q4": {
+          "type": "item",
+          "settings": {
+            "question": "Will the silver tarnish?",
+            "answer": "<p>Sterling silver can naturally tarnish over time due to exposure to air, moisture, and chemicals. With proper care, such as storing in the provided pouch and avoiding water and chemicals, your jewelry will keep its shine for a very long time. We also include care instructions with every order.</p>"
+          }
+        },
+        "q5": {
+          "type": "item",
+          "settings": {
+            "question": "Are your gemstones natural?",
+            "answer": "<p>Our Montana sapphires and emeralds are natural, earth-mined gemstones. Because they are natural, color and inclusions vary slightly from stone to stone, which makes every piece unique. Our moissanite rings are set with lab-created moissanite, as stated on each product page.</p>"
+          }
+        },
+        "g6": {
+          "type": "group",
+          "settings": {
+            "title": "Orders & shipping"
+          }
+        },
+        "q7": {
+          "type": "item",
+          "settings": {
+            "question": "How long does delivery take?",
+            "answer": "<p>Orders are typically dispatched within 1–2 business days. Delivery within the United States generally takes 3–7 business days after dispatch. You’ll receive a tracking link as soon as your order ships.</p>"
+          }
+        },
+        "q8": {
+          "type": "item",
+          "settings": {
+            "question": "Is shipping free?",
+            "answer": "<p>Yes. We offer free standard shipping on orders over $35 within the United States. For orders below the free-shipping threshold, a flat shipping fee applies at checkout.</p>"
+          }
+        },
+        "q9": {
+          "type": "item",
+          "settings": {
+            "question": "Do you ship internationally?",
+            "answer": "<p>Currently, we ship within the United States only. Sign up for our newsletter to be the first to hear if international shipping becomes available.</p>"
+          }
+        },
+        "g10": {
+          "type": "group",
+          "settings": {
+            "title": "Returns & exchanges"
+          }
+        },
+        "q11": {
+          "type": "item",
+          "settings": {
+            "question": "How do I find my ring size?",
+            "answer": "<p>Use our <a href=\"/pages/ring-size-guide\">Ring Size Guide</a> to measure a ring you already own. If you are between sizes, choose the larger size. If the fit isn’t right, exchanges are free within 30 days.</p>"
+          }
+        },
+        "q12": {
+          "type": "item",
+          "settings": {
+            "question": "What is your return policy?",
+            "answer": "<p>We offer free 30-day returns on unworn items in their original packaging, and we cover the return shipping. To start a return, email us at animajewels@animajewel.in and we will guide you through it.</p>"
+          }
+        },
+        "q13": {
+          "type": "item",
+          "settings": {
+            "question": "Can I exchange my order?",
+            "answer": "<p>Yes. You can exchange for a different size or design within 30 days of delivery, and we cover the return shipping. The item must be unworn and in its original packaging. Email us to start an exchange.</p>"
+          }
+        },
+        "q14": {
+          "type": "item",
+          "settings": {
+            "question": "What if my jewelry arrives damaged?",
+            "answer": "<p>If your jewelry arrives damaged, please contact us within 48 hours of delivery with clear photos of the item and packaging. Once verified, we’ll arrange a replacement at no additional cost to you.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "g0",
+        "q1",
+        "q2",
+        "q3",
+        "q4",
+        "q5",
+        "g6",
+        "q7",
+        "q8",
+        "q9",
+        "g10",
+        "q11",
+        "q12",
+        "q13",
+        "q14"
+      ]
+    },
+    "contact-cta": {
+      "type": "rich-text",
+      "settings": {
+        "alignment": "center",
+        "soft_bg": true,
+        "padding_top": 64,
+        "padding_bottom": 64
+      },
+      "blocks": {
+        "h": {
+          "type": "heading",
+          "settings": {
+            "heading": "Still have a question?",
+            "size": "h2",
+            "tag": "h2"
+          }
+        },
+        "t": {
+          "type": "text",
+          "settings": {
+            "text": "<p>Our team replies within 24 hours, Monday to Saturday.</p>"
+          }
+        },
+        "btn": {
+          "type": "button",
+          "settings": {
+            "label": "Contact us",
+            "link": "shopify://pages/contact",
+            "style": "primary"
+          }
+        }
+      },
+      "block_order": [
+        "h",
+        "t",
+        "btn"
+      ]
+    }
+  },
+  "order": [
+    "faq",
+    "contact-cta"
+  ]
+}

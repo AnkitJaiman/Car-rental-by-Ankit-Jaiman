@@ -1,0 +1,124 @@
+{
+  "sections": {
+    "intro": {
+      "type": "rich-text",
+      "settings": {
+        "alignment": "center",
+        "padding_top": 64,
+        "padding_bottom": 24
+      },
+      "blocks": {
+        "e": {
+          "type": "eyebrow",
+          "settings": {
+            "text": "Size guide"
+          }
+        },
+        "h": {
+          "type": "heading",
+          "settings": {
+            "heading": "Find your ring size",
+            "size": "h1",
+            "tag": "h1"
+          }
+        },
+        "t": {
+          "type": "text",
+          "settings": {
+            "text": "<p>Two easy ways to find your US ring size at home in under five minutes.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "e",
+        "h",
+        "t"
+      ]
+    },
+    "tips": {
+      "type": "multicolumn",
+      "settings": {
+        "heading": "",
+        "columns": 2,
+        "columns_mobile": 1,
+        "alignment": "left",
+        "padding_top": 40,
+        "padding_bottom": 64
+      },
+      "blocks": {
+        "c0": {
+          "type": "column",
+          "settings": {
+            "icon": "none",
+            "title": "Method 1: measure a ring you own",
+            "text": "<p>Pick a ring that fits the intended finger comfortably. Measure the inside diameter edge to edge in millimeters, then match it to the chart.</p>"
+          }
+        },
+        "c1": {
+          "type": "column",
+          "settings": {
+            "icon": "none",
+            "title": "Method 2: measure your finger",
+            "text": "<p>Wrap a thin strip of paper around the base of your finger. Mark where it overlaps, then measure the length in millimeters. That is your finger circumference; match it to the chart.</p>"
+          }
+        },
+        "c2": {
+          "type": "column",
+          "settings": {
+            "icon": "none",
+            "title": "US ring size chart",
+            "text": "<p>US 6: 16.5 mm diameter / 51.9 mm circumference<br>US 7: 17.3 mm / 54.4 mm<br>US 8: 18.1 mm / 57.0 mm<br>US 9: 19.0 mm / 59.5 mm<br>US 10: 19.8 mm / 62.1 mm<br>Available sizes are shown on each product page.</p>"
+          }
+        },
+        "c3": {
+          "type": "column",
+          "settings": {
+            "icon": "none",
+            "title": "Fit tips",
+            "text": "<p>Measure at the end of the day, when fingers are slightly larger. Wide bands (over 4 mm) fit snugger, so consider the next size up. If you are between sizes, choose the larger one.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "c0",
+        "c1",
+        "c2",
+        "c3"
+      ]
+    },
+    "note": {
+      "type": "rich-text",
+      "settings": {
+        "alignment": "center",
+        "soft_bg": true,
+        "padding_top": 56,
+        "padding_bottom": 56
+      },
+      "blocks": {
+        "h": {
+          "type": "heading",
+          "settings": {
+            "heading": "Still unsure?",
+            "size": "h2",
+            "tag": "h2"
+          }
+        },
+        "t": {
+          "type": "text",
+          "settings": {
+            "text": "<p>Email us at animajewels@animajewel.in before ordering. And if the size isn’t right, exchanges are free within 30 days.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "h",
+        "t"
+      ]
+    }
+  },
+  "order": [
+    "intro",
+    "tips",
+    "note"
+  ]
+}

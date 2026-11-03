@@ -1,0 +1,112 @@
+{
+  "sections": {
+    "intro": {
+      "type": "rich-text",
+      "settings": {
+        "alignment": "center",
+        "padding_top": 64,
+        "padding_bottom": 24
+      },
+      "blocks": {
+        "e": {
+          "type": "eyebrow",
+          "settings": {
+            "text": "Care tips"
+          }
+        },
+        "h": {
+          "type": "heading",
+          "settings": {
+            "heading": "How to care for your silver jewelry",
+            "size": "h1",
+            "tag": "h1"
+          }
+        },
+        "t": {
+          "type": "text",
+          "settings": {
+            "text": "<p>With the right care, your 925 sterling silver jewelry from Anima Jewels will stay beautiful for years. Follow these simple steps to keep your pieces sparkling.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "e",
+        "h",
+        "t"
+      ]
+    },
+    "tips": {
+      "type": "multicolumn",
+      "settings": {
+        "heading": "",
+        "columns": 3,
+        "columns_mobile": 1,
+        "alignment": "left",
+        "padding_top": 40,
+        "padding_bottom": 64
+      },
+      "blocks": {
+        "c0": {
+          "type": "column",
+          "settings": {
+            "icon": "none",
+            "title": "Keep it dry",
+            "text": "<p>Remove your jewelry before bathing, swimming, or washing hands. Water, especially chlorinated or salty water, can speed up tarnishing.</p>"
+          }
+        },
+        "c1": {
+          "type": "column",
+          "settings": {
+            "icon": "none",
+            "title": "No chemicals",
+            "text": "<p>Apply perfume, lotion, and hairspray before wearing your jewelry. Chemicals in these products react with silver and cause discoloration.</p>"
+          }
+        },
+        "c2": {
+          "type": "column",
+          "settings": {
+            "icon": "none",
+            "title": "Store properly",
+            "text": "<p>Keep each piece in the anti-tarnish pouch provided, or in a soft-lined jewelry box. Store pieces individually to prevent scratching.</p>"
+          }
+        },
+        "c3": {
+          "type": "column",
+          "settings": {
+            "icon": "none",
+            "title": "Polish regularly",
+            "text": "<p>Use a soft silver polishing cloth to gently buff your jewelry. This removes light tarnish and restores its shine instantly.</p>"
+          }
+        },
+        "c4": {
+          "type": "column",
+          "settings": {
+            "icon": "none",
+            "title": "Deep clean when needed",
+            "text": "<p>For a deeper clean, soak in warm water with a drop of mild dish soap for 5 minutes. Scrub gently with a soft toothbrush, rinse thoroughly, and pat dry.</p>"
+          }
+        },
+        "c5": {
+          "type": "column",
+          "settings": {
+            "icon": "none",
+            "title": "Avoid these",
+            "text": "<p>Never use toothpaste, baking soda, or abrasive cleaners on your silver, as they scratch the surface. Also avoid ultrasonic cleaners for gemstone-set pieces.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "c0",
+        "c1",
+        "c2",
+        "c3",
+        "c4",
+        "c5"
+      ]
+    }
+  },
+  "order": [
+    "intro",
+    "tips"
+  ]
+}

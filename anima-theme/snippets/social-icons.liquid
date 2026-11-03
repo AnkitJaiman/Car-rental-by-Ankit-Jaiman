@@ -1,0 +1,21 @@
+{%- liquid
+  assign networks = 'instagram,tiktok,pinterest,facebook,youtube' | split: ','
+  assign any = false
+  for n in networks
+    assign key = 'social_' | append: n
+    if settings[key] != blank
+      assign any = true
+    endif
+  endfor
+-%}
+{%- if any -%}
+  <ul class="footer__social" role="list" style="list-style:none;padding:0">
+    {%- for n in networks -%}
+      {%- assign key = 'social_' | append: n -%}
+      {%- if settings[key] != blank -%}
+        {%- assign label_key = 'general.social.' | append: n -%}
+        <li><a href="{{ settings[key] }}" class="icon-button" target="_blank" rel="noopener" aria-label="{{ label_key | t }}">{% render 'icon', name: n %}</a></li>
+      {%- endif -%}
+    {%- endfor -%}
+  </ul>
+{%- endif -%}

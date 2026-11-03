@@ -1,0 +1,212 @@
+{
+  "sections": {
+    "intro": {
+      "type": "rich-text",
+      "settings": {
+        "alignment": "center",
+        "padding_top": 80,
+        "padding_bottom": 48
+      },
+      "blocks": {
+        "e": {
+          "type": "eyebrow",
+          "settings": {
+            "text": "Anima Jewels"
+          }
+        },
+        "h": {
+          "type": "heading",
+          "settings": {
+            "heading": "Our story",
+            "size": "h0",
+            "tag": "h1"
+          }
+        },
+        "t": {
+          "type": "text",
+          "settings": {
+            "text": "<p>Anima means soul. Every ring is set and finished by hand, so no two pieces are ever exactly alike.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "e",
+        "h",
+        "t"
+      ]
+    },
+    "s1": {
+      "type": "image-with-text",
+      "settings": {
+        "image": "shopify://shop_images/Our_Story_Page.jpg",
+        "image_ratio": "portrait",
+        "layout": "image_left",
+        "media_width": 110,
+        "text_alignment": "left",
+        "soft_bg": false,
+        "padding_top": 48,
+        "padding_bottom": 80
+      },
+      "blocks": {
+        "e": {
+          "type": "eyebrow",
+          "settings": {
+            "text": "Where it began"
+          }
+        },
+        "h": {
+          "type": "heading",
+          "settings": {
+            "heading": "Real gemstone jewelry, honestly priced",
+            "size": "h2"
+          }
+        },
+        "t": {
+          "type": "text",
+          "settings": {
+            "text": "<p>Anima Jewels started with a simple idea: women in the US deserve real, well-made gemstone jewelry without paying luxury-brand prices.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "e",
+        "h",
+        "t"
+      ]
+    },
+    "s2": {
+      "type": "image-with-text",
+      "settings": {
+        "image": "shopify://shop_images/aster-round-montana-sapphire-band-12-25-01.jpg",
+        "image_ratio": "portrait",
+        "layout": "image_right",
+        "media_width": 110,
+        "text_alignment": "left",
+        "soft_bg": true,
+        "padding_top": 80,
+        "padding_bottom": 80
+      },
+      "blocks": {
+        "e": {
+          "type": "eyebrow",
+          "settings": {
+            "text": "What goes into every piece"
+          }
+        },
+        "h": {
+          "type": "heading",
+          "settings": {
+            "heading": "Genuine materials",
+            "size": "h2"
+          }
+        },
+        "t": {
+          "type": "text",
+          "settings": {
+            "text": "<p>We work in genuine 925 sterling silver: 92.5% pure silver, the global standard for fine silver jewelry. Our gold-tone options are gold-plated over that same sterling silver, never over brass or base metal.</p><p>We set natural, earth-mined gemstones such as Montana sapphire and emerald, and brilliant lab-created moissanite in our engagement styles.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "e",
+        "h",
+        "t"
+      ]
+    },
+    "values": {
+      "type": "multicolumn",
+      "settings": {
+        "heading": "What we stand for",
+        "columns": 4,
+        "columns_mobile": 1,
+        "alignment": "center",
+        "padding_top": 88,
+        "padding_bottom": 64
+      },
+      "blocks": {
+        "v1": {
+          "type": "column",
+          "settings": {
+            "icon": "silver",
+            "title": "Real materials",
+            "text": "<p>Genuine 925 sterling silver and natural gemstones. Gold-tone pieces are plated over real silver, never brass.</p>"
+          }
+        },
+        "v2": {
+          "type": "column",
+          "settings": {
+            "icon": "heart",
+            "title": "Hand-finished",
+            "text": "<p>Every piece is hand-finished and stone-set.</p>"
+          }
+        },
+        "v3": {
+          "type": "column",
+          "settings": {
+            "icon": "sparkle",
+            "title": "Honest pricing",
+            "text": "<p>Fine-jewelry craftsmanship without the luxury markup.</p>"
+          }
+        },
+        "v4": {
+          "type": "column",
+          "settings": {
+            "icon": "shield",
+            "title": "Transparency",
+            "text": "<p>Clear specs on every listing: stone count, carat weight, metal weight, and finish.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "v1",
+        "v2",
+        "v3",
+        "v4"
+      ]
+    },
+    "s3": {
+      "type": "rich-text",
+      "settings": {
+        "alignment": "center",
+        "padding_top": 48,
+        "padding_bottom": 96
+      },
+      "blocks": {
+        "h": {
+          "type": "heading",
+          "settings": {
+            "heading": "Made for everyday life",
+            "size": "h2",
+            "tag": "h2"
+          }
+        },
+        "t": {
+          "type": "text",
+          "settings": {
+            "text": "<p>We design for real life, not display cases. Our rings are made to be worn to work, stacked on weekends, and given as gifts that last. If something isn’t right, you have 30 days to return or exchange it, and we cover the return shipping.</p>"
+          }
+        },
+        "btn": {
+          "type": "button",
+          "settings": {
+            "label": "Shop the collection",
+            "link": "shopify://collections/all",
+            "style": "primary"
+          }
+        }
+      },
+      "block_order": [
+        "h",
+        "t",
+        "btn"
+      ]
+    }
+  },
+  "order": [
+    "intro",
+    "s1",
+    "s2",
+    "values",
+    "s3"
+  ]
+}

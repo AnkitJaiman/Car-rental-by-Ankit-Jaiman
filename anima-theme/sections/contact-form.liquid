@@ -1,0 +1,54 @@
+<section class="section" style="--pt: {{ section.settings.padding_top }}px; --pb: {{ section.settings.padding_bottom }}px;">
+  <div class="page-width">
+    <div class="contact-grid">
+      <div class="contact-details">
+        {%- if section.settings.heading != blank -%}<h2>{{ section.settings.heading | escape }}</h2>{%- endif -%}
+        {%- if section.settings.text != blank -%}<div class="rte text-muted">{{ section.settings.text }}</div>{%- endif -%}
+        {%- if settings.support_email != blank -%}<div><h3>Email</h3><p><a href="mailto:{{ settings.support_email }}">{{ settings.support_email }}</a></p></div>{%- endif -%}
+        {%- if settings.support_phone != blank -%}<div><h3>Phone</h3><p><a href="tel:{{ settings.support_phone | remove: ' ' }}">{{ settings.support_phone }}</a></p></div>{%- endif -%}
+        {%- if settings.support_hours != blank -%}<div><h3>Hours</h3><p>{{ settings.support_hours }}</p></div>{%- endif -%}
+        {%- for block in section.blocks -%}
+          <div {{ block.shopify_attributes }}><h3>{{ block.settings.title | escape }}</h3><div class="rte text-muted">{{ block.settings.text }}</div></div>
+        {%- endfor -%}
+      </div>
+      <div>
+        {%- form 'contact', id: 'ContactForm', class: 'contact-form' -%}
+          {%- if form.posted_successfully? -%}
+            <p class="form-message form-message--success" role="status" tabindex="-1" autofocus>{{ 'templates.contact.success' | t }}</p>
+          {%- elsif form.errors -%}
+            <div class="form-message form-message--error" role="alert">{{ 'templates.contact.error' | t }}{{ form.errors | default_errors }}</div>
+          {%- endif -%}
+          <div class="contact-form__row">
+            <label class="field"><span class="field__label">{{ 'templates.contact.name' | t }}</span><input class="field__input" type="text" name="contact[name]" autocomplete="name" value="{{ form.name }}"></label>
+            <label class="field"><span class="field__label">{{ 'templates.contact.email' | t }} *</span><input class="field__input" type="email" name="contact[email]" autocomplete="email" value="{{ form.email }}" required aria-required="true"></label>
+          </div>
+          <label class="field"><span class="field__label">{{ 'templates.contact.phone' | t }}</span><input class="field__input" type="tel" name="contact[phone]" autocomplete="tel" value="{{ form.phone }}"></label>
+          <label class="field"><span class="field__label">{{ 'templates.contact.message' | t }}</span><textarea class="field__input" name="contact[body]" rows="6">{{ form.body }}</textarea></label>
+          <button type="submit" class="button">{{ 'templates.contact.send' | t }}</button>
+        {%- endform -%}
+      </div>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Contact form",
+  "tag": "div",
+  "class": "section-contact",
+  "settings": [
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Get in touch" },
+    { "type": "richtext", "id": "text", "label": "Text", "default": "<p>Questions about an order, sizing or a gift? Send us a message and a real person will reply.</p>" },
+    { "type": "paragraph", "content": "Email, phone and hours come from Theme settings › Store information." },
+    { "type": "range", "id": "padding_top", "label": "Top padding", "min": 0, "max": 160, "step": 8, "unit": "px", "default": 48 },
+    { "type": "range", "id": "padding_bottom", "label": "Bottom padding", "min": 0, "max": 160, "step": 8, "unit": "px", "default": 96 }
+  ],
+  "blocks": [
+    { "type": "detail", "name": "Contact detail", "settings": [
+      { "type": "text", "id": "title", "label": "Title", "default": "Shipping" },
+      { "type": "richtext", "id": "text", "label": "Text" }
+    ]}
+  ],
+  "presets": [{ "name": "Contact form" }]
+}
+{% endschema %}

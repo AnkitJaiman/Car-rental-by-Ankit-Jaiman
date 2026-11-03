@@ -1,0 +1,127 @@
+{%- liquid
+  assign menu_cols = section.blocks | where: 'type', 'menu' | size
+  assign contact_cols = section.blocks | where: 'type', 'contact' | size
+  assign link_cols = menu_cols | plus: contact_cols
+  if link_cols == 0
+    assign link_cols = 1
+  endif
+-%}
+<footer class="footer" style="--footer-bg: {{ section.settings.color_bg }}; --footer-text: {{ section.settings.color_text }}; --footer-muted: {{ section.settings.color_muted }}; --footer-cols: {{ link_cols }}; --footer-logo-w: {{ section.settings.logo_width }}px;">
+  <div class="page-width">
+    <div class="footer__top">
+      {%- for block in section.blocks -%}
+        {%- case block.type -%}
+          {%- when 'brand' -%}
+            <div class="footer__brand" {{ block.shopify_attributes }}>
+              {%- if block.settings.logo != blank -%}
+                {{ block.settings.logo | image_url: width: 500 | image_tag: loading: 'lazy', alt: shop.name, widths: '200, 300, 400, 500', sizes: '200px' }}
+              {%- else -%}
+                <p class="header__logo-text" style="color:inherit">{{ shop.name }}</p>
+              {%- endif -%}
+              {%- if block.settings.text != blank -%}<div class="rte">{{ block.settings.text }}</div>{%- endif -%}
+              {%- if block.settings.show_social -%}{% render 'social-icons' %}{%- endif -%}
+            </div>
+          {%- when 'menu' -%}
+            <div class="footer__col" {{ block.shopify_attributes }}>
+              <details open>
+                <summary><h2 class="footer__heading">{{ block.settings.heading | default: block.settings.menu.title | escape }}</h2>{% render 'icon', name: 'chevron-down' %}</summary>
+                <ul class="footer__links" role="list">
+                  {%- for link in block.settings.menu.links -%}
+                    <li><a href="{{ link.url }}">{{ link.title | escape }}</a></li>
+                  {%- endfor -%}
+                </ul>
+              </details>
+            </div>
+          {%- when 'contact' -%}
+            <div class="footer__col" {{ block.shopify_attributes }}>
+              <details open>
+                <summary><h2 class="footer__heading">{{ block.settings.heading | escape }}</h2>{% render 'icon', name: 'chevron-down' %}</summary>
+                <div class="footer__contact">
+                  {%- if block.settings.text != blank -%}<div class="rte">{{ block.settings.text }}</div>{%- endif -%}
+                  {%- if settings.support_email != blank -%}<a href="mailto:{{ settings.support_email }}">{{ settings.support_email }}</a>{%- endif -%}
+                  {%- if settings.support_phone != blank -%}<a href="tel:{{ settings.support_phone | remove: ' ' }}">{{ settings.support_phone }}</a>{%- endif -%}
+                  {%- if settings.support_hours != blank -%}<span>{{ settings.support_hours }}</span>{%- endif -%}
+                </div>
+              </details>
+            </div>
+          {%- when 'newsletter' -%}
+            <div class="footer__newsletter" {{ block.shopify_attributes }}>
+              <h2 class="footer__heading">{{ block.settings.heading | escape }}</h2>
+              {%- if block.settings.text != blank -%}<div class="rte footer__contact" style="margin-bottom:16px">{{ block.settings.text }}</div>{%- endif -%}
+              {% render 'newsletter-form', form_id: 'FooterNewsletter' %}
+            </div>
+        {%- endcase -%}
+      {%- endfor -%}
+    </div>
+
+    <div class="footer__bottom">
+      <p style="margin:0">&copy; {{ 'now' | date: '%Y' }} {{ section.settings.copyright | default: shop.name | escape }}</p>
+      {%- if section.settings.legal_menu != blank -%}
+        <ul class="footer__legal" role="list">
+          {%- for link in section.settings.legal_menu.links -%}
+            <li><a href="{{ link.url }}">{{ link.title | escape }}</a></li>
+          {%- endfor -%}
+        </ul>
+      {%- elsif section.settings.show_policies -%}
+        <ul class="footer__legal" role="list">
+          {%- for policy in shop.policies -%}
+            {%- if policy != blank -%}<li><a href="{{ policy.url }}">{{ policy.title | escape }}</a></li>{%- endif -%}
+          {%- endfor -%}
+        </ul>
+      {%- endif -%}
+      {%- if section.settings.show_payment -%}
+        <ul class="payment-icons" role="list" aria-label="{{ 'general.payment_methods' | t }}">
+          {%- for type in shop.enabled_payment_types -%}
+            <li>{{ type | payment_type_svg_tag }}</li>
+          {%- endfor -%}
+        </ul>
+      {%- endif -%}
+    </div>
+  </div>
+</footer>
+
+{% schema %}
+{
+  "name": "Footer",
+  "class": "section-footer",
+  "max_blocks": 7,
+  "settings": [
+    { "type": "range", "id": "logo_width", "label": "Logo width", "min": 60, "max": 240, "step": 5, "unit": "px", "default": 130 },
+    { "type": "color", "id": "color_bg", "label": "Background", "default": "#F7F4F0" },
+    { "type": "color", "id": "color_text", "label": "Text", "default": "#1C1B1A" },
+    { "type": "color", "id": "color_muted", "label": "Muted text", "default": "#6B6560" },
+    { "type": "text", "id": "copyright", "label": "Copyright name", "info": "Defaults to the store name." },
+    { "type": "link_list", "id": "legal_menu", "label": "Legal menu", "info": "Privacy, terms… If empty, store policies are listed automatically." },
+    { "type": "checkbox", "id": "show_policies", "label": "List store policies when no legal menu is chosen", "default": true },
+    { "type": "checkbox", "id": "show_payment", "label": "Show payment icons", "default": true }
+  ],
+  "blocks": [
+    { "type": "brand", "name": "Brand", "limit": 1, "settings": [
+      { "type": "image_picker", "id": "logo", "label": "Logo" },
+      { "type": "richtext", "id": "text", "label": "Description", "default": "<p>Natural gemstones, hand-set in 925 sterling silver.</p>" },
+      { "type": "checkbox", "id": "show_social", "label": "Show social icons", "info": "Set links in Theme settings › Social media.", "default": true }
+    ]},
+    { "type": "menu", "name": "Menu", "settings": [
+      { "type": "text", "id": "heading", "label": "Heading" },
+      { "type": "link_list", "id": "menu", "label": "Menu", "default": "footer" }
+    ]},
+    { "type": "contact", "name": "Contact", "limit": 1, "settings": [
+      { "type": "text", "id": "heading", "label": "Heading", "default": "Customer care" },
+      { "type": "richtext", "id": "text", "label": "Text", "info": "Email, phone and hours come from Theme settings › Store information." }
+    ]},
+    { "type": "newsletter", "name": "Newsletter", "limit": 1, "settings": [
+      { "type": "text", "id": "heading", "label": "Heading", "default": "Join our list" },
+      { "type": "richtext", "id": "text", "label": "Text", "default": "<p>New arrivals and offers, straight to your inbox.</p>" }
+    ]}
+  ],
+  "default": {
+    "blocks": [
+      { "type": "brand" },
+      { "type": "menu", "settings": { "heading": "Shop", "menu": "main-menu" } },
+      { "type": "menu", "settings": { "heading": "Help", "menu": "footer" } },
+      { "type": "contact" },
+      { "type": "newsletter" }
+    ]
+  }
+}
+{% endschema %}
