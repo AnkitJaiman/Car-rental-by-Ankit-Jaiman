@@ -37,21 +37,21 @@
           "type": "item",
           "settings": {
             "question": "Is your jewelry nickel-free?",
-            "answer": "<p>Yes. All our jewelry is nickel-free and hypoallergenic. It is safe for sensitive skin and suitable for everyday wear.</p>"
+            "answer": "<p>Yes. Our jewelry is nickel- and lead-free, comfortable for sensitive skin and made for everyday wear.</p>"
           }
         },
         "q4": {
           "type": "item",
           "settings": {
             "question": "Will the silver tarnish?",
-            "answer": "<p>Sterling silver can naturally tarnish over time due to exposure to air, moisture, and chemicals. With proper care, such as storing in the provided pouch and avoiding water and chemicals, your jewelry will keep its shine for a very long time. We also include care instructions with every order.</p>"
+            "answer": "<p>Sterling silver can naturally tarnish over time due to exposure to air, moisture, and chemicals. With proper care, such as storing in the provided pouch and avoiding water and chemicals, your jewelry will keep its shine for a very long time. You can find our full care tips on the <a href=\"/pages/jewellery-care\">Jewelry care</a> page.</p>"
           }
         },
         "q5": {
           "type": "item",
           "settings": {
             "question": "Are your gemstones natural?",
-            "answer": "<p>Our Montana sapphires and emeralds are natural, earth-mined gemstones. Because they are natural, color and inclusions vary slightly from stone to stone, which makes every piece unique. Our moissanite rings are set with lab-created moissanite, as stated on each product page.</p>"
+            "answer": "<p>Our Montana sapphires and emeralds are natural, earth-mined gemstones. Because they are natural, color and inclusions vary slightly from stone to stone, which makes every piece unique. Our moissanite rings are set with lab-created moissanite.</p>"
           }
         },
         "g6": {
@@ -91,14 +91,14 @@
           "type": "item",
           "settings": {
             "question": "How do I find my ring size?",
-            "answer": "<p>Use our <a href=\"/pages/ring-size-guide\">Ring Size Guide</a> to measure a ring you already own. If you are between sizes, choose the larger size. If the fit isn’t right, exchanges are free within 30 days.</p>"
+            "answer": "<p>Use our <a href=\"/pages/ring-size-guide\">Ring Size Guide</a> to measure a ring you already own. If you are between sizes, choose the larger size. If the fit isn’t right, <a href=\"/pages/contact\">contact us</a> to ask about exchange options before returning your item.</p>"
           }
         },
         "q12": {
           "type": "item",
           "settings": {
             "question": "What is your return policy?",
-            "answer": "<p>We offer free 30-day returns on unworn items in their original packaging, and we cover the return shipping. To start a return, email us at animajewels@animajewel.in and we will guide you through it.</p>"
+            "answer": "<p>We offer free 30-day returns on unworn items in their original packaging, and we cover the return shipping. We provide a return label. To start a return, <a href=\"/pages/contact\">contact us</a> first and we will guide you through it. Items sent back without a return request can’t be accepted.</p>"
           }
         },
         "q13": {
@@ -112,7 +112,7 @@
           "type": "item",
           "settings": {
             "question": "What if my jewelry arrives damaged?",
-            "answer": "<p>If your jewelry arrives damaged, please contact us within 48 hours of delivery with clear photos of the item and packaging. Once verified, we’ll arrange a replacement at no additional cost to you.</p>"
+            "answer": "<p>If your order arrives damaged or defective, please <a href=\"/pages/contact\">contact us</a> right away with your order number and a photo, and we will help you resolve it.</p>"
           }
         }
       },
@@ -154,7 +154,7 @@
         "t": {
           "type": "text",
           "settings": {
-            "text": "<p>Our team replies within 24 hours, Monday to Saturday.</p>"
+            "text": "<p>Send us a message and a real person will help you.</p>"
           }
         },
         "btn": {

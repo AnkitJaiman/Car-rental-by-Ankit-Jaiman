@@ -17,7 +17,17 @@
     assign sizes = '(min-width: 990px) 23vw, 70vw'
   endif
   assign collection_obj = section.settings.collection
+  assign has_items = false
+  for block in picked
+    if block.settings.product != blank
+      assign has_items = true
+    endif
+  endfor
+  if picked.size == 0 and collection_obj != blank and collection_obj.products.size > 0
+    assign has_items = true
+  endif
 -%}
+{%- if has_items or request.design_mode -%}
 <section class="section{% if section.settings.soft_bg %} section--soft{% endif %}" style="--pt: {{ section.settings.padding_top }}px; --pb: {{ section.settings.padding_bottom }}px;" data-slider-section>
   <div class="page-width">
     <div class="section-header section-header--{{ section.settings.header_alignment }}">
@@ -28,7 +38,7 @@
       </div>
       <div class="slider-controls">
         {%- if section.settings.link_label != blank -%}
-          <a href="{{ section.settings.link | default: collection_obj.url | default: routes.all_products_collection_url }}" class="text-link link-underline" style="margin-right:16px">{{ section.settings.link_label | escape }}</a>
+          <a href="{{ section.settings.link | default: collection_obj.url | default: routes.all_products_collection_url }}" class="text-link link-underline" {% if layout == 'carousel' %} style="margin-right:16px"{% endif %}>{{ section.settings.link_label | escape }}</a>
         {%- endif -%}
         {%- if layout == 'carousel' -%}
           <button type="button" class="slider-button" data-slider-prev aria-label="{{ 'general.previous' | t }}">{% render 'icon', name: 'chevron-left' %}</button>
@@ -42,15 +52,13 @@
         style="--cols: {{ cols }}; --cols-tablet: {% if cols > 3 %}3{% else %}{{ cols }}{% endif %}; --cols-mobile: {{ section.settings.columns_mobile }}; --slide-w: 70%;">
         {%- if picked.size > 0 -%}
           {%- for block in picked limit: limit -%}
-            <li {{ block.shopify_attributes }}>
-              {%- if block.settings.product != blank -%}
-                {% render 'product-card', product: block.settings.product, sizes: sizes %}
-              {%- elsif request.design_mode -%}
-                {% render 'product-card-placeholder' %}
-              {%- endif -%}
-            </li>
+            {%- if block.settings.product != blank -%}
+              <li {{ block.shopify_attributes }}>{% render 'product-card', product: block.settings.product, sizes: sizes %}</li>
+            {%- elsif request.design_mode -%}
+              <li {{ block.shopify_attributes }}>{% render 'product-card-placeholder' %}</li>
+            {%- endif -%}
           {%- endfor -%}
-        {%- elsif collection_obj != blank and collection_obj.products_count > 0 -%}
+        {%- elsif collection_obj != blank and collection_obj.products.size > 0 -%}
           {%- for product in collection_obj.products limit: limit -%}
             <li>{% render 'product-card', product: product, sizes: sizes %}</li>
           {%- endfor -%}
@@ -63,6 +71,7 @@
     </div>
   </div>
 </section>
+{%- endif -%}
 
 {% schema %}
 {

@@ -12,7 +12,8 @@
     {%- endif -%}
     {%- for block in section.blocks -%}
       {%- if block.type == 'group' -%}
-        <h3 class="faq__group-title h3" style="margin-top:{% unless forloop.first %}48px{% else %}0{% endunless %}" {{ block.shopify_attributes }}>{{ block.settings.title | escape }}</h3>
+        {%- if section.settings.heading_tag == 'h1' -%}{%- assign gtag = 'h2' -%}{%- else -%}{%- assign gtag = 'h3' -%}{%- endif -%}
+        <{{ gtag }} class="faq__group-title h3" style="margin-top:{% unless forloop.first %}48px{% else %}0{% endunless %}" {{ block.shopify_attributes }}>{{ block.settings.title | escape }}</{{ gtag }}>
       {%- else -%}
         <details class="accordion" {{ block.shopify_attributes }}{% if section.settings.open_first and forloop.first %} open{% endif %}>
           <summary>{{ block.settings.question | escape }}<span class="accordion__icon" aria-hidden="true"></span></summary>

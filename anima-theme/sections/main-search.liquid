@@ -20,6 +20,7 @@
           {%- if search.results_count == 0 -%}
             <div class="collection-empty"><p>{{ 'general.search.no_results' | t: terms: search.terms }}</p><a class="button" href="{{ routes.all_products_collection_url }}">{{ 'cart.continue_shopping' | t }}</a></div>
           {%- else -%}
+            <h2 class="visually-hidden">{{ 'general.search.products' | t }}</h2>
             <ul class="grid collection-grid" role="list" data-product-grid style="--cols: 4; --cols-tablet: 3; --cols-mobile: 2;">
               {%- for item in search.results -%}
                 <li>

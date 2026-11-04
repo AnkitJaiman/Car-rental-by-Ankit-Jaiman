@@ -6,6 +6,7 @@
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <title>{{ 'gift_cards.issued.title' | t }} – {{ shop.name }}</title>
   <meta name="robots" content="noindex">
+  {{ content_for_header }}
   {%- render 'theme-styles' -%}
   {{ 'base.css' | asset_url | stylesheet_tag }}
   <script src="{{ 'vendor/qrcode.js' | shopify_asset_url }}" defer></script>

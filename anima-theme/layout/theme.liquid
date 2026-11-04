@@ -7,24 +7,33 @@
     <meta name="theme-color" content="{{ settings.color_background }}">
     <link rel="canonical" href="{{ canonical_url }}">
     <link rel="preconnect" href="https://cdn.shopify.com" crossorigin>
-    {%- unless settings.type_heading_font.system? and settings.type_body_font.system? -%}
-      <link rel="preconnect" href="https://fonts.shopifycdn.com" crossorigin>
-    {%- endunless -%}
 
     {%- if settings.favicon != blank -%}
       <link rel="icon" type="image/png" href="{{ settings.favicon | image_url: width: 64, height: 64 }}">
     {%- endif -%}
 
-    {%- capture seo_title -%}
-      {%- if request.page_type == 'search' and search.terms != blank -%}
-        {{ search.terms | split: '+' | join: ' ' }} – {{ 'general.search.title' | t }}
-      {%- else -%}
-        {{ page_title }}
-      {%- endif -%}
-      {%- if current_tags -%}{%- assign meta_tags = current_tags | join: ', ' -%} – {{ 'general.meta.tags' | t: tags: meta_tags }}{%- endif -%}
-      {%- if current_page != 1 -%} – {{ 'general.meta.page' | t: page: current_page }}{%- endif -%}
-      {%- unless page_title contains shop.name -%} | {{ shop.name }}{%- endunless -%}
-    {%- endcapture -%}
+    {%- liquid
+      if request.page_type == 'search' and search.terms != blank
+        assign seo_title = search.terms | split: '+' | join: ' ' | escape
+        assign search_word = 'general.search.title' | t
+        assign seo_title = seo_title | append: ' – ' | append: search_word
+      else
+        assign seo_title = page_title | escape
+      endif
+      if current_tags
+        assign meta_tags = current_tags | join: ', ' | escape
+        assign tags_text = 'general.meta.tags' | t: tags: meta_tags
+        assign seo_title = seo_title | append: ' – ' | append: tags_text
+      endif
+      if current_page != 1
+        assign page_text = 'general.meta.page' | t: page: current_page
+        assign seo_title = seo_title | append: ' – ' | append: page_text
+      endif
+      assign shop_name_escaped = shop.name | escape
+      unless page_title contains shop.name
+        assign seo_title = seo_title | append: ' | ' | append: shop_name_escaped
+      endunless
+    -%}
     <title>{{ seo_title | strip }}</title>
     {%- if page_description -%}
       <meta name="description" content="{{ page_description | escape }}">
@@ -52,6 +61,32 @@
 
     {% sections 'footer-group' %}
 
+    {%- if request.page_type == 'index' -%}
+      <script type="application/ld+json">
+        [{
+          "@context": "https://schema.org",
+          "@type": "Organization",
+          "name": {{ shop.name | json }},
+          "url": {{ request.origin | append: routes.root_url | json }}
+          {%- assign same_as = '' -%}
+          {%- assign social_keys = 'social_instagram,social_tiktok,social_pinterest,social_facebook,social_youtube' | split: ',' -%}
+          {%- for key in social_keys -%}
+            {%- if settings[key] != blank -%}{%- assign same_as = same_as | append: settings[key] | append: '|' -%}{%- endif -%}
+          {%- endfor -%}
+          {%- if same_as != blank -%},
+          "sameAs": {{ same_as | remove_last: '|' | split: '|' | json }}
+          {%- endif -%}
+        },
+        {
+          "@context": "https://schema.org",
+          "@type": "WebSite",
+          "name": {{ shop.name | json }},
+          "url": {{ request.origin | append: routes.root_url | json }},
+          "potentialAction": { "@type": "SearchAction", "target": {{ request.origin | append: routes.search_url | append: '?q={search_term_string}' | json }}, "query-input": "required name=search_term_string" }
+        }]
+      </script>
+    {%- endif -%}
+
     {%- section 'cart-drawer' -%}
 
     <script>
@@ -61,6 +96,7 @@
           cart: {{ routes.cart_url | json }},
           cartAdd: {{ routes.cart_add_url | json }},
           cartChange: {{ routes.cart_change_url | json }},
+          cartUpdate: {{ routes.cart_update_url | json }},
           search: {{ routes.predictive_search_url | json }}
         },
         cartType: {{ settings.cart_type | json }},
@@ -72,7 +108,16 @@
           added: {{ 'products.product.added' | t | json }},
           inStock: {{ 'products.product.in_stock' | t | json }},
           outOfStock: {{ 'products.product.out_of_stock' | t | json }},
-          error: {{ 'general.error' | t | json }}
+          error: {{ 'general.error' | t | json }},
+          close: {{ 'accessibility.close' | t | json }},
+          quickAdd: {{ 'accessibility.quick_add' | t | json }},
+          playVideo: {{ 'accessibility.play_video' | t | json }},
+          pauseVideo: {{ 'accessibility.pause_video' | t | json }},
+          playSlideshow: {{ 'accessibility.play_slideshow' | t | json }},
+          pauseSlideshow: {{ 'accessibility.pause_slideshow' | t | json }},
+          cart: {{ 'accessibility.cart' | t | json }},
+          cartCountOne: {{ 'accessibility.cart_count.one' | t: count: '[count]' | json }},
+          cartCountOther: {{ 'accessibility.cart_count.other' | t: count: '[count]' | json }}
         }
       };
     </script>

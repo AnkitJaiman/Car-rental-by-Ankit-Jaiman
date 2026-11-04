@@ -1,3 +1,9 @@
+{%- liquid
+  assign section_loading = 'lazy'
+  if section.index <= 2
+    assign section_loading = 'eager'
+  endif
+-%}
 <section class="section{% if section.settings.soft_bg %} section--soft{% endif %}" style="--pt: {{ section.settings.padding_top }}px; --pb: {{ section.settings.padding_bottom }}px;">
   <div class="page-width">
     <div class="image-with-text{% if section.settings.layout == 'image_right' %} image-with-text--reverse{% endif %}" style="--media-w: {{ section.settings.media_width | divided_by: 100.0 }}fr">
@@ -6,7 +12,7 @@
           <div class="media media--{{ section.settings.image_ratio }}">
             {%- if section.settings.image != blank -%}
               {%- capture pos -%}object-position: {{ section.settings.image_position }}{%- endcapture -%}
-              {{ section.settings.image | image_url: width: 1800 | image_tag: widths: '540, 720, 900, 1100, 1400, 1800', sizes: '(min-width: 990px) 55vw, 100vw', loading: 'lazy', style: pos }}
+              {{ section.settings.image | image_url: width: 1800 | image_tag: widths: '540, 720, 900, 1100, 1400, 1800', sizes: '(min-width: 990px) 55vw, 100vw', loading: section_loading, style: pos }}
             {%- else -%}
               {{ 'lifestyle-1' | placeholder_svg_tag: 'placeholder-svg' }}
             {%- endif -%}

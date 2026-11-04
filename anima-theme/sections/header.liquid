@@ -19,8 +19,8 @@
       {%- endif -%}
     </div>
 
-    {%- if request.page_type == 'index' -%}<h1 class="header__logo">{%- else -%}<div class="header__logo">{%- endif -%}
-      <a href="{{ routes.root_url }}">
+    <div class="header__logo">
+      <a href="{{ routes.root_url }}" aria-label="{{ shop.name | escape }}">
         {%- if section.settings.logo != blank -%}
           {%- capture logo_sizes -%}(min-width: 990px) {{ section.settings.logo_width }}px, {{ section.settings.logo_width_mobile }}px{%- endcapture -%}
           {%- if transparent and section.settings.logo_light != blank -%}
@@ -31,7 +31,7 @@
           <span class="header__logo-text">{{ shop.name }}</span>
         {%- endif -%}
       </a>
-    {%- if request.page_type == 'index' -%}</h1>{%- else -%}</div>{%- endif -%}
+    </div>
 
     <nav class="header__nav" aria-label="{{ 'accessibility.menu' | t }}">
       <ul class="nav-list" role="list">
@@ -84,6 +84,9 @@
                           </ul>
                         </div>
                       {%- endfor -%}
+                      {%- unless link.url == '#' or link.url == blank -%}
+                        <div><a href="{{ link.url }}" class="mega-menu__title link-underline">{{ 'general.view_all' | t }} {{ link.title | escape }}</a></div>
+                      {%- endunless -%}
                     {%- else -%}
                       <div>
                         <a href="{{ link.url }}" class="mega-menu__title">{{ mega.settings.heading | default: link.title | escape }}</a>
@@ -120,6 +123,9 @@
                   {%- for child in link.links -%}
                     <li><a href="{{ child.url }}"{% if child.current %} aria-current="page"{% endif %}>{{ child.title | escape }}</a></li>
                   {%- endfor -%}
+                  {%- unless link.url == '#' or link.url == blank -%}
+                    <li class="dropdown__all"><a href="{{ link.url }}">{{ 'general.view_all' | t }}</a></li>
+                  {%- endunless -%}
                 </ul>
               {%- endif -%}
             {%- else -%}
@@ -169,7 +175,7 @@
                   {%- for child in link.links -%}
                     <li><a href="{{ child.url }}">{{ child.title | escape }}</a></li>
                     {%- for grandchild in child.links -%}
-                      <li><a href="{{ grandchild.url }}" style="padding-left:48px">{{ grandchild.title | escape }}</a></li>
+                      <li><a href="{{ grandchild.url }}" class="mobile-nav__grandchild">{{ grandchild.title | escape }}</a></li>
                     {%- endfor -%}
                   {%- endfor -%}
                   <li><a href="{{ link.url }}">{{ 'general.view_all' | t }}</a></li>
@@ -186,7 +192,7 @@
           <a href="{{ routes.account_url }}" style="display:flex;gap:10px;align-items:center">{% render 'icon', name: 'account' %} {{ 'accessibility.account' | t }}</a>
         {%- endif -%}
         {%- if settings.support_email != blank -%}
-          <a href="mailto:{{ settings.support_email }}" style="display:flex;gap:10px;align-items:center">{% render 'icon', name: 'mail' %} {{ settings.support_email }}</a>
+          <a href="mailto:{{ settings.support_email }}" style="display:flex;gap:10px;align-items:center">{% render 'icon', name: 'mail' %} {{ settings.support_email | escape }}</a>
         {%- endif -%}
         {%- render 'social-icons' -%}
       </div>
@@ -216,7 +222,7 @@
 {% schema %}
 {
   "name": "Header",
-  "class": "section-header",
+  "class": "section-site-header",
   "max_blocks": 8,
   "settings": [
     { "type": "header", "content": "Logo" },

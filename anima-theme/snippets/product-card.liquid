@@ -62,20 +62,33 @@
   </div>
 
   {%- if quick_add and product.available -%}
+    {%- liquid
+      assign product_title_escaped = product.title | escape
+      if product.has_only_default_variant
+        assign qa_label = 'products.product.add_to_cart' | t
+      else
+        assign qa_label = 'products.product.choose_options' | t
+      endif
+    -%}
     <div class="product-card__quick-add">
       {%- if product.has_only_default_variant -%}
         <form method="post" action="{{ routes.cart_add_url }}" data-product-form>
           <input type="hidden" name="id" value="{{ product.selected_or_first_available_variant.id }}">
           <input type="hidden" name="quantity" value="1">
-          <button type="submit" class="button">{{ 'products.product.add_to_cart' | t }}</button>
+          <button type="submit" class="button product-card__qa-button" aria-label="{{ 'accessibility.quick_add_for' | t: label: qa_label, product: product_title_escaped }}">
+            <span class="product-card__qa-label">{{ qa_label }}</span>
+            <span class="product-card__qa-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M12 5v14M5 12h14"/></svg></span>
+          </button>
         </form>
       {%- else -%}
-        <button type="button" class="button" data-quick-add="{{ product.url | within: collection }}" aria-haspopup="dialog">
-          {{ 'products.product.choose_options' | t }}
+        <button type="button" class="button product-card__qa-button" data-quick-add="{{ product.url | within: collection }}" aria-haspopup="dialog" aria-label="{{ 'accessibility.quick_add_for' | t: label: qa_label, product: product_title_escaped }}">
+          <span class="product-card__qa-label">{{ qa_label }}</span>
+          <span class="product-card__qa-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M12 5v14M5 12h14"/></svg></span>
         </button>
       {%- endif -%}
     </div>
   {%- endif -%}
+  </div>
 
   <div class="product-card__info">
     {%- if settings.card_show_vendor -%}

@@ -67,21 +67,21 @@
           "settings": {
             "collapsible": true,
             "heading": "Details",
-            "open": true
+            "open": false
           }
         },
         "shipping": {
           "type": "collapsible_tab",
           "settings": {
             "heading": "Shipping & returns",
-            "content": "<p>Free standard shipping on US orders over $35. Orders are processed and dispatched within 1–2 business days; delivery usually takes 3–7 business days. We currently ship within the United States only.</p><p>Free 30-day returns on unworn items in original packaging — we cover the return shipping.</p>",
+            "content": "<p>Free standard shipping on US orders over $35. Orders are processed and dispatched within 1–2 business days; delivery usually takes 3–7 business days. We currently ship within the United States only.</p><p>Free 30-day returns on unworn items in original packaging, with a free return label.</p>",
             "open": false
           }
         },
         "care": {
           "type": "collapsible_tab",
           "settings": {
-            "heading": "Jewellery care",
+            "heading": "Jewelry care",
             "content": "<p>Remove jewelry before bathing or swimming, apply perfume and lotion first, store each piece in its anti-tarnish pouch and buff with a soft silver cloth. Avoid toothpaste, baking soda and ultrasonic cleaners on gemstone pieces.</p>",
             "open": false
           }

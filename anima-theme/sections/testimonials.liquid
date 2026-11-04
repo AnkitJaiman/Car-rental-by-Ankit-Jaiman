@@ -4,7 +4,8 @@
 {%- endcomment -%}
 {%- assign reviews = section.blocks | where: 'type', 'review' -%}
 {%- assign has_text = false -%}
-{%- for r in reviews -%}{%- if r.settings.quote != blank -%}{%- assign has_text = true -%}{%- endif -%}{%- endfor -%}
+{%- assign shown_count = 0 -%}
+{%- for r in reviews -%}{%- if r.settings.quote != blank or request.design_mode -%}{%- assign has_text = true -%}{%- assign shown_count = shown_count | plus: 1 -%}{%- endif -%}{%- endfor -%}
 {%- if has_text or request.design_mode -%}
 <section class="section{% if section.settings.soft_bg %} section--soft{% endif %}" style="--pt: {{ section.settings.padding_top }}px; --pb: {{ section.settings.padding_bottom }}px;" data-slider-section>
   <div class="page-width">
@@ -17,13 +18,16 @@
 
     {%- if section.settings.layout == 'carousel' -%}
       <div class="testimonial-carousel" data-fade-carousel>
+        {%- assign slide_i = 0 -%}
         {%- for block in reviews -%}
           {%- if block.settings.quote == blank and request.design_mode == false -%}{%- continue -%}{%- endif -%}
-          <div class="testimonial{% unless forloop.first %} is-hidden{% endunless %}" data-fade-slide {{ block.shopify_attributes }}>
+          {%- assign slide_i = slide_i | plus: 1 -%}
+          <div class="testimonial{% if slide_i > 1 %} is-hidden{% endif %}" data-fade-slide {{ block.shopify_attributes }}>
             {% render 'review-content', block: block %}
           </div>
         {%- endfor -%}
-        {%- if reviews.size > 1 -%}
+        {%- if shown_count > 1 -%}
+          <p class="visually-hidden" aria-live="polite" data-fade-live></p>
           <div class="slider-controls" style="justify-content:center;margin-top:32px">
             <button type="button" class="slider-button" data-fade-prev aria-label="{{ 'general.previous' | t }}">{% render 'icon', name: 'chevron-left' %}</button>
             <button type="button" class="slider-button" data-fade-next aria-label="{{ 'general.next' | t }}">{% render 'icon', name: 'chevron-right' %}</button>

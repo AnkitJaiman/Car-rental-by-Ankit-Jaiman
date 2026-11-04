@@ -67,7 +67,7 @@
           "settings": {
             "icon": "none",
             "title": "US ring size chart",
-            "text": "<p>US 6: 16.5 mm diameter / 51.9 mm circumference<br>US 7: 17.3 mm / 54.4 mm<br>US 8: 18.1 mm / 57.0 mm<br>US 9: 19.0 mm / 59.5 mm<br>US 10: 19.8 mm / 62.1 mm<br>Available sizes are shown on each product page.</p>"
+            "text": "<p>US 5: 15.7 mm diameter / 49.3 mm circumference<br>US 6: 16.5 mm / 51.9 mm<br>US 7: 17.3 mm / 54.4 mm<br>US 8: 18.1 mm / 57.0 mm<br>US 9: 19.0 mm / 59.5 mm<br>US 10: 19.8 mm / 62.1 mm<br>Available sizes are shown on each product page.</p>"
           }
         },
         "c3": {
@@ -106,7 +106,7 @@
         "t": {
           "type": "text",
           "settings": {
-            "text": "<p>Email us at animajewels@animajewel.in before ordering. And if the size isn’t right, exchanges are free within 30 days.</p>"
+            "text": "<p>Not sure? <a href=\"/pages/contact\">Contact us</a> before ordering. If the size isn’t right after delivery, ask us about exchange options before returning your item.</p>"
           }
         }
       },

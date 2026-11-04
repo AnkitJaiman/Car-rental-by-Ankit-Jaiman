@@ -67,7 +67,7 @@
           "settings": {
             "icon": "none",
             "title": "How to start a return",
-            "text": "<p>Email us at animajewels@animajewel.in with your order number. We will reply with return instructions, and we cover the shipping cost.</p>"
+            "text": "<p><a href=\"/pages/contact\">Contact us</a> with your order number within 30 days of delivery. We will send return instructions and a free return label.</p>"
           }
         },
         "c3": {
@@ -106,7 +106,7 @@
         "t": {
           "type": "text",
           "settings": {
-            "text": "<p>For hygiene reasons, earrings (if the seal is broken), custom-engraved pieces, and Final Sale items cannot be returned. Original shipping fees are non-refundable.</p>"
+            "text": "<p>Items must be unworn and in their original packaging. Items sent back without first requesting a return can’t be accepted. You can cancel an order within 24 hours of placing it. These terms do not limit your rights under applicable law; see our full <a href=\"/policies/refund-policy\">refund policy</a>.</p>"
           }
         }
       },

@@ -7,9 +7,9 @@
 {%- endcomment -%}
 {%- liquid
   assign max_posts = section.settings.max_posts
-  assign pattern = 'sm,md,lg,md,sm' | split: ','
+  assign pattern = 'sm,md,lg,md' | split: ','
   if section.settings.pattern == 'rise'
-    assign pattern = 'sm,md,lg,lg,md' | split: ','
+    assign pattern = 'sm,md,lg,sm,md,lg' | split: ','
   elsif section.settings.pattern == 'alternate'
     assign pattern = 'md,lg,md,lg' | split: ','
   elsif section.settings.pattern == 'uniform'
@@ -105,13 +105,16 @@
       {%- endfor -%}
     {%- endif -%}
   {%- endcapture -%}
+{%- liquid
+  assign inspo_link = section.settings.link | default: settings.social_instagram
+-%}
 {%- if inspo_items != blank or request.design_mode -%}
 <section class="section inspo{% if section.settings.mobile_layout == 'uniform' %} inspo--mobile-uniform{% endif %}{% if section.settings.center_track %} inspo--centered{% endif %}"
   style="--pt: {{ section.settings.padding_top }}px; --pb: {{ section.settings.padding_bottom }}px; --inspo-bg: {{ section.settings.color_bg }};
     --inspo-gap: {{ section.settings.gap }}px; --inspo-gap-mobile: {{ section.settings.gap_mobile }}px; --inspo-align: {{ section.settings.align }};
     --inspo-w-sm: {{ section.settings.width_sm }}px; --inspo-w-md: {{ section.settings.width_md }}px; --inspo-w-lg: {{ section.settings.width_lg }}px;
     --inspo-h-sm: {{ section.settings.height_sm }}px; --inspo-h-md: {{ section.settings.height_md }}px; --inspo-h-lg: {{ section.settings.height_lg }}px;
-    --inspo-mobile-scale: {{ section.settings.mobile_scale | divided_by: 100.0 }}; --inspo-shade: {% if section.settings.show_creator %}1{% else %}0{% endif %};"
+    --inspo-mobile-scale: {{ section.settings.mobile_scale | divided_by: 100.0 }};"
   data-inspiration data-autoplay-video="{{ autoplay }}" data-start-centered="{{ section.settings.start_centered }}"
   aria-labelledby="InspoHeading-{{ section.id }}">
   <div class="page-width">
@@ -121,8 +124,8 @@
         <h2 class="section-header__title" id="InspoHeading-{{ section.id }}">{{ section.settings.heading | escape }}</h2>
         {%- if section.settings.text != blank -%}<div class="section-header__text">{{ section.settings.text }}</div>{%- endif -%}
       </div>
-      {%- if section.settings.link_label != blank and section.settings.header_alignment != 'center' -%}
-        <a href="{{ section.settings.link | default: settings.social_instagram | default: '#' }}" class="text-link link-underline"{% if section.settings.link contains 'http' %} target="_blank" rel="noopener"{% endif %}>{{ section.settings.link_label | escape }}</a>
+      {%- if section.settings.link_label != blank and section.settings.header_alignment != 'center' and inspo_link != blank -%}
+        <a href="{{ inspo_link }}" class="text-link link-underline"{% if inspo_link contains 'http' %} target="_blank" rel="noopener"{% endif %}>{{ section.settings.link_label | escape }}</a>
       {%- endif -%}
     </div>
   </div>
@@ -134,8 +137,8 @@
     <div class="inspo__footer">
       <div class="inspo__progress" aria-hidden="true"><span class="inspo__progress-bar" data-inspo-progress></span></div>
       <div class="slider-controls">
-        {%- if section.settings.link_label != blank and section.settings.header_alignment == 'center' -%}
-          <a href="{{ section.settings.link | default: settings.social_instagram | default: '#' }}" class="text-link link-underline" style="margin-right:16px">{{ section.settings.link_label | escape }}</a>
+        {%- if section.settings.link_label != blank and section.settings.header_alignment == 'center' and inspo_link != blank -%}
+          <a href="{{ inspo_link }}" class="text-link link-underline" style="margin-right:16px"{% if inspo_link contains 'http' %} target="_blank" rel="noopener"{% endif %}>{{ section.settings.link_label | escape }}</a>
         {%- endif -%}
         <button type="button" class="slider-button" data-inspo-prev aria-label="{{ 'general.previous' | t }}">{% render 'icon', name: 'chevron-left' %}</button>
         <button type="button" class="slider-button" data-inspo-next aria-label="{{ 'general.next' | t }}">{% render 'icon', name: 'chevron-right' %}</button>
@@ -153,9 +156,9 @@
   "max_blocks": 50,
   "settings": [
     { "type": "header", "content": "Heading" },
-    { "type": "text", "id": "eyebrow", "label": "Small text above heading", "default": "As worn by you" },
+    { "type": "text", "id": "eyebrow", "label": "Small text above heading", "default": "Styled by you" },
     { "type": "text", "id": "heading", "label": "Heading", "default": "Inspiration Station" },
-    { "type": "richtext", "id": "text", "label": "Text", "default": "<p>See how our community styles Anima Jewels. Tap a piece to shop the look.</p>" },
+    { "type": "richtext", "id": "text", "label": "Text", "default": "<p>Real looks, real pieces. Tap a piece to shop it.</p>" },
     { "type": "select", "id": "header_alignment", "label": "Heading alignment", "default": "center", "options": [
       { "value": "left", "label": "Left" }, { "value": "center", "label": "Center" }
     ]},
@@ -164,7 +167,7 @@
     { "type": "header", "content": "Posts" },
     { "type": "range", "id": "max_posts", "label": "Number of visible posts", "min": 3, "max": 50, "step": 1, "default": 12 },
     { "type": "checkbox", "id": "use_library", "label": "Also show posts from the Inspiration library", "info": "Adds entries from Content › Metaobjects › “Inspiration post” after the blocks below. See the theme guide.", "default": false },
-    { "type": "checkbox", "id": "show_creator", "label": "Show creator name on image", "default": true },
+    { "type": "checkbox", "id": "show_creator", "label": "Show creator name on image", "info": "Only show names with the creator’s permission.", "default": false },
     { "type": "checkbox", "id": "show_caption", "label": "Show caption", "default": false },
     { "type": "checkbox", "id": "show_product", "label": "Show product card under each post", "default": true },
     { "type": "header", "content": "Desktop layout" },

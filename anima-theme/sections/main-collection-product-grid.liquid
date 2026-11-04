@@ -24,11 +24,26 @@
         <div data-collection-results>
           {% render 'active-facets', results: collection %}
           {%- if collection.products.size == 0 -%}
+            {%- liquid
+              assign active_filter_count = 0
+              for filter in collection.filters
+                assign active_filter_count = active_filter_count | plus: filter.active_values.size
+                if filter.min_value.value != nil or filter.max_value.value != nil
+                  assign active_filter_count = active_filter_count | plus: 1
+                endif
+              endfor
+            -%}
             <div class="collection-empty">
-              <p>{{ 'products.facets.no_products' | t }}</p>
-              {%- if collection.filters.size > 0 -%}<a href="{{ collection.url }}?sort_by={{ collection.sort_by | default: collection.default_sort_by }}" class="button button--secondary" data-facet-link>{{ 'products.facets.clear_all' | t }}</a>{%- endif -%}
+              {%- if active_filter_count > 0 -%}
+                <p>{{ 'products.facets.no_products' | t }}</p>
+                <a href="{{ collection.url }}?sort_by={{ collection.sort_by | default: collection.default_sort_by }}" class="button button--secondary" data-facet-link>{{ 'products.facets.clear_all' | t }}</a>
+              {%- else -%}
+                <p>{{ 'products.facets.empty_collection' | t }}</p>
+                <a href="{{ routes.all_products_collection_url }}" class="button">{{ 'products.facets.shop_all' | t }}</a>
+              {%- endif -%}
             </div>
           {%- else -%}
+            <h2 class="visually-hidden">{{ collection.title | escape }}</h2>
             <ul class="grid collection-grid" role="list" id="ProductGrid-{{ section.id }}" data-product-grid style="--cols: {{ cols }}; --cols-tablet: {% if cols > 3 %}3{% else %}{{ cols }}{% endif %}; --cols-mobile: {{ section.settings.columns_mobile }};">
               {%- for product in collection.products -%}
                 {%- liquid

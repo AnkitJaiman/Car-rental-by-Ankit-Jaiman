@@ -12,9 +12,9 @@
   {%- endif -%}
   <div class="page-width collection-banner__content collection-banner__content--{{ section.settings.alignment }}">
     {%- if section.settings.show_breadcrumbs -%}
-      <nav class="breadcrumbs" aria-label="Breadcrumb">
+      <nav class="breadcrumbs" aria-label="{{ 'general.breadcrumb' | t }}">
         <ol>
-          <li><a href="{{ routes.root_url }}">Home</a></li>
+          <li><a href="{{ routes.root_url }}">{{ 'general.home' | t }}</a></li>
           <li><a href="{{ routes.collections_url }}">{{ 'templates.collections.title' | t }}</a></li>
           <li aria-current="page">{{ collection.title | escape }}</li>
         </ol>

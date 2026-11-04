@@ -21,7 +21,7 @@
   <div class="inspo-card__media"{% if has_video %} data-inspo-video{% endif %}>
     {%- if has_video -%}
       {%- if poster_img != blank -%}
-        {% render 'image', image: poster_img, sizes: sizes, alt: media_label, widths: '240, 360, 480, 640, 800', class: 'inspo-card__poster' %}
+        {% render 'image', image: poster_img, sizes: sizes, alt: '', widths: '240, 360, 480, 640, 800', class: 'inspo-card__poster' %}
       {%- endif -%}
       {%- if video != blank -%}
         {%- assign source = video.sources | where: 'format', 'mp4' | sort: 'height' | last -%}
@@ -34,7 +34,7 @@
           {% if poster_img != blank %}poster="{{ poster_img | image_url: width: 720 }}"{% endif %}
           data-src="{{ video_url | escape }}" aria-label="{{ media_label | escape }}"></video>
       {%- endif -%}
-      <button type="button" class="inspo-card__play" data-inspo-play aria-pressed="{% if autoplay %}true{% else %}false{% endif %}" aria-label="{{ 'accessibility.play_video' | t }}">
+      <button type="button" class="inspo-card__play" data-inspo-play data-state="paused" aria-label="{{ 'accessibility.play_video' | t }}">
         {% render 'icon', name: 'pause' %}{% render 'icon', name: 'play' %}
       </button>
     {%- elsif image != blank -%}
@@ -52,7 +52,7 @@
         {%- if name != blank -%}<strong>{{ name | escape }}</strong>{%- endif -%}
         {%- if username != blank -%}
           {%- if profile_url != blank -%}
-            <a href="{{ profile_url }}" target="_blank" rel="noopener nofollow" style="pointer-events:auto">{{ username | escape }}</a>
+            <a href="{{ profile_url | escape }}" target="_blank" rel="noopener nofollow" style="pointer-events:auto">{{ username | escape }}</a>
           {%- else -%}
             <span>{{ username | escape }}</span>
           {%- endif -%}
@@ -69,13 +69,14 @@
     <a href="{{ product.url }}" class="inspo-product">
       <span class="inspo-product__thumb">
         {%- if product.featured_media -%}
-          {{ product.featured_media.preview_image | image_url: width: 160 | image_tag: loading: 'lazy', alt: '', widths: '80, 120, 160', sizes: '52px' }}
+          {{ product.featured_media.preview_image | image_url: width: 160 | image_tag: loading: 'lazy', alt: '', widths: '80, 120, 160', sizes: '44px' }}
         {%- endif -%}
       </span>
       <span>
         <span class="inspo-product__title">{{ product.title | escape }}</span>
         {% render 'price', product: product, show_from: true %}
       </span>
+      <svg class="inspo-product__arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true" focusable="false"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
     </a>
   {%- elsif show_product and request.design_mode -%}
     <div class="inspo-product" style="opacity:.5">

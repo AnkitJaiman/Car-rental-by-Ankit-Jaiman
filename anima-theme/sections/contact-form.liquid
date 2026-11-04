@@ -4,9 +4,9 @@
       <div class="contact-details">
         {%- if section.settings.heading != blank -%}<h2>{{ section.settings.heading | escape }}</h2>{%- endif -%}
         {%- if section.settings.text != blank -%}<div class="rte text-muted">{{ section.settings.text }}</div>{%- endif -%}
-        {%- if settings.support_email != blank -%}<div><h3>Email</h3><p><a href="mailto:{{ settings.support_email }}">{{ settings.support_email }}</a></p></div>{%- endif -%}
-        {%- if settings.support_phone != blank -%}<div><h3>Phone</h3><p><a href="tel:{{ settings.support_phone | remove: ' ' }}">{{ settings.support_phone }}</a></p></div>{%- endif -%}
-        {%- if settings.support_hours != blank -%}<div><h3>Hours</h3><p>{{ settings.support_hours }}</p></div>{%- endif -%}
+        {%- if settings.support_email != blank -%}<div><h3>{{ 'templates.contact.email' | t }}</h3><p><a href="mailto:{{ settings.support_email | escape }}">{{ settings.support_email | escape }}</a></p></div>{%- endif -%}
+        {%- if settings.support_phone != blank -%}<div><h3>{{ 'templates.contact.phone' | t }}</h3><p><a href="tel:{{ settings.support_phone | remove: ' ' | escape }}">{{ settings.support_phone | escape }}</a></p></div>{%- endif -%}
+        {%- if settings.support_hours != blank -%}<div><h3>{{ 'templates.contact.hours' | t }}</h3><p>{{ settings.support_hours | escape }}</p></div>{%- endif -%}
         {%- for block in section.blocks -%}
           <div {{ block.shopify_attributes }}><h3>{{ block.settings.title | escape }}</h3><div class="rte text-muted">{{ block.settings.text }}</div></div>
         {%- endfor -%}
@@ -23,7 +23,7 @@
             <label class="field"><span class="field__label">{{ 'templates.contact.email' | t }} *</span><input class="field__input" type="email" name="contact[email]" autocomplete="email" value="{{ form.email }}" required aria-required="true"></label>
           </div>
           <label class="field"><span class="field__label">{{ 'templates.contact.phone' | t }}</span><input class="field__input" type="tel" name="contact[phone]" autocomplete="tel" value="{{ form.phone }}"></label>
-          <label class="field"><span class="field__label">{{ 'templates.contact.message' | t }}</span><textarea class="field__input" name="contact[body]" rows="6">{{ form.body }}</textarea></label>
+          <label class="field"><span class="field__label">{{ 'templates.contact.message' | t }} *</span><textarea class="field__input" name="contact[body]" rows="6" required aria-required="true">{{ form.body }}</textarea></label>
           <button type="submit" class="button">{{ 'templates.contact.send' | t }}</button>
         {%- endform -%}
       </div>

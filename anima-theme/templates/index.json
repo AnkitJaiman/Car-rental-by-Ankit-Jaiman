@@ -18,12 +18,12 @@
             "image_position": "center center",
             "overlay": 25,
             "overlay_color": "#000000",
-            "eyebrow": "Natural gemstones · 925 sterling silver",
+            "eyebrow": "Montana sapphire · 925 sterling silver",
             "heading": "Montana sapphire, made for every day",
             "heading_size": "h0",
             "text": "<p>Natural blue-green sapphires, hand-set in genuine 925 sterling silver.</p>",
-            "button_label": "Shop the collection",
-            "button_link": "shopify://collections/all",
+            "button_label": "Shop Montana sapphire",
+            "button_link": "shopify://collections/montana-sapphire",
             "button_label_2": "Our story",
             "button_link_2": "shopify://pages/our-story",
             "vertical": "bottom",
@@ -54,14 +54,14 @@
         "t2": {
           "type": "item",
           "settings": {
-            "text": "Nickel & Lead Free",
+            "text": "Nickel & lead free",
             "icon": "none"
           }
         },
         "t3": {
           "type": "item",
           "settings": {
-            "text": "Free US Shipping Over $35",
+            "text": "Free US shipping over $35",
             "icon": "none",
             "link": "shopify://pages/shipping-policy"
           }
@@ -213,7 +213,7 @@
         "t": {
           "type": "text",
           "settings": {
-            "text": "<p>Every Anima piece pairs natural gemstones such as Montana sapphire and emerald with genuine 925 sterling silver. Our gold-tone styles are gold-plated over that same sterling silver, never over brass.</p><p>We design jewelry to be worn every day, priced honestly, with free 30-day returns.</p>"
+            "text": "<p>Anima pairs Montana sapphire, emerald and lab-created moissanite with genuine 925 sterling silver. Our gold-tone styles are gold-plated over that same sterling silver, never over brass.</p><p>We design jewelry to be worn every day, priced honestly, with free 30-day returns.</p>"
           }
         },
         "btn": {
@@ -397,18 +397,19 @@
     "bestsellers": {
       "type": "featured-products",
       "settings": {
-        "eyebrow": "Signature",
-        "heading": "Montana sapphire rings",
+        "eyebrow": "Made to stack",
+        "heading": "Bracelets",
         "header_alignment": "left",
-        "collection": "montana-sapphire",
+        "collection": "bracelets",
         "limit": 4,
         "layout": "grid",
         "columns": 4,
         "columns_mobile": 2,
-        "link_label": "Shop sapphire",
+        "link_label": "Shop bracelets",
         "soft_bg": false,
         "padding_top": 96,
-        "padding_bottom": 64
+        "padding_bottom": 64,
+        "link": "shopify://collections/bracelets"
       }
     },
     "reviews": {
@@ -479,7 +480,7 @@
       "settings": {
         "eyebrow": "Newsletter",
         "heading": "Be the first to know",
-        "text": "<p>New arrivals, styling notes and members-only offers.</p>",
+        "text": "<p>New arrivals, styling notes and offers.</p>",
         "button_label": "Subscribe",
         "success_message": "Thank you for subscribing.",
         "error_message": "Please enter a valid email address.",

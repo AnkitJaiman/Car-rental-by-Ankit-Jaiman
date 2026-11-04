@@ -17,22 +17,22 @@
         endif
       endif
     -%}
-    <details class="facets__group"{% if forloop.index <= 2 or active_count > 0 %} open{% endif %}>
+    <details data-facet-group="{{ filter.param_name | default: filter.label | handle }}" class="facets__group"{% if forloop.index <= 2 or active_count > 0 %} open{% endif %}>
       <summary>
         <span>{{ filter.label | escape }}{% if active_count > 0 %} ({{ active_count }}){% endif %}</span>
         {% render 'icon', name: 'chevron-down' %}
       </summary>
       {%- case filter.type -%}
         {%- when 'price_range' -%}
-          {%- assign max_price = filter.range_max | money_without_currency | remove: ',' -%}
+          {%- assign max_price = filter.range_max | divided_by: 100.0 | ceil -%}
           <div class="facets__price">
             <label class="field"><span class="field__label">{{ 'products.facets.from' | t }} ({{ cart.currency.symbol }})</span>
               <input class="field__input" type="number" inputmode="decimal" min="0" max="{{ max_price }}" name="{{ filter.min_value.param_name }}"
-                value="{%- if filter.min_value.value -%}{{ filter.min_value.value | money_without_currency | remove: ',' }}{%- endif -%}" placeholder="0">
+                value="{%- if filter.min_value.value -%}{{ filter.min_value.value | divided_by: 100.0 }}{%- endif -%}" placeholder="0">
             </label>
             <label class="field"><span class="field__label">{{ 'products.facets.to' | t }} ({{ cart.currency.symbol }})</span>
               <input class="field__input" type="number" inputmode="decimal" min="0" max="{{ max_price }}" name="{{ filter.max_value.param_name }}"
-                value="{%- if filter.max_value.value -%}{{ filter.max_value.value | money_without_currency | remove: ',' }}{%- endif -%}" placeholder="{{ max_price }}">
+                value="{%- if filter.max_value.value -%}{{ filter.max_value.value | divided_by: 100.0 }}{%- endif -%}" placeholder="{{ max_price }}">
             </label>
           </div>
           <p class="text-muted" style="font-size:1.2rem;margin:-6px 0 16px">{{ 'products.facets.max_price' | t: price: filter.range_max | money }}</p>

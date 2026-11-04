@@ -29,14 +29,18 @@
               {{ s.video | video_tag: autoplay: true, loop: true, muted: true, playsinline: true, controls: false, preload: 'metadata', image_size: '1600x', class: 'hero__video' }}
             </div>
           {%- elsif s.image != blank -%}
-            <div class="hero__media--desktop" style="position:absolute;inset:0">
-              {%- capture desk_style -%}object-position: {{ s.image_position }};{%- endcapture -%}
-              {{ s.image | image_url: width: 2800 | image_tag: widths: '750, 1100, 1500, 1900, 2400, 2800', sizes: '100vw', loading: hero_loading, fetchpriority: hero_priority, style: desk_style }}
-            </div>
+            {%- comment -%} One <picture>: phones download only the mobile image, desktops only the desktop image. {%- endcomment -%}
+            <picture class="hero__picture" style="--pos-d: {{ s.image_position }}; --pos-m: {% if has_mobile %}{{ s.image_mobile_position }}{% else %}{{ s.image_position }}{% endif %};">
+              {%- if has_mobile -%}
+                <source media="(max-width: 749px)" sizes="100vw" srcset="
+                  {%- for w in (1..5) -%}{%- assign mw = 375 | times: w | at_most: 1500 -%}{{ s.image_mobile | image_url: width: mw }} {{ mw }}w{% unless forloop.last %}, {% endunless %}{%- endfor -%}">
+              {%- endif -%}
+              {{ s.image | image_url: width: 2800 | image_tag: widths: '750, 1100, 1500, 1900, 2400, 2800', sizes: '100vw', loading: hero_loading, fetchpriority: hero_priority }}
+            </picture>
           {%- else -%}
             {{ 'lifestyle-1' | placeholder_svg_tag: 'placeholder-svg' }}
           {%- endif -%}
-          {%- if has_mobile -%}
+          {%- if has_mobile and s.video != blank -%}
             <div class="hero__media--mobile" style="position:absolute;inset:0">
               {%- capture mob_style -%}object-position: {{ s.image_mobile_position }};{%- endcapture -%}
               {{ s.image_mobile | image_url: width: 1200 | image_tag: widths: '375, 550, 750, 1000, 1200', sizes: '100vw', style: mob_style }}
@@ -44,11 +48,18 @@
           {%- endif -%}
         </div>
         <div class="hero__overlay" style="--overlay: {{ s.overlay | divided_by: 100.0 }}; --overlay-color: {{ s.overlay_color }};"></div>
+        {%- if s.video != blank -%}
+          <button type="button" class="icon-button hero__video-toggle" data-hero-video-toggle data-state="playing" aria-label="{{ 'accessibility.pause_video' | t }}">{% render 'icon', name: 'pause' %}{% render 'icon', name: 'play' %}</button>
+        {%- endif -%}
         <div class="hero__content page-width hero__content--{{ s.vertical }} hero__content--{{ s.alignment }}" style="--hero-text-w: {{ s.text_width }}px">
           <div class="hero__box">
             {%- if s.eyebrow != blank -%}<p class="eyebrow" style="color:inherit;opacity:.9">{{ s.eyebrow | escape }}</p>{%- endif -%}
             {%- if s.heading != blank -%}
-              <h2 class="hero__heading {{ s.heading_size }}">{{ s.heading | escape }}</h2>
+              {%- if forloop.first and section.index == 1 -%}
+                <h1 class="hero__heading {{ s.heading_size }}">{{ s.heading | escape }}</h1>
+              {%- else -%}
+                <h2 class="hero__heading {{ s.heading_size }}">{{ s.heading | escape }}</h2>
+              {%- endif -%}
             {%- endif -%}
             {%- if s.text != blank -%}<div class="hero__text">{{ s.text }}</div>{%- endif -%}
             {%- if s.button_label != blank or s.button_label_2 != blank -%}
@@ -73,7 +84,7 @@
       {%- endfor -%}
     </div>
     {%- if section.settings.autoplay -%}
-      <button type="button" class="icon-button hero__pause" data-hero-pause aria-pressed="false" aria-label="{{ 'accessibility.pause_video' | t }}">{% render 'icon', name: 'pause' %}{% render 'icon', name: 'play' %}</button>
+      <button type="button" class="icon-button hero__pause" data-hero-pause aria-pressed="false" aria-label="{{ 'accessibility.pause_slideshow' | t }}">{% render 'icon', name: 'pause' %}{% render 'icon', name: 'play' %}</button>
     {%- endif -%}
   {%- endif -%}
 </section>

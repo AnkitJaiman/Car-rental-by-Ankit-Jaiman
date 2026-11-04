@@ -45,7 +45,7 @@
               <a href="{{ url | default: '#' }}" class="category-card{% if section.settings.style == 'overlay' %} category-card--overlay{% endif %}">
                 <div class="media media--{{ section.settings.image_ratio }}">
                   {%- if img != blank -%}
-                    {% render 'image', image: img, sizes: sizes, alt: title, widths: '360, 540, 720, 900, 1200' %}
+                    {% render 'image', image: img, sizes: sizes, decorative: true, widths: '360, 540, 720, 900, 1200' %}
                   {%- else -%}
                     {{ 'collection-1' | placeholder_svg_tag: 'placeholder-svg' }}
                   {%- endif -%}

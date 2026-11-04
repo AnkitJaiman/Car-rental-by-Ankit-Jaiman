@@ -43,7 +43,10 @@
       "facebook": "Facebook",
       "youtube": "YouTube"
     },
-    "payment_methods": "Payment methods"
+    "payment_methods": "Payment methods",
+    "home": "Home",
+    "breadcrumb": "Breadcrumb",
+    "follow_us": "Follow us"
   },
   "accessibility": {
     "skip_to_content": "Skip to content",
@@ -67,7 +70,15 @@
     "zoom": "Open image {{ index }} in full screen",
     "vendor": "Vendor",
     "sale_price": "Sale price",
-    "regular_price": "Regular price"
+    "regular_price": "Regular price",
+    "play_slideshow": "Play slideshow",
+    "pause_slideshow": "Pause slideshow",
+    "select_image": "Show image {{ index }}",
+    "opens_new_tab": "opens in a new tab",
+    "quick_add_for": "{{ label }}: {{ product }}",
+    "close": "Close",
+    "quick_add": "Quick add",
+    "unavailable_option": "{{ value }}, unavailable"
   },
   "products": {
     "product": {
@@ -94,7 +105,10 @@
       "price": {
         "unit_price": "Unit price",
         "per": "per"
-      }
+      },
+      "tax_included": "Tax included.",
+      "shipping_calculated_html": "<a href=\"{{ link }}\">Shipping</a> calculated at checkout.",
+      "shipping_calculated": "Shipping calculated at checkout."
     },
     "facets": {
       "filter": "Filter",
@@ -110,7 +124,9 @@
         "other": "{{ count }} products"
       },
       "no_products": "No products match these filters.",
-      "remove_filter": "Remove filter {{ filter }}"
+      "remove_filter": "Remove filter {{ filter }}",
+      "empty_collection": "This collection is empty right now.",
+      "shop_all": "Shop all jewelry"
     },
     "recently_viewed": "Recently viewed"
   },
@@ -126,7 +142,9 @@
     "free_shipping_remaining": "You are {{ amount }} away from free shipping.",
     "free_shipping_reached": "You have unlocked free shipping.",
     "discounts": "Discounts",
-    "view_cart": "View bag"
+    "view_cart": "View bag",
+    "secure_checkout": "Secure checkout by Shopify",
+    "popular": "Popular categories"
   },
   "templates": {
     "404": {
@@ -140,7 +158,8 @@
       "message": "Message",
       "send": "Send message",
       "success": "Thank you. We’ll get back to you as soon as possible.",
-      "error": "Please correct the errors below."
+      "error": "Please correct the errors below.",
+      "hours": "Hours"
     },
     "blog": {
       "read_more": "Read more",
