@@ -118,7 +118,7 @@
       "settings": {
         "heading": "What we stand for",
         "columns": 4,
-        "columns_mobile": 1,
+        "columns_mobile": "1",
         "alignment": "center",
         "padding_top": 88,
         "padding_bottom": 64

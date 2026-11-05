@@ -101,7 +101,7 @@
       { "value": "square", "label": "Square" }, { "value": "portrait", "label": "Portrait (4:5)" }, { "value": "tall", "label": "Tall (2:3)" }, { "value": "landscape", "label": "Landscape (3:2)" }
     ]},
     { "type": "range", "id": "columns", "label": "Columns (desktop)", "min": 2, "max": 5, "step": 1, "default": 4 },
-    { "type": "range", "id": "columns_mobile", "label": "Columns (mobile, grid only)", "min": 1, "max": 2, "step": 1, "default": 2 },
+    { "type": "select", "id": "columns_mobile", "label": "Columns (mobile, grid only)", "default": "2", "options": [{ "value": "1", "label": "1" }, { "value": "2", "label": "2" }] },
     { "type": "checkbox", "id": "mobile_carousel", "label": "Swipeable carousel on mobile", "default": true },
     { "type": "range", "id": "gap", "label": "Card spacing", "min": 0, "max": 48, "step": 4, "unit": "px", "default": 16 },
     { "type": "checkbox", "id": "hide_empty", "label": "Hide empty collections", "default": true },

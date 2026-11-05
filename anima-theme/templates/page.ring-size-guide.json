@@ -40,7 +40,7 @@
       "settings": {
         "heading": "",
         "columns": 2,
-        "columns_mobile": 1,
+        "columns_mobile": "1",
         "alignment": "left",
         "padding_top": 40,
         "padding_bottom": 64

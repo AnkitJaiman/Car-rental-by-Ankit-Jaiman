@@ -16,7 +16,7 @@
       "settings": {
         "per_page": 24,
         "columns": 4,
-        "columns_mobile": 2,
+        "columns_mobile": "2",
         "enable_filtering": true,
         "filter_layout": "drawer",
         "enable_sorting": true,
