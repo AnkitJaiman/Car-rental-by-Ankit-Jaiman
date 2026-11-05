@@ -11,13 +11,14 @@ Open **Online Store › Themes › Anima Editorial › Customize**. Every sectio
 | Buttons and media | Button radius and tracking, image radius, Inspiration Station card radius |
 | Animations | On/off and duration |
 | Product cards | Image ratio, hover image, vendor, quick add, sale/sold-out badges, **“New” badge tag** (default tag `new`), color count |
-| Cart | Drawer or page, **free-shipping threshold** (must match your real shipping rates), note under checkout, order note |
-| Store information | Favicon, support email/phone/hours (used in header menu, footer, contact page) |
+| Cart | Drawer or page, **free-shipping threshold** (must match your real shipping rates; the bar is hidden for other currencies), note under checkout, gift message / order note, **Empty bag links** (a menu of categories shown when the bag is empty; empty collections are skipped) |
+| Store information | Favicon, **logo for search engines** (Google structured data), support email/phone/hours (used in header menu, footer, contact page) |
 | Social media | Instagram, TikTok, Pinterest, Facebook, YouTube URLs |
 
 ## 2. Header & announcement bar (Header group)
 - **Announcement bar:** add up to 6 announcements (text and optional link). You can turn on rotation and set the speed and colors, and show it on desktop only, mobile only or both, or switch it off.
 - **Header:** logo, light logo (for the transparent header), logo width on desktop and mobile, logo position (left/center), menu, search/account toggles, sticky header, and a transparent header on the home page.
+- If the menu doesn't fit on one line (for example on a laptop or tablet), the header automatically switches to the menu icon. Fewer top-level items keep the full menu visible on more screens.
 - **Dropdowns:** nest menu items in *Online Store › Navigation*.
 - **Mega menu:** add a *Mega menu* block, type the exact top-level menu title (e.g. `Rings`) and optionally add 2 promo images with text and links. Child and grandchild menu links become columns.
 
@@ -43,7 +44,7 @@ Open **Online Store › Themes › Anima Editorial › Customize**. Every sectio
 5. **Image with text (Brand story):** image, focus point, optional overlapping detail image, image-left or image-right layout and image width. Blocks: small text, heading, text, quote, button.
 6. **Inspiration Station:** see section 4 below.
 7. **Editorial spotlight:** choose a collection, image, heading, text and button, plus two featured products. Layouts: image left, image right or full width. You can also set the background and text colors.
-8. **Featured products (Montana sapphire):** a second product row.
+8. **Featured products (Bracelets):** a second product row. Check the Bracelets collection contains the products you want to show.
 9. **Customer reviews:** add *Review* blocks with text, name, 0–5 stars, product purchased and an optional photo.
    - Use genuine reviews only.
    - The section stays hidden from shoppers until at least one review has text.
@@ -51,7 +52,7 @@ Open **Online Store › Themes › Anima Editorial › Customize**. Every sectio
     - Set columns, ratio, gap and the follow button.
     - Hidden until at least one image or video is added.
     - You can also add an Instagram app block if you install an app.
-11. **Newsletter:** heading, text, button label, success and error messages, small print, field style and colors. Uses Shopify's native customer form, so subscribers appear in *Customers* with email marketing consent.
+11. **Newsletter** (not in the default home page because the footer already has an email signup; add it with *Add section* if you want one): heading, text, button label, success and error messages, small print, field style and colors. Uses Shopify's native customer form, so subscribers appear in *Customers* with email marketing consent.
 
 ## 4. Inspiration Station (step by step)
 1. Customize › Home page › **Inspiration Station** › *Add block › Post* (up to 50 posts).
@@ -67,8 +68,8 @@ Open **Online Store › Themes › Anima Editorial › Customize**. Every sectio
 4. Section settings:
    - Heading, text and link
    - **Number of visible posts**
-   - Show creator / caption / product card
-   - **Desktop:** size pattern, vertical alignment, centre-when-fits, start-at-middle, small/medium/large **card widths and image heights**, spacing
+   - Show creator (off by default; only show names with permission) / caption / product card
+   - **Desktop:** size pattern, vertical alignment (**Staggered** offsets the card tops for an asymmetric editorial look; Center, Top or Bottom also available), centre-when-fits, start-at-middle (opens on the large featured card), small/medium/large **card widths and image heights**, spacing
    - **Mobile:** staggered or uniform, scale, spacing
    - **Video playback:** autoplay muted when visible, or play on tap
    - Background and padding
@@ -102,12 +103,14 @@ Blocks (each can be reordered or removed):
 - **Text:** brand line.
 - **Title, Price** (live; compare-at price shown automatically).
 - **Inventory status:** low-stock threshold.
-- **Variant picker:** metal swatches, and a *Size guide page* that adds a link beside size options.
+- **Variant picker:** metal swatches, and a *Size guide page* that adds a link beside size options. The guide opens in a side panel, so shoppers stay on the product page.
 - **Quantity, Buy buttons:** Add to bag plus Shopify's dynamic checkout button.
 - **Benefits:** up to 4 lines with icons.
 - **Description:** collapsible.
 - **Collapsible tab:** any number, e.g. Shipping & returns, Jewellery care. Material or stone details can come from **product metafields**: click the *dynamic source* icon on the tab content.
 - **Share, Apps.**
+
+On phones a slim **add-to-bag bar** (title, chosen options, price) appears once the main button scrolls out of view.
 
 Below it: **Related products** (Shopify recommendations: related or complementary) and **Recently viewed** (remembered per visitor).
 
@@ -146,3 +149,10 @@ In *Online Store › Pages*, open each page and choose its template:
 | shipping-policy | page.shipping-policy |
 | refund-policy | page.refund-policy |
 | ring-size-guide | page.ring-size-guide |
+
+## 8. Footer
+- **Menu** blocks: pick a menu. *Only show collection links* turns a main menu into a clean shop list (no Home, pages or empty collections). *Also list help pages* adds FAQ, Shipping, Returns, Ring size guide, Jewelry care and Contact pages if they exist.
+- The legal links use your Shopify policies. If a page with the handle `shipping-policy` exists, the Shipping link goes there instead of the Shopify shipping policy.
+
+## 9. Password page (before launch)
+*Online Store › Preferences › Password protection* shows the **Password page** template: logo, heading, your password message and an email signup. Visitors with the password can open the form at the bottom.

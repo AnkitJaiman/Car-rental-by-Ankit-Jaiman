@@ -3,7 +3,7 @@
 The theme is uploaded **unpublished**. Your live theme keeps running until you publish this one yourself.
 
 ## A. Upload the ZIP (no code needed)
-1. Download `anima-editorial-theme.zip` (it contains `assets/ config/ layout/ locales/ sections/ snippets/ templates/`).
+1. Download `anima-editorial-theme.zip` (it contains `assets/ config/ layout/ locales/ sections/ snippets/ templates/`; the `docs/` folder is not part of the upload).
 2. In Shopify admin go to **Online Store › Themes › Add theme › Upload zip file** and choose the ZIP.
 3. The theme appears under *Theme library* as **Anima Editorial**. **Do not click Publish yet.**
 4. Click **⋯ › Preview** to browse it as a shopper, or **Customize** to edit it.
@@ -25,7 +25,10 @@ shopify theme dev --store animajewel.myshopify.com                  # local prev
 6. **Social links:** Theme settings › Social media.
 7. **Filters:** install or open the *Search & Discovery* app and enable price, availability, color and size filters.
 8. **Free-shipping threshold:** Theme settings › Cart. Keep it at `35` only if your shipping rates really make orders over $35 free.
-9. **Owner decisions:** resolve the content flags in `01-RESEARCH-AND-ASSET-AUDIT.md` §2 and in the audit reports (origin claim, emails, moissanite wording, placeholder Shopify shipping policy, possible third-party images).
+9. **Customer accounts:** the theme uses Shopify's hosted customer accounts (*Settings › Customer accounts*: choose the new customer accounts). It has no classic account templates.
+10. **Search engines:** Theme settings › Store information › *Logo for search engines*.
+11. **Shipping page:** if you publish a page with the handle `shipping-policy`, the product page and footer link to it. Replace the placeholder Shopify shipping policy in *Settings › Policies* either way.
+12. **Owner decisions:** resolve the content flags in `01-RESEARCH-AND-ASSET-AUDIT.md` §2 and in the audit reports (origin claim, emails, moissanite wording, placeholder Shopify shipping policy, possible third-party images).
 
 ## D. Test before publishing
 - Preview on a phone and on a desktop.
