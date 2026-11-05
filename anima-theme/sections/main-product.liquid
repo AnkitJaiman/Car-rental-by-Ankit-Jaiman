@@ -129,12 +129,13 @@
                     endif
                   endfor
                   assign low_json = low_json | remove_last: ','
+                  assign low_json = low_json | prepend: '{' | append: '}'
                   assign is_low = false
                   if current_variant.available and current_variant.inventory_management == 'shopify' and current_variant.inventory_policy == 'deny' and current_variant.inventory_quantity > 0 and current_variant.inventory_quantity <= block.settings.threshold
                     assign is_low = true
                   endif
                 -%}
-                <script type="application/json" data-low-stock-json>{{ '{' }}{{ low_json }}{{ '}' }}</script>
+                <script type="application/json" data-low-stock-json>{{ low_json }}</script>
                 <p class="product__inventory{% unless current_variant.available %} product__inventory--out{% endunless %}{% if is_low %} product__inventory--low{% endif %}" data-product-inventory data-threshold="{{ block.settings.threshold }}" {{ block.shopify_attributes }}>
                   {%- if current_variant.available -%}
                     {%- if is_low -%}
