@@ -2,7 +2,13 @@
 
 **Theme:** Anima Editorial 1.0.0 (Shopify Online Store 2.0)
 **Build tested:** commit 946451c on branch `claude/jewelry-website-usa-xzeimv`
-**Status:** ready to upload as an **unpublished** theme for testing on your store. Not uploaded, not published.
+**Status:** uploaded to the store as the **unpublished** theme “Anima Editorial 1.0” (theme ID 154464190660). Not published; the live theme is unchanged.
+
+## Tested on the real store (unpublished preview)
+- Upload found three things the local tools could not: two Liquid constructs Shopify’s parser rejects, and five range settings with fewer than 3 steps. All are fixed; the schema lint now checks the 3-step rule.
+- 17 page types (home, collections incl. Necklaces, product, cart, search, all pages, collections list, blog, 404) return 200 with the new theme and **no Liquid errors or missing translations**.
+- Screenshots with real product photos at 1440 and 390 px (home, product, collection) render correctly. The only browser error comes from Shopify’s own web-pixel script, not the theme.
+- Preview: `https://ue0p3y-m5.myshopify.com/?preview_theme_id=154464190660`
 
 ## How it was tested
 Shopify's CDN and your live store pages could not be reached from the build environment. The theme was therefore tested in three ways:
@@ -78,7 +84,7 @@ Status of every round-1 finding: `06-ISSUES-ROUND-1.md`. Rounds 2–3: `08-REVIE
 ## Needs your decision before launch
 1. **Replace the placeholder Shopify shipping policy** ("hey there this is my shipping policy") in *Settings › Policies*. It is still reachable from Shopify's checkout, which a theme cannot change. **This is the main launch blocker.**
 2. **Support email:** the theme shows `animajewels@animajewel.in`, but your Shopify policies say `bohosoulart@animajewel.in`. Choose one (*Theme settings › Store information*).
-3. **Menu:** "Necklaces" links to `/collections/necklace`, and Necklaces and Earrings are both empty. The menu also has 10 top-level items.
+3. **Menu:** "Necklaces" in the main menu links to `/collections/necklace` (the collection with products is `/collections/necklaces`). The menu also has 10 top-level items.
 4. **Free shipping over $35:** confirm your shipping rates match.
 5. **Bracelets row** on the home page: confirm the products in the Bracelets collection.
 6. **Moissanite rings show 0 stock.** The engagement spotlight will show them as sold out.
