@@ -841,3 +841,7 @@ body.scroll-lock .drawer__body, body.scroll-lock .quick-add-modal__panel, body.s
 .size-guide-drawer__body .section { --pt: 0px !important; --pb: 24px !important; }
 .size-guide-drawer__body .page-width { padding: 0; }
 .size-guide-drawer__body .page-header { padding: 0 0 16px; }
+
+/* ---------- Review round 3 fixes ---------- */
+.cart-note summary { width: 100%; }
+.drawer__footer .text-link.link-underline { min-height: 0; padding: 12px 0; display: inline-block; }

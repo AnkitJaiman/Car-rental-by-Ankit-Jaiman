@@ -14,7 +14,10 @@
 <div class="section" style="--pt: {{ section.settings.padding_top }}px; --pb: {{ section.settings.padding_bottom }}px;" data-collection-section data-section-id="{{ section.id }}">
   <div class="page-width">
     {%- paginate collection.products by per_page -%}
-      {%- render 'collection-toolbar', results: collection, section: section, filter_layout: filter_layout -%}
+      {%- comment -%} An empty collection shows only the empty state, without a count or sort control. {%- endcomment -%}
+      {%- if collection.all_products_count > 0 -%}
+        {%- render 'collection-toolbar', results: collection, section: section, filter_layout: filter_layout -%}
+      {%- endif -%}
       <div class="collection-layout{% if filter_layout == 'sidebar' and section.settings.enable_filtering %} collection-layout--sidebar{% endif %}">
         {%- if section.settings.enable_filtering and filter_layout == 'sidebar' -%}
           <aside class="hide-mobile-sidebar" aria-label="{{ 'products.facets.filter' | t }}">

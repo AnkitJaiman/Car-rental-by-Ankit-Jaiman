@@ -102,7 +102,8 @@
   });
 
   document.addEventListener('keydown', function (e) {
-    var open = $('.lightbox.is-open') || $('.quick-add-modal.is-open') || $('.search-modal.is-open') || $('.drawer.is-open');
+    // A drawer (e.g. the size guide) can sit above quick add, so it is checked first.
+    var open = $('.lightbox.is-open') || $('.drawer.is-open') || $('.quick-add-modal.is-open') || $('.search-modal.is-open');
     if (!open) return;
     if (e.key === 'Escape') {
       if (open.classList.contains('drawer')) closeDrawer(open);
@@ -616,7 +617,7 @@
     if (!bar || !main || !('IntersectionObserver' in window) || section.closest('.quick-add-modal')) return;
     var mainVisible = true;
     var sync = function () {
-      var show = !mainVisible && main.getBoundingClientRect().top < 0;
+      var show = !mainVisible;
       bar.classList.toggle('is-visible', show);
       document.body.classList.toggle('has-sticky-atc', show);
       bar.setAttribute('aria-hidden', show ? 'false' : 'true');
@@ -1032,6 +1033,7 @@
       $$('script, form, .breadcrumbs', main).forEach(function (n) { n.remove(); });
       $$('h1', main).forEach(function (h) { var h2 = document.createElement('h3'); h2.innerHTML = h.innerHTML; h2.className = 'h3'; h.replaceWith(h2); });
       body.innerHTML = main.innerHTML;
+      $$('.reveal', body).forEach(function (el) { el.classList.add('is-visible'); });
       if (quickModal && quickModal.classList.contains('is-open')) quickModal.style.visibility = 'hidden';
       openDrawer(sizeDrawer, returnTo);
     }).catch(function () { window.location.href = link.href; });
