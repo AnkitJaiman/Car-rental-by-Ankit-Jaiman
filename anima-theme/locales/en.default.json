@@ -137,7 +137,7 @@
     "checkout": "Checkout",
     "subtotal": "Subtotal",
     "remove": "Remove",
-    "note": "Order note",
+    "note": "Gift message or order note",
     "update": "Update",
     "free_shipping_remaining": "You are {{ amount }} away from free shipping.",
     "free_shipping_reached": "You have unlocked free shipping.",

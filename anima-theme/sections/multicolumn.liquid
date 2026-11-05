@@ -1,3 +1,13 @@
+{%- liquid
+  assign col_tag = 'h2'
+  if section.settings.heading != blank
+    assign col_tag = 'h3'
+  endif
+  assign section_lazy = true
+  if section.index <= 2
+    assign section_lazy = false
+  endif
+-%}
 <section class="section{% if section.settings.soft_bg %} section--soft{% endif %}" style="--pt: {{ section.settings.padding_top }}px; --pb: {{ section.settings.padding_bottom }}px;">
   <div class="page-width">
     {%- if section.settings.heading != blank -%}
@@ -12,11 +22,11 @@
       {%- for block in section.blocks -%}
         <li class="icon-list__item reveal" {{ block.shopify_attributes }}>
           {%- if block.settings.image != blank -%}
-            <div class="media media--{{ section.settings.image_ratio }}" style="margin-bottom:20px">{% render 'image', image: block.settings.image, sizes: '(min-width: 990px) 30vw, 100vw', widths: '360, 540, 720, 900' %}</div>
+            <div class="media media--{{ section.settings.image_ratio }}" style="margin-bottom:20px">{% render 'image', image: block.settings.image, lazy: section_lazy, sizes: '(min-width: 990px) 30vw, 100vw', widths: '360, 540, 720, 900' %}</div>
           {%- elsif block.settings.icon != 'none' -%}
             <span class="icon-list__icon" style="display:block">{% render 'icon', name: block.settings.icon %}</span>
           {%- endif -%}
-          {%- if block.settings.title != blank -%}<h3>{{ block.settings.title | escape }}</h3>{%- endif -%}
+          {%- if block.settings.title != blank -%}<{{ col_tag }}>{{ block.settings.title | escape }}</{{ col_tag }}>{%- endif -%}
           {%- if block.settings.text != blank -%}<div class="rte text-muted">{{ block.settings.text }}</div>{%- endif -%}
           {%- if block.settings.link_label != blank -%}<p style="margin-top:12px"><a href="{{ block.settings.link }}" class="text-link link-underline">{{ block.settings.link_label | escape }}</a></p>{%- endif -%}
         </li>

@@ -60,11 +60,22 @@
     else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
   }
 
+  // Hide everything behind an open dialog from assistive tech.
+  function setInert(dialog, on) {
+    Array.prototype.forEach.call(document.body.children, function (el) {
+      if (el === dialog || el.contains(dialog) || el.tagName === 'SCRIPT') return;
+      if (on) { if (!el.hasAttribute('inert')) { el.setAttribute('inert', ''); el.dataset.inertBy = 'theme'; } }
+      else if (el.dataset.inertBy === 'theme') { el.removeAttribute('inert'); delete el.dataset.inertBy; }
+    });
+  }
+  function anyDialogOpen() { return !!$('.drawer.is-open, .search-modal.is-open, .quick-add-modal.is-open'); }
+
   function openDrawer(drawer, trigger) {
     if (!drawer) return;
     lastFocus = trigger || document.activeElement;
     drawer.classList.add('is-open');
     drawer.setAttribute('aria-hidden', 'false');
+    setInert(drawer, false); setInert(drawer, true);
     document.body.classList.add('scroll-lock');
     $$('[aria-controls="' + drawer.id + '"]').forEach(function (b) { b.setAttribute('aria-expanded', 'true'); });
     var panel = $('.drawer__panel', drawer) || drawer;
@@ -73,8 +84,11 @@
 
   function closeDrawer(drawer) {
     if (!drawer || !drawer.classList.contains('is-open')) return;
+    if (quickModal && quickModal.style.visibility === 'hidden') quickModal.style.visibility = '';
     drawer.classList.remove('is-open');
     drawer.setAttribute('aria-hidden', 'true');
+    setInert(null, false);
+    var stillOpen = $('.drawer.is-open, .quick-add-modal.is-open'); if (stillOpen) setInert(stillOpen, true);
     $$('[aria-controls="' + drawer.id + '"]').forEach(function (b) { b.setAttribute('aria-expanded', 'false'); });
     if (!$('.drawer.is-open, .search-modal.is-open, .quick-add-modal.is-open, .lightbox.is-open')) document.body.classList.remove('scroll-lock');
     if (lastFocus && document.contains(lastFocus)) lastFocus.focus({ preventScroll: true });
@@ -223,6 +237,7 @@
     lastFocus = trigger;
     searchModal.classList.add('is-open');
     searchModal.setAttribute('aria-hidden', 'false');
+    setInert(searchModal.closest('.shopify-section') || searchModal, true);
     document.body.classList.add('scroll-lock');
     setTimeout(function () { var i = $('input[type="search"]', searchModal); if (i) i.focus(); }, 80);
   }
@@ -230,6 +245,7 @@
     if (!searchModal || !searchModal.classList.contains('is-open')) return;
     searchModal.classList.remove('is-open');
     searchModal.setAttribute('aria-hidden', 'true');
+    setInert(null, false);
     if (!$('.drawer.is-open')) document.body.classList.remove('scroll-lock');
     if (lastFocus) lastFocus.focus({ preventScroll: true });
   }
@@ -467,7 +483,7 @@
       var setButtons = function (enabled, label) {
         btn.disabled = !enabled; btnText.textContent = label;
         if (payment) { payment.hidden = !enabled; $$('button', payment).forEach(function (b) { b.disabled = !enabled; }); }
-        if (sticky) { var sb = $('[data-sticky-atc-button]', sticky); if (sb) { sb.disabled = !enabled; sb.textContent = label; } }
+        if (sticky) { var sb = $('[data-sticky-atc-button]', sticky); if (sb) { sb.disabled = !enabled; sb.textContent = label; } var sv = $('[data-sticky-atc-variant]', sticky); if (sv) sv.textContent = variant ? variant.title : selected.filter(Boolean).join(' / '); }
       };
       if (!variant) { idInput.value = ''; setButtons(false, S.unavailable); return; }
       idInput.value = variant.id;
@@ -603,6 +619,7 @@
     if (!quickModal || !quickModal.classList.contains('is-open')) return;
     quickModal.classList.remove('is-open');
     quickModal.setAttribute('aria-hidden', 'true');
+    setInert(null, false);
     if (!$('.drawer.is-open')) document.body.classList.remove('scroll-lock');
     if (skipFocus !== true && quickTrigger && document.contains(quickTrigger)) quickTrigger.focus({ preventScroll: true });
   }
@@ -627,6 +644,7 @@
       initProduct(section);
       m.classList.add('is-open');
       m.setAttribute('aria-hidden', 'false');
+      setInert(m, true);
       document.body.classList.add('scroll-lock');
       setTimeout(function () { m.querySelector('.quick-add-modal__panel').focus(); }, 50);
     }).catch(function () { window.location.href = url; }).finally(function () { b.classList.remove('is-loading'); });
@@ -948,6 +966,39 @@
       if (html) { target.innerHTML = html; el.hidden = false; }
     });
   }
+
+  /* ------------------------------------------------------------------ */
+  /* Size guide: open the guide page in a side drawer, stay on the PDP   */
+  /* ------------------------------------------------------------------ */
+  var sizeDrawer;
+  document.addEventListener('click', function (e) {
+    var link = e.target.closest('[data-size-guide]');
+    if (!link || e.metaKey || e.ctrlKey) return;
+    e.preventDefault();
+    if (!sizeDrawer) {
+      sizeDrawer = document.createElement('div');
+      sizeDrawer.className = 'drawer drawer--right size-guide-drawer';
+      sizeDrawer.id = 'SizeGuideDrawer';
+      sizeDrawer.setAttribute('aria-hidden', 'true');
+      sizeDrawer.innerHTML = '<button type="button" class="drawer__overlay" data-drawer-close tabindex="-1" aria-label="' + (S.close || 'Close') + '"></button>' +
+        '<div class="drawer__panel" role="dialog" aria-modal="true" aria-labelledby="SizeGuideTitle" tabindex="-1">' +
+        '<div class="drawer__header"><h2 class="drawer__title" id="SizeGuideTitle"></h2><button type="button" class="icon-button" data-drawer-close aria-label="' + (S.close || 'Close') + '"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="m5 5 14 14M19 5 5 19"/></svg></button></div>' +
+        '<div class="drawer__body size-guide-drawer__body" data-size-guide-body></div></div>';
+      document.body.appendChild(sizeDrawer);
+    }
+    $('#SizeGuideTitle', sizeDrawer).textContent = link.textContent.trim();
+    var body = $('[data-size-guide-body]', sizeDrawer);
+    body.innerHTML = '';
+    var returnTo = link;
+    fetchHTML(link.href).then(function (doc) {
+      var main = doc.querySelector('#MainContent') || doc.body;
+      $$('script, form, .breadcrumbs', main).forEach(function (n) { n.remove(); });
+      $$('h1', main).forEach(function (h) { var h2 = document.createElement('h3'); h2.innerHTML = h.innerHTML; h2.className = 'h3'; h.replaceWith(h2); });
+      body.innerHTML = main.innerHTML;
+      if (quickModal && quickModal.classList.contains('is-open')) quickModal.style.visibility = 'hidden';
+      openDrawer(sizeDrawer, returnTo);
+    }).catch(function () { window.location.href = link.href; });
+  });
 
   /* ------------------------------------------------------------------ */
   /* Boot                                                                */

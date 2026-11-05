@@ -27,6 +27,10 @@
                 <summary><h2 class="footer__heading">{{ block.settings.heading | default: block.settings.menu.title | escape }}</h2>{% render 'icon', name: 'chevron-down' %}</summary>
                 <ul class="footer__links" role="list">
                   {%- for link in block.settings.menu.links -%}
+                    {%- if block.settings.collections_only -%}
+                      {%- unless link.type == 'collection_link' or link.type == 'catalog_link' or link.type == 'collections_link' -%}{%- continue -%}{%- endunless -%}
+                      {%- if link.type == 'collection_link' and link.object.products_count == 0 -%}{%- continue -%}{%- endif -%}
+                    {%- endif -%}
                     <li><a href="{{ link.url }}">{{ link.title | escape }}</a></li>
                   {%- endfor -%}
                   {%- if block.settings.add_help_pages -%}
@@ -122,6 +126,7 @@
     { "type": "menu", "name": "Menu", "settings": [
       { "type": "text", "id": "heading", "label": "Heading" },
       { "type": "link_list", "id": "menu", "label": "Menu", "default": "footer" },
+      { "type": "checkbox", "id": "collections_only", "label": "Only show collection links", "info": "Hides links to Home, pages and empty collections, so a main menu can double as a shop menu.", "default": false },
       { "type": "checkbox", "id": "add_help_pages", "label": "Also list help pages", "info": "Adds FAQ, Shipping, Returns, Ring size guide, Jewelry care and Contact pages if they exist and are not already in the menu.", "default": false }
     ]},
     { "type": "contact", "name": "Contact", "limit": 1, "settings": [

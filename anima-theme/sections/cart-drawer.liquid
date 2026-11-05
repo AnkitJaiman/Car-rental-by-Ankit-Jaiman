@@ -15,7 +15,7 @@
           {% render 'cart-line-items' %}
         </form>
       {%- else -%}
-{%- assign empty_menu = linklists[settings.cart_empty_menu] -%}
+{%- assign empty_menu = settings.cart_empty_menu -%}
           <div class="cart-empty">
             <p>{{ 'cart.empty' | t }}</p>
             <a href="{{ routes.all_products_collection_url }}" class="button" data-cart-focus-fallback>{{ 'cart.continue_shopping' | t }}</a>
@@ -23,7 +23,8 @@
               <p class="eyebrow" style="margin-top:32px">{{ 'cart.popular' | t }}</p>
               <ul class="cart-empty__links" role="list">
                 {%- for link in empty_menu.links limit: 6 -%}
-                  {%- unless link.url == routes.root_url or link.url == '#' -%}<li><a href="{{ link.url }}">{{ link.title | escape }}</a></li>{%- endunless -%}
+                  {%- if link.type == 'collection_link' and link.object.products_count == 0 -%}{%- continue -%}{%- endif -%}
+                  {%- unless link.url == routes.root_url or link.url == '#' or link.type == 'page_link' or link.type == 'blog_link' -%}<li><a href="{{ link.url }}">{{ link.title | escape }}</a></li>{%- endunless -%}
                 {%- endfor -%}
               </ul>
             {%- endif -%}

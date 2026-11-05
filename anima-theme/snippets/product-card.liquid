@@ -92,7 +92,7 @@
 
   <div class="product-card__info">
     {%- if settings.card_show_vendor -%}
-      <span class="product-card__vendor"><span class="visually-hidden">{{ 'accessibility.vendor' | t }}</span>{{ product.vendor }}</span>
+      <span class="product-card__vendor"><span class="visually-hidden">{{ 'accessibility.vendor' | t }}</span>{{ product.vendor | escape }}</span>
     {%- endif -%}
     <h3 class="product-card__title"><a href="{{ product.url | within: collection }}">{{ product.title | escape }}</a></h3>
     {% render 'price', product: product, show_from: true %}

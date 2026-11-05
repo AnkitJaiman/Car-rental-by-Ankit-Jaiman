@@ -105,7 +105,7 @@
           "type": "item",
           "settings": {
             "question": "Can I exchange my order?",
-            "answer": "<p>Yes. You can exchange for a different size or design within 30 days of delivery, and we cover the return shipping. The item must be unworn and in its original packaging. Email us to start an exchange.</p>"
+            "answer": "<p>Please <a href=\"/pages/contact\">contact us</a> to ask about exchange options before returning your item. Returns are accepted within 30 days of delivery on unworn items in their original packaging, with a free return label.</p>"
           }
         },
         "q14": {

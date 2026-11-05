@@ -26,7 +26,7 @@
                 <li>
                   {%- case item.object_type -%}
                     {%- when 'product' -%}
-                      {% render 'product-card', product: item %}
+                      {%- if forloop.index <= 4 -%}{%- assign s_lazy = false -%}{%- else -%}{%- assign s_lazy = true -%}{%- endif -%}{% render 'product-card', product: item, lazy: s_lazy %}
                     {%- when 'article' -%}
                       <a href="{{ item.url }}" class="product-card">
                         <div class="media media--portrait">{%- if item.image -%}{% render 'image', image: item.image, sizes: '(min-width: 990px) 25vw, 50vw' %}{%- endif -%}</div>

@@ -1,14 +1,20 @@
+{%- liquid
+  assign ct_tag = 'h2'
+  if section.settings.heading != blank
+    assign ct_tag = 'h3'
+  endif
+-%}
 <section class="section" style="--pt: {{ section.settings.padding_top }}px; --pb: {{ section.settings.padding_bottom }}px;">
   <div class="page-width">
     <div class="contact-grid">
       <div class="contact-details">
         {%- if section.settings.heading != blank -%}<h2>{{ section.settings.heading | escape }}</h2>{%- endif -%}
         {%- if section.settings.text != blank -%}<div class="rte text-muted">{{ section.settings.text }}</div>{%- endif -%}
-        {%- if settings.support_email != blank -%}<div><h3>{{ 'templates.contact.email' | t }}</h3><p><a href="mailto:{{ settings.support_email | escape }}">{{ settings.support_email | escape }}</a></p></div>{%- endif -%}
-        {%- if settings.support_phone != blank -%}<div><h3>{{ 'templates.contact.phone' | t }}</h3><p><a href="tel:{{ settings.support_phone | remove: ' ' | escape }}">{{ settings.support_phone | escape }}</a></p></div>{%- endif -%}
-        {%- if settings.support_hours != blank -%}<div><h3>{{ 'templates.contact.hours' | t }}</h3><p>{{ settings.support_hours | escape }}</p></div>{%- endif -%}
+        {%- if settings.support_email != blank -%}<div><{{ ct_tag }} class="h4">{{ 'templates.contact.email' | t }}</{{ ct_tag }}><p><a href="mailto:{{ settings.support_email | escape }}">{{ settings.support_email | escape }}</a></p></div>{%- endif -%}
+        {%- if settings.support_phone != blank -%}<div><{{ ct_tag }} class="h4">{{ 'templates.contact.phone' | t }}</{{ ct_tag }}><p><a href="tel:{{ settings.support_phone | remove: ' ' | escape }}">{{ settings.support_phone | escape }}</a></p></div>{%- endif -%}
+        {%- if settings.support_hours != blank -%}<div><{{ ct_tag }} class="h4">{{ 'templates.contact.hours' | t }}</{{ ct_tag }}><p>{{ settings.support_hours | escape }}</p></div>{%- endif -%}
         {%- for block in section.blocks -%}
-          <div {{ block.shopify_attributes }}><h3>{{ block.settings.title | escape }}</h3><div class="rte text-muted">{{ block.settings.text }}</div></div>
+          <div {{ block.shopify_attributes }}><{{ ct_tag }} class="h4">{{ block.settings.title | escape }}</{{ ct_tag }}><div class="rte text-muted">{{ block.settings.text }}</div></div>
         {%- endfor -%}
       </div>
       <div>

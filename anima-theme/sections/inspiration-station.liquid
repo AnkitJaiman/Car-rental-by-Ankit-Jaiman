@@ -7,7 +7,7 @@
 {%- endcomment -%}
 {%- liquid
   assign max_posts = section.settings.max_posts
-  assign pattern = 'sm,md,lg,md' | split: ','
+  assign pattern = 'md,sm,lg,md,sm,lg' | split: ','
   if section.settings.pattern == 'rise'
     assign pattern = 'sm,md,lg,sm,md,lg' | split: ','
   elsif section.settings.pattern == 'alternate'
@@ -109,9 +109,9 @@
   assign inspo_link = section.settings.link | default: settings.social_instagram
 -%}
 {%- if inspo_items != blank or request.design_mode -%}
-<section class="section inspo{% if section.settings.mobile_layout == 'uniform' %} inspo--mobile-uniform{% endif %}{% if section.settings.center_track %} inspo--centered{% endif %}"
+<section class="section inspo{% if section.settings.align == 'stagger' %} inspo--stagger{% endif %}{% if section.settings.mobile_layout == 'uniform' %} inspo--mobile-uniform{% endif %}{% if section.settings.center_track %} inspo--centered{% endif %}"
   style="--pt: {{ section.settings.padding_top }}px; --pb: {{ section.settings.padding_bottom }}px; --inspo-bg: {{ section.settings.color_bg }};
-    --inspo-gap: {{ section.settings.gap }}px; --inspo-gap-mobile: {{ section.settings.gap_mobile }}px; --inspo-align: {{ section.settings.align }};
+    --inspo-gap: {{ section.settings.gap }}px; --inspo-gap-mobile: {{ section.settings.gap_mobile }}px; --inspo-align: {% if section.settings.align == 'stagger' %}flex-start{% else %}{{ section.settings.align }}{% endif %};
     --inspo-w-sm: {{ section.settings.width_sm }}px; --inspo-w-md: {{ section.settings.width_md }}px; --inspo-w-lg: {{ section.settings.width_lg }}px;
     --inspo-h-sm: {{ section.settings.height_sm }}px; --inspo-h-md: {{ section.settings.height_md }}px; --inspo-h-lg: {{ section.settings.height_lg }}px;
     --inspo-mobile-scale: {{ section.settings.mobile_scale | divided_by: 100.0 }};"
@@ -177,8 +177,9 @@
       { "value": "alternate", "label": "Alternate" },
       { "value": "uniform", "label": "Uniform" }
     ]},
-    { "type": "select", "id": "align", "label": "Vertical alignment", "default": "center", "options": [
-      { "value": "center", "label": "Center (staggered)" },
+    { "type": "select", "id": "align", "label": "Vertical alignment", "default": "stagger", "options": [
+      { "value": "stagger", "label": "Staggered (offset tops)" },
+      { "value": "center", "label": "Center" },
       { "value": "flex-end", "label": "Bottom" },
       { "value": "flex-start", "label": "Top" }
     ]},

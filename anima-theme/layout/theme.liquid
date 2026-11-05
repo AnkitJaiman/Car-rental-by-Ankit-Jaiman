@@ -68,6 +68,9 @@
           "@type": "Organization",
           "name": {{ shop.name | json }},
           "url": {{ request.origin | append: routes.root_url | json }}
+          {%- if settings.seo_logo != blank -%},
+          "logo": {{ settings.seo_logo | image_url: width: 600 | prepend: 'https:' | json }}
+          {%- endif -%}
           {%- assign same_as = '' -%}
           {%- assign social_keys = 'social_instagram,social_tiktok,social_pinterest,social_facebook,social_youtube' | split: ',' -%}
           {%- for key in social_keys -%}

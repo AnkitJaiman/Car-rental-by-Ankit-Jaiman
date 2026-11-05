@@ -2,10 +2,11 @@
 {%- assign item_heading = heading_tag | default: 'h3' -%}
 <ul class="cart-items" role="list">
   {%- for item in cart.items -%}
+    {%- if forloop.index <= 3 -%}{%- assign img_loading = 'eager' -%}{%- else -%}{%- assign img_loading = 'lazy' -%}{%- endif -%}
     <li class="cart-item" data-key="{{ item.key }}">
       <a href="{{ item.url }}" class="media media--portrait" tabindex="-1" aria-hidden="true">
         {%- if item.image -%}
-          {{ item.image | image_url: width: 300 | image_tag: loading: 'lazy', alt: '', widths: '120, 200, 300', sizes: '120px' }}
+          {{ item.image | image_url: width: 300 | image_tag: loading: img_loading, alt: '', widths: '120, 200, 300', sizes: '120px' }}
         {%- endif -%}
       </a>
       <div>

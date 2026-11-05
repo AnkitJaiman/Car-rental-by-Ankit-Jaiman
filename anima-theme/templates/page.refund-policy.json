@@ -98,7 +98,7 @@
         "h": {
           "type": "heading",
           "settings": {
-            "heading": "Non-returnable items",
+            "heading": "Return conditions",
             "size": "h2",
             "tag": "h2"
           }

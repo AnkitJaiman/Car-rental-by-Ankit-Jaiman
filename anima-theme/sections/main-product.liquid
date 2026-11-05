@@ -113,7 +113,7 @@
                 </div>
                 <p class="text-muted product__tax-note">
                   {%- if cart.taxes_included -%}{{ 'products.product.tax_included' | t }} {% endif -%}
-                  {%- if shipping_page != empty -%}
+                  {%- if shipping_page != empty and shipping_page.url != blank -%}
                     {{ 'products.product.shipping_calculated_html' | t: link: shipping_page.url }}
                   {%- else -%}
                     {{ 'products.product.shipping_calculated' | t }}
@@ -165,7 +165,7 @@
                         <legend>
                           <span style="margin:0;color:inherit;text-transform:uppercase;letter-spacing:.14em;font-weight:inherit">{{ option.name | escape }}:<span data-selected-value>{{ option.selected_value | escape }}</span></span>
                           {%- if is_size and block.settings.size_guide_page != blank -%}
-                            <a href="{{ block.settings.size_guide_page.url }}" class="size-guide-link">{{ 'products.product.size_guide' | t }}</a>
+                            <a href="{{ block.settings.size_guide_page.url }}" class="size-guide-link" data-size-guide aria-haspopup="dialog">{{ 'products.product.size_guide' | t }}</a>
                           {%- endif -%}
                         </legend>
                         <div class="variant-options">
@@ -271,6 +271,7 @@
     <div class="sticky-atc" data-sticky-atc aria-hidden="true">
       <div class="sticky-atc__info">
         <p class="sticky-atc__title">{{ product.title | escape }}</p>
+        {%- unless product.has_only_default_variant -%}<p class="sticky-atc__variant" data-sticky-atc-variant>{{ current_variant.title | escape }}</p>{%- endunless -%}
         <div data-sticky-atc-price>{% render 'price', product: product, variant: current_variant %}</div>
       </div>
       <button type="button" class="button" data-sticky-atc-button tabindex="-1"{% unless current_variant.available %} disabled{% endunless %}>
@@ -301,17 +302,27 @@
     "@type": "Product",
     "name": {{ product.title | json }},
     "url": {{ request.origin | append: product.url | json }},
-    {%- if product.featured_media -%}"image": [{{ product.featured_media | image_url: width: 1200 | prepend: 'https:' | json }}],{%- endif -%}
-    "description": {{ product.description | strip_html | strip | truncate: 500 | json }},
+    {%- liquid
+      assign ld_desc = product.description | replace: '<br>', ' ' | replace: '</p>', ' </p>' | replace: '</li>', ' </li>' | replace: '</h2>', ' </h2>' | replace: '</h3>', ' </h3>' | replace: '</div>', ' </div>' | strip_html | strip_newlines | split: ' ' | join: ' ' | strip | truncate: 500
+      assign gtin_ok = false
+      assign bc = current_variant.barcode | remove: ' '
+      assign bc_digits = bc | remove: '0' | remove: '1' | remove: '2' | remove: '3' | remove: '4' | remove: '5' | remove: '6' | remove: '7' | remove: '8' | remove: '9'
+      if bc != blank and bc_digits == blank
+        if bc.size == 8 or bc.size == 12 or bc.size == 13 or bc.size == 14
+          assign gtin_ok = true
+        endif
+      endif
+    -%}
+    {%- if product.media.size > 0 -%}"image": [{%- for m in product.media limit: 5 -%}{{ m.preview_image | image_url: width: 1200 | prepend: 'https:' | json }}{% unless forloop.last %},{% endunless %}{%- endfor -%}],{%- endif -%}
+    "description": {{ ld_desc | json }},
     {%- if current_variant.sku != blank -%}"sku": {{ current_variant.sku | json }},{%- endif -%}
     "brand": { "@type": "Brand", "name": {{ product.vendor | json }} },
-    {%- if current_variant.barcode != blank -%}"gtin": {{ current_variant.barcode | json }},{%- endif -%}
+    {%- if gtin_ok -%}"gtin": {{ bc | json }},{%- endif -%}
     "offers": [
       {%- for variant in product.variants -%}
         {
           "@type": "Offer",
           {%- if variant.sku != blank -%}"sku": {{ variant.sku | json }},{%- endif -%}
-          {%- if variant.barcode != blank -%}"gtin": {{ variant.barcode | json }},{%- endif -%}
           "availability": "https://schema.org/{% if variant.available %}InStock{% else %}OutOfStock{% endif %}",
           "itemCondition": "https://schema.org/NewCondition",
           "seller": { "@type": "Organization", "name": {{ shop.name | json }} },

@@ -1,7 +1,11 @@
 {%- liquid
   assign section_loading = 'lazy'
+  assign section_priority = 'auto'
   if section.index <= 2
     assign section_loading = 'eager'
+  endif
+  if section.index == 1
+    assign section_priority = 'high'
   endif
 -%}
 {%- liquid
@@ -20,7 +24,7 @@
         <div class="media media--{{ section.settings.image_ratio }}">
           {%- if img != blank -%}
             {%- capture pos -%}object-position: {{ section.settings.image_position }}{%- endcapture -%}
-            {{ img | image_url: width: 2200 | image_tag: widths: '540, 720, 1000, 1400, 1800, 2200', sizes: '(min-width: 990px) 50vw, 100vw', loading: section_loading, style: pos }}
+            {{ img | image_url: width: 2200 | image_tag: widths: '540, 720, 1000, 1400, 1800, 2200', sizes: '(min-width: 990px) 50vw, 100vw', loading: section_loading, fetchpriority: section_priority, style: pos }}
           {%- else -%}
             {{ 'lifestyle-2' | placeholder_svg_tag: 'placeholder-svg' }}
           {%- endif -%}

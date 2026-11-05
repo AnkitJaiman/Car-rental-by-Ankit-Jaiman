@@ -9,7 +9,7 @@
           "type": "brand",
           "settings": {
             "logo": "shopify://shop_images/anima-logo-solid.png",
-            "text": "<p>Montana sapphire, emerald and moissanite jewelry in 925 sterling silver. Anima means soul.</p>",
+            "text": "<p>Montana sapphire, emerald and lab-created moissanite jewelry in 925 sterling silver. Anima means soul.</p>",
             "show_social": true
           }
         },
@@ -17,7 +17,8 @@
           "type": "menu",
           "settings": {
             "heading": "Shop",
-            "menu": "main-menu"
+            "menu": "main-menu",
+            "collections_only": true
           }
         },
         "help": {

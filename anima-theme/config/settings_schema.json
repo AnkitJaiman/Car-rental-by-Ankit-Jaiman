@@ -370,6 +370,12 @@
         "info": "32 × 32 px PNG recommended."
       },
       {
+        "type": "image_picker",
+        "id": "seo_logo",
+        "label": "Logo for search engines",
+        "info": "Used in Google structured data. Square or wide PNG."
+      },
+      {
         "type": "text",
         "id": "support_email",
         "label": "Support email",

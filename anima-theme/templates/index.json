@@ -242,11 +242,11 @@
         "link_label": "Follow us on Instagram",
         "max_posts": 12,
         "use_library": false,
-        "show_creator": true,
+        "show_creator": false,
         "show_caption": false,
         "show_product": true,
         "pattern": "wave",
-        "align": "center",
+        "align": "stagger",
         "center_track": true,
         "start_centered": true,
         "width_sm": 220,
@@ -474,23 +474,6 @@
         "tile-5",
         "tile-6"
       ]
-    },
-    "newsletter": {
-      "type": "newsletter",
-      "settings": {
-        "eyebrow": "Newsletter",
-        "heading": "Be the first to know",
-        "text": "<p>New arrivals, styling notes and offers.</p>",
-        "button_label": "Subscribe",
-        "success_message": "Thank you for subscribing.",
-        "error_message": "Please enter a valid email address.",
-        "disclaimer": "<p>You can unsubscribe at any time.</p>",
-        "style": "underline",
-        "color_bg": "#FFFFFF",
-        "color_text": "#1C1B1A",
-        "padding_top": 96,
-        "padding_bottom": 96
-      }
     }
   },
   "order": [
@@ -503,7 +486,6 @@
     "spotlight",
     "bestsellers",
     "reviews",
-    "social",
-    "newsletter"
+    "social"
   ]
 }
