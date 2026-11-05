@@ -106,7 +106,7 @@
         "t": {
           "type": "text",
           "settings": {
-            "text": "<p>Items must be unworn and in their original packaging. Items sent back without first requesting a return can’t be accepted. You can cancel an order within 24 hours of placing it. These terms do not limit your rights under applicable law; see our full <a href=\"/policies/refund-policy\">refund policy</a>.</p>"
+            "text": "<p>Items must be unworn and in their original packaging. Some items are final sale and cannot be returned. Items sent back without first requesting a return can’t be accepted. You can cancel an order within 24 hours of placing it. These terms do not limit your rights under applicable law; see our full <a href=\"/policies/refund-policy\">refund policy</a>.</p>"
           }
         }
       },

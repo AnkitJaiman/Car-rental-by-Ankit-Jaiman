@@ -91,7 +91,7 @@
           "type": "item",
           "settings": {
             "question": "How do I find my ring size?",
-            "answer": "<p>Use our <a href=\"/pages/ring-size-guide\">Ring Size Guide</a> to measure a ring you already own. If you are between sizes, choose the larger size. If the fit isn’t right, <a href=\"/pages/contact\">contact us</a> to ask about exchange options before returning your item.</p>"
+            "answer": "<p>Use our <a href=\"/pages/ring-size-guide\">ring size guide</a> to measure a ring you already own. If you are between sizes, choose the larger size. If the fit isn’t right, <a href=\"/pages/contact\">contact us</a> to ask about exchange options before returning your item.</p>"
           }
         },
         "q12": {
