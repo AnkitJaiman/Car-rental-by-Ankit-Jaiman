@@ -134,6 +134,9 @@
     var inner = $('.header', header), nav = $('.header__nav', header);
     if (!inner || !nav) return;
     if (!window.matchMedia('(min-width: 990px)').matches) { header.classList.remove('is-collapsed'); return; }
+    // Measure in the expanded layout, otherwise the collapsed grid makes the space look smaller.
+    var wasCollapsed = header.classList.contains('is-collapsed');
+    header.classList.remove('is-collapsed');
     var items = $$('.nav-list > li', nav);
     var gapNav = parseFloat(getComputedStyle($('.nav-list', nav)).columnGap) || 0;
     var needed = items.reduce(function (sum, li) { return sum + li.getBoundingClientRect().width; }, 0) + gapNav * Math.max(items.length - 1, 0);
@@ -145,7 +148,9 @@
     if (header.classList.contains('header-wrapper--logo-center') || inner.classList.contains('header--logo-center')) {
       available = (inner.clientWidth - (logo ? logo.getBoundingClientRect().width : 0)) / 2 - gap * 2;
     }
-    header.classList.toggle('is-collapsed', needed > available + 1);
+    var collapse = needed > available + 1;
+    header.classList.toggle('is-collapsed', collapse);
+    if (wasCollapsed !== collapse) setHeaderVars();
   }
   function initHeader() {
     var header = currentHeader();
@@ -365,6 +370,7 @@
         }
         if (T.cartType === 'page') { window.location.href = T.routes.cart; return; }
         var returnTo = (quickModal && quickModal.contains(button)) ? quickTrigger : button;
+        if (button && button._returnTo) { returnTo = button._returnTo; button._returnTo = null; }
         if (data.sections && data.sections['cart-drawer']) renderDrawerFromHTML(data.sections['cart-drawer']);
         else refreshCartSections();
         closeQuickAdd(true);
@@ -383,9 +389,14 @@
     addToCart(form, form.querySelector('[type="submit"]'));
   });
 
-  function changeLine(key, quantity, el) {
-    var container = el.closest('.cart-items');
-    var fk = focusKey();
+  var cartQueue = Promise.resolve();
+  function changeLine(key, quantity, el, fkOverride) {
+    var fk = fkOverride || focusKey();
+    cartQueue = cartQueue.then(function () { return doChangeLine(key, quantity, el, fk); });
+    return cartQueue;
+  }
+  function doChangeLine(key, quantity, el, fk) {
+    var container = el.closest('.cart-items') || $('.cart-items');
     if (container) container.classList.add('is-updating');
     return fetch(T.routes.cartChange + '.js', {
       method: 'POST', headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
@@ -414,10 +425,19 @@
     var rm = e.target.closest('[data-line-remove]');
     if (rm) { var it = rm.closest('[data-key]'); changeLine(it.dataset.key, 0, rm); }
   });
+  // Enter in a cart quantity box updates the line instead of submitting the form to checkout.
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Enter' && e.target.matches('[data-line-qty]')) {
+      e.preventDefault();
+      e.target.dispatchEvent(new Event('change', { bubbles: true }));
+    }
+  });
   document.addEventListener('change', function (e) {
     if (e.target.matches('[data-line-qty]')) {
       var item = e.target.closest('[data-key]');
-      changeLine(item.dataset.key, Math.max(0, parseInt(e.target.value, 10) || 0), e.target);
+      var v = parseInt(e.target.value, 10);
+      if (isNaN(v) || v < 0) { e.target.value = e.target.defaultValue; return; }
+      changeLine(item.dataset.key, v, e.target, { key: item.dataset.key, role: 'qty' });
     }
     if (e.target.matches('[data-cart-note]')) {
       fetch(T.routes.cartUpdate + '.js', { method: 'POST', headers: { 'Content-Type': 'application/json', Accept: 'application/json' }, body: JSON.stringify({ note: e.target.value }) });
@@ -440,6 +460,20 @@
 
     // Sticky add to bag (mobile)
     initStickyAtc(section);
+
+    // Desktop buy box taller than the screen: stick by its bottom edge so nothing is cut off.
+    var info = $('.product__info-sticky', section);
+    if (info && !section.closest('.quick-add-modal')) {
+      var fitInfo = function () {
+        var hh = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--header-h')) || 80;
+        var ideal = hh + 24;
+        var h = info.getBoundingClientRect().height;
+        info.style.top = (h + ideal + 24 > window.innerHeight ? Math.min(ideal, window.innerHeight - h - 24) : ideal) + 'px';
+      };
+      fitInfo();
+      window.addEventListener('resize', debounce(fitInfo, 150));
+      $$('details', info).forEach(function (d) { d.addEventListener('toggle', fitInfo); });
+    }
 
     // Quantity
     $$('[data-qty-step]', section).forEach(function (b) {
@@ -592,6 +626,7 @@
     var sb = $('[data-sticky-atc-button]', bar);
     if (sb) sb.addEventListener('click', function () {
       if (main.disabled) return;
+      main._returnTo = sb;
       main.click();
     });
     sync();
@@ -802,13 +837,15 @@
         i = (n + slides.length) % slides.length;
         slides[i].classList.add('is-active'); dots[i] && dots[i].setAttribute('aria-current', 'true');
       };
-      var start = function () { clearInterval(timer); if (hero.dataset.autoplay === 'true' && !paused) timer = setInterval(function () { go(i + 1); }, parseInt(hero.dataset.speed, 10) || 6000); };
+      var start = function () { clearInterval(timer); if (hero.dataset.autoplay === 'true' && !paused && !hero._editing) timer = setInterval(function () { go(i + 1); }, parseInt(hero.dataset.speed, 10) || 6000); };
       dots.forEach(function (d) { d.addEventListener('click', function () { go(parseInt(d.dataset.heroDot, 10)); start(); }); });
       if (pause) {
         pause.setAttribute('aria-pressed', paused ? 'true' : 'false');
         pause.setAttribute('aria-label', paused ? (S.playSlideshow || 'Play slideshow') : (S.pauseSlideshow || 'Pause slideshow'));
         pause.addEventListener('click', function () { paused = !paused; pause.setAttribute('aria-pressed', paused ? 'true' : 'false'); pause.setAttribute('aria-label', paused ? (S.playSlideshow || 'Play slideshow') : (S.pauseSlideshow || 'Pause slideshow')); start(); });
       }
+      hero._select = function (slide) { clearInterval(timer); go(slides.indexOf(slide)); hero._editing = true; };
+      hero._deselect = function () { hero._editing = false; start(); };
       hero.addEventListener('focusin', function () { clearInterval(timer); });
       hero.addEventListener('focusout', start);
       start();
@@ -1003,9 +1040,14 @@
   /* ------------------------------------------------------------------ */
   /* Boot                                                                */
   /* ------------------------------------------------------------------ */
+  var footerResizeBound = false;
   function initFooter(root) {
-    if (!window.matchMedia('(max-width: 749px)').matches) return;
-    $$('[data-footer-details]', root).forEach(function (d) { d.open = false; });
+    var mq = window.matchMedia('(max-width: 749px)');
+    if (mq.matches) $$('[data-footer-details]', root).forEach(function (d) { d.open = false; });
+    if (footerResizeBound) return;
+    footerResizeBound = true;
+    var onChange = function () { if (!mq.matches) $$('[data-footer-details]').forEach(function (d) { d.open = true; }); };
+    if (mq.addEventListener) mq.addEventListener('change', onChange); else if (mq.addListener) mq.addListener(onChange);
   }
 
   function boot() {
@@ -1038,6 +1080,14 @@
     var card = e.target.closest('.inspo-card');
     if (card) { var track = card.parentElement; track.scrollTo({ left: centerOffset(track, card), behavior: 'smooth' }); }
     var slide = e.target.closest('[data-hero-slide]');
-    if (slide) { var hero = slide.closest('[data-hero]'); $$('[data-hero-slide]', hero).forEach(function (s) { s.classList.toggle('is-active', s === slide); }); }
+    if (slide) {
+      var hero = slide.closest('[data-hero]');
+      if (hero._select) hero._select(slide);
+      else $$('[data-hero-slide]', hero).forEach(function (s) { s.classList.toggle('is-active', s === slide); });
+    }
+  });
+  document.addEventListener('shopify:block:deselect', function (e) {
+    var hero = e.target.closest && e.target.closest('[data-hero]');
+    if (hero && hero._deselect) hero._deselect();
   });
 })();
