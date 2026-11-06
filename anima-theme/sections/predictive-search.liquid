@@ -1,31 +1,48 @@
 {%- comment -%} Rendered by /search/suggest?section_id=predictive-search {%- endcomment -%}
 {%- if predictive_search.performed -%}
-  {%- assign products = predictive_search.resources.products -%}
-  {%- assign queries = predictive_search.resources.queries -%}
-  {%- if products.size > 0 or queries.size > 0 -%}
-    {%- if queries.size > 0 -%}
-      <p class="eyebrow">{{ 'general.search.suggestions' | t }}</p>
-      <ul role="list" style="list-style:none;padding:0;margin:0 0 24px;display:flex;flex-wrap:wrap;gap:8px 20px">
-        {%- for q in queries -%}<li><a href="{{ q.url }}" class="link-underline">{{ q.text | escape }}</a></li>{%- endfor -%}
-      </ul>
-    {%- endif -%}
-    {%- if products.size > 0 -%}
-      <p class="eyebrow">{{ 'general.search.products' | t }}</p>
-      <ul class="predictive-results__grid" role="listbox" style="list-style:none;padding:0;margin:0">
-        {%- for product in products limit: 4 -%}
-          <li class="predictive-results__item" role="option">
-            <a href="{{ product.url }}">
-              <div class="media media--portrait">{%- if product.featured_media -%}{{ product.featured_media.preview_image | image_url: width: 400 | image_tag: loading: 'lazy', alt: '', widths: '200, 300, 400', sizes: '(min-width: 750px) 22vw, 45vw' }}{%- endif -%}</div>
-              <p>{{ product.title | escape }}</p>
-              {% render 'price', product: product, show_from: true %}
-            </a>
-          </li>
-        {%- endfor -%}
-      </ul>
-    {%- endif -%}
-    <p style="margin-top:24px"><a href="{{ routes.search_url }}?q={{ predictive_search.terms | url_encode }}&options%5Bprefix%5D=last" class="button button--secondary">{{ 'general.search.view_all' | t }}</a></p>
+  {%- liquid
+    assign products = predictive_search.resources.products
+    assign queries = predictive_search.resources.queries
+    assign collections = predictive_search.resources.collections
+    assign terms_escaped = predictive_search.terms | escape
+  -%}
+  {%- if products.size > 0 or queries.size > 0 or collections.size > 0 -%}
+    <div class="predictive">
+      {%- if queries.size > 0 or collections.size > 0 -%}
+        <div class="predictive__group">
+          <p class="predictive__label">{{ 'general.search.suggestions' | t }}</p>
+          <ul class="predictive__chips" role="list">
+            {%- for q in queries limit: 4 -%}<li><a href="{{ q.url }}" class="predictive__chip">{{ q.styled_text | default: q.text }}</a></li>{%- endfor -%}
+            {%- for c in collections limit: 3 -%}<li><a href="{{ c.url }}" class="predictive__chip predictive__chip--collection">{{ c.title | escape }}</a></li>{%- endfor -%}
+          </ul>
+        </div>
+      {%- endif -%}
+      {%- if products.size > 0 -%}
+        <div class="predictive__group">
+          <p class="predictive__label">{{ 'general.search.products' | t }}</p>
+          <ul class="predictive__products" role="list">
+            {%- for product in products limit: 6 -%}
+              <li>
+                <a href="{{ product.url }}" class="predictive__product">
+                  <span class="predictive__thumb">
+                    {%- if product.featured_media -%}{{ product.featured_media.preview_image | image_url: width: 200 | image_tag: loading: 'lazy', alt: '', widths: '100, 150, 200', sizes: '72px' }}{%- endif -%}
+                  </span>
+                  <span class="predictive__info">
+                    <span class="predictive__title">{{ product.title | escape }}</span>
+                    {% render 'price', product: product, show_from: true %}
+                  </span>
+                </a>
+              </li>
+            {%- endfor -%}
+          </ul>
+        </div>
+      {%- endif -%}
+      <a href="{{ routes.search_url }}?q={{ predictive_search.terms | url_encode }}&options%5Bprefix%5D=last" class="predictive__all">
+        {{ 'general.search.view_all_for' | t: terms: terms_escaped }} {% render 'icon', name: 'arrow-right' %}
+      </a>
+    </div>
   {%- else -%}
-    <p class="text-muted">{{ 'general.search.no_results' | t: terms: predictive_search.terms }}</p>
+    <p class="predictive__empty">{{ 'general.search.no_results' | t: terms: terms_escaped }}</p>
   {%- endif -%}
 {%- endif -%}
 

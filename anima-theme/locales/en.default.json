@@ -19,7 +19,10 @@
       "products": "Products",
       "pages": "Pages",
       "suggestions": "Suggestions",
-      "view_all": "View all results"
+      "view_all": "View all results",
+      "view_all_for": "See all results for “{{ terms }}”",
+      "popular": "Popular searches",
+      "browse": "Shop by category"
     },
     "meta": {
       "tags": "Tagged “{{ tags }}”",

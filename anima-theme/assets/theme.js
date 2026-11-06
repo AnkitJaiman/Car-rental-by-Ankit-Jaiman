@@ -270,19 +270,30 @@
     if (!input || !results || input.dataset.ready) return;
     input.dataset.ready = 'true';
     var controller;
+    var form = input.closest('form');
+    var modal = input.closest('[data-search-modal]');
+    var setResults = function (html) {
+      results.innerHTML = html;
+      var has = !!html;
+      if (modal) modal.classList.toggle('has-results', has);
+      input.setAttribute('aria-expanded', has ? 'true' : 'false');
+    };
     input.addEventListener('input', debounce(function () {
       var q = input.value.trim();
-      if (!q) { results.innerHTML = ''; input.setAttribute('aria-expanded', 'false'); return; }
+      if (!q) { if (controller) controller.abort(); setResults(''); if (form) form.classList.remove('is-loading'); return; }
       if (controller) controller.abort();
       controller = 'AbortController' in window ? new AbortController() : null;
-      var url = (T.routes.search || '/search/suggest') + '?q=' + encodeURIComponent(q) + '&resources[type]=product,query&resources[limit]=4&section_id=predictive-search';
+      if (form) form.classList.add('is-loading');
+      var url = (T.routes.search || '/search/suggest') + '?q=' + encodeURIComponent(q) + '&resources[type]=product,query,collection&resources[limit]=6&resources[options][unavailable_products]=last&section_id=predictive-search';
       fetch(url, controller ? { signal: controller.signal } : {}).then(function (r) { return r.text(); }).then(function (html) {
+        if (input.value.trim() !== q) return;
         var doc = new DOMParser().parseFromString(html, 'text/html');
-        var s = doc.querySelector('.shopify-section') || doc.body;
-        results.innerHTML = s.innerHTML;
-        input.setAttribute('aria-expanded', 'true');
-      }).catch(function () {});
-    }, 250));
+        var sec = doc.querySelector('.shopify-section') || doc.body;
+        setResults(sec.innerHTML.trim());
+      }).catch(function () {}).finally(function () { if (form) form.classList.remove('is-loading'); });
+    }, 220));
+    // Clearing the field (or reopening empty) brings the popular searches back.
+    input.addEventListener('search', function () { if (!input.value) setResults(''); });
   }
 
   /* ------------------------------------------------------------------ */

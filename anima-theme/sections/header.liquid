@@ -208,11 +208,42 @@
         <form action="{{ routes.search_url }}" method="get" role="search" class="search-form">
           {% render 'icon', name: 'search' %}
           <label for="SearchInput" class="visually-hidden">{{ 'general.search.placeholder' | t }}</label>
-          <input type="search" id="SearchInput" name="q" placeholder="{{ 'general.search.placeholder' | t }}" autocomplete="off"
+          <input type="search" id="SearchInput" name="q" placeholder="{{ 'general.search.placeholder' | t }}" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" enterkeyhint="search"
             {% if settings.predictive_search %}data-predictive-search role="combobox" aria-expanded="false" aria-controls="PredictiveResults" aria-autocomplete="list"{% endif %}>
           <input type="hidden" name="options[prefix]" value="last">
           <button type="button" class="icon-button" data-search-close aria-label="{{ 'accessibility.close_search' | t }}">{% render 'icon', name: 'close' %}</button>
         </form>
+        {%- liquid
+          assign popular = section.settings.search_popular | split: ','
+          assign browse_menu = section.settings.search_menu
+        -%}
+        {%- if popular.size > 0 or browse_menu.links.size > 0 -%}
+          <div class="predictive predictive--start" data-search-start>
+            {%- if popular.size > 0 -%}
+              <div class="predictive__group">
+                <p class="predictive__label">{{ 'general.search.popular' | t }}</p>
+                <ul class="predictive__chips" role="list">
+                  {%- for term in popular -%}
+                    {%- assign t = term | strip -%}
+                    {%- if t != blank -%}<li><a href="{{ routes.search_url }}?q={{ t | url_encode }}&options%5Bprefix%5D=last" class="predictive__chip">{{ t | escape }}</a></li>{%- endif -%}
+                  {%- endfor -%}
+                </ul>
+              </div>
+            {%- endif -%}
+            {%- if browse_menu.links.size > 0 -%}
+              <div class="predictive__group">
+                <p class="predictive__label">{{ 'general.search.browse' | t }}</p>
+                <ul class="predictive__chips" role="list">
+                  {%- for link in browse_menu.links limit: 8 -%}
+                    {%- unless link.type == 'collection_link' or link.type == 'catalog_link' or link.type == 'collections_link' -%}{%- continue -%}{%- endunless -%}
+                    {%- if link.type == 'collection_link' and link.object.products_count == 0 -%}{%- continue -%}{%- endif -%}
+                    {%- unless link.url == '#' -%}<li><a href="{{ link.url }}" class="predictive__chip predictive__chip--collection">{{ link.title | escape }}</a></li>{%- endunless -%}
+                  {%- endfor -%}
+                </ul>
+              </div>
+            {%- endif -%}
+          </div>
+        {%- endif -%}
         <div id="PredictiveResults" class="predictive-results" data-predictive-results aria-live="polite"></div>
       </div>
     </div>
@@ -237,6 +268,8 @@
     { "type": "header", "content": "Navigation" },
     { "type": "link_list", "id": "menu", "label": "Menu", "default": "main-menu", "info": "Add a nested menu item to create a dropdown. Add a “Mega menu” block to turn a top-level item into a mega menu." },
     { "type": "checkbox", "id": "show_search", "label": "Show search", "default": true },
+    { "type": "text", "id": "search_popular", "label": "Popular searches", "info": "Comma-separated. Shown when the search opens, before typing.", "default": "Montana sapphire, Moissanite ring, Emerald, Tennis bracelet" },
+    { "type": "link_list", "id": "search_menu", "label": "Search: category links", "info": "Shown when the search opens. Empty collections are skipped." },
     { "type": "checkbox", "id": "show_account", "label": "Show account icon", "default": true },
     { "type": "header", "content": "Behavior" },
     { "type": "checkbox", "id": "sticky", "label": "Sticky header", "default": true },
