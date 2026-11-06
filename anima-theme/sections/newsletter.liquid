@@ -1,0 +1,37 @@
+<section class="section newsletter{% if section.settings.style == 'boxed' %} newsletter--boxed{% endif %}" style="--pt: {{ section.settings.padding_top }}px; --pb: {{ section.settings.padding_bottom }}px; background: {{ section.settings.color_bg }}; color: {{ section.settings.color_text }};">
+  <div class="page-width page-width--narrow">
+    {%- if section.settings.eyebrow != blank -%}<p class="eyebrow" style="color:inherit;opacity:.7">{{ section.settings.eyebrow | escape }}</p>{%- endif -%}
+    {%- if section.settings.heading != blank -%}<h2>{{ section.settings.heading | escape }}</h2>{%- endif -%}
+    {%- if section.settings.text != blank -%}<div class="rte" style="opacity:.8">{{ section.settings.text }}</div>{%- endif -%}
+    {%- capture nl_id -%}Newsletter-{{ section.id }}{%- endcapture -%}
+    {% render 'newsletter-form', form_id: nl_id, button_label: section.settings.button_label, success_message: section.settings.success_message, error_message: section.settings.error_message %}
+    {%- if section.settings.disclaimer != blank -%}<div class="rte" style="font-size:1.2rem;opacity:.6;margin-top:16px">{{ section.settings.disclaimer }}</div>{%- endif -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Newsletter",
+  "tag": "div",
+  "class": "section-newsletter",
+  "settings": [
+    { "type": "paragraph", "content": "Subscribers are saved as customers with email marketing consent in Shopify admin." },
+    { "type": "text", "id": "eyebrow", "label": "Small text above heading", "default": "Newsletter" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Be the first to know" },
+    { "type": "richtext", "id": "text", "label": "Text", "default": "<p>New arrivals, styling notes and offers.</p>" },
+    { "type": "text", "id": "button_label", "label": "Button label", "default": "Subscribe" },
+    { "type": "text", "id": "success_message", "label": "Success message", "default": "Thank you for subscribing." },
+    { "type": "text", "id": "error_message", "label": "Error message", "default": "Please enter a valid email address." },
+    { "type": "richtext", "id": "disclaimer", "label": "Small print", "default": "<p>You can unsubscribe at any time.</p>" },
+    { "type": "select", "id": "style", "label": "Field style", "default": "underline", "options": [
+      { "value": "underline", "label": "Underline" }, { "value": "boxed", "label": "Boxed" }
+    ]},
+    { "type": "color", "id": "color_bg", "label": "Background", "default": "#FFFFFF" },
+    { "type": "color", "id": "color_text", "label": "Text", "default": "#1C1B1A" },
+    { "type": "header", "content": "Spacing" },
+    { "type": "range", "id": "padding_top", "label": "Top padding", "min": 0, "max": 160, "step": 8, "unit": "px", "default": 96 },
+    { "type": "range", "id": "padding_bottom", "label": "Bottom padding", "min": 0, "max": 160, "step": 8, "unit": "px", "default": 96 }
+  ],
+  "presets": [{ "name": "Newsletter" }]
+}
+{% endschema %}

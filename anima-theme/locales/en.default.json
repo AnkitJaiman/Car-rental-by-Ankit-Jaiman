@@ -1,0 +1,192 @@
+{
+  "general": {
+    "error": "Something went wrong. Please try again.",
+    "close": "Close",
+    "previous": "Previous",
+    "next": "Next",
+    "view_all": "View all",
+    "shop_now": "Shop now",
+    "search": {
+      "title": "Search",
+      "placeholder": "Search jewelry",
+      "submit": "Search",
+      "results_for": "Results for “{{ terms }}”",
+      "results_count": {
+        "one": "{{ count }} result",
+        "other": "{{ count }} results"
+      },
+      "no_results": "No results found for “{{ terms }}”. Try a different word or browse our collections.",
+      "products": "Products",
+      "pages": "Pages",
+      "suggestions": "Suggestions",
+      "view_all": "View all results",
+      "view_all_for": "See all results for “{{ terms }}”",
+      "popular": "Popular searches",
+      "browse": "Shop by category"
+    },
+    "meta": {
+      "tags": "Tagged “{{ tags }}”",
+      "page": "Page {{ page }}"
+    },
+    "pagination": {
+      "label": "Pagination",
+      "page": "Page {{ number }}",
+      "load_more": "Load more"
+    },
+    "newsletter": {
+      "email": "Email address",
+      "subscribe": "Subscribe",
+      "success": "Thank you for subscribing.",
+      "error": "Please enter a valid email address."
+    },
+    "social": {
+      "instagram": "Instagram",
+      "tiktok": "TikTok",
+      "pinterest": "Pinterest",
+      "facebook": "Facebook",
+      "youtube": "YouTube"
+    },
+    "payment_methods": "Payment methods",
+    "home": "Home",
+    "breadcrumb": "Breadcrumb",
+    "follow_us": "Follow us"
+  },
+  "accessibility": {
+    "skip_to_content": "Skip to content",
+    "menu": "Menu",
+    "close_menu": "Close menu",
+    "open_search": "Open search",
+    "close_search": "Close search",
+    "account": "Account",
+    "cart": "Cart",
+    "cart_count": {
+      "one": "{{ count }} item",
+      "other": "{{ count }} items"
+    },
+    "play_video": "Play video",
+    "pause_video": "Pause video",
+    "slide": "Slide {{ index }} of {{ count }}",
+    "rating": "Rated {{ rating }} out of 5",
+    "decrease_quantity": "Decrease quantity for {{ product }}",
+    "increase_quantity": "Increase quantity for {{ product }}",
+    "remove": "Remove {{ product }}",
+    "zoom": "Open image {{ index }} in full screen",
+    "vendor": "Vendor",
+    "sale_price": "Sale price",
+    "regular_price": "Regular price",
+    "play_slideshow": "Play slideshow",
+    "pause_slideshow": "Pause slideshow",
+    "select_image": "Show image {{ index }}",
+    "opens_new_tab": "opens in a new tab",
+    "quick_add_for": "{{ label }}: {{ product }}",
+    "close": "Close",
+    "quick_add": "Quick add",
+    "unavailable_option": "{{ value }}, unavailable"
+  },
+  "products": {
+    "product": {
+      "add_to_cart": "Add to bag",
+      "quick_add": "Quick add",
+      "choose_options": "Choose options",
+      "sold_out": "Sold out",
+      "unavailable": "Unavailable",
+      "added": "Added to bag",
+      "on_sale": "Sale",
+      "new": "New",
+      "from_price": "From {{ price }}",
+      "quantity": "Quantity",
+      "in_stock": "In stock",
+      "low_stock": "Only {{ count }} left",
+      "out_of_stock": "Out of stock",
+      "share": "Share",
+      "colors": {
+        "one": "{{ count }} color",
+        "other": "{{ count }} colors"
+      },
+      "view_details": "View product",
+      "size_guide": "Size guide",
+      "price": {
+        "unit_price": "Unit price",
+        "per": "per"
+      },
+      "tax_included": "Tax included.",
+      "shipping_calculated_html": "<a href=\"{{ link }}\">Shipping</a> calculated at checkout.",
+      "shipping_calculated": "Shipping calculated at checkout."
+    },
+    "facets": {
+      "filter": "Filter",
+      "filter_and_sort": "Filter and sort",
+      "sort_by": "Sort by",
+      "clear_all": "Clear all",
+      "apply": "Apply",
+      "from": "From",
+      "to": "To",
+      "max_price": "The highest price is {{ price }}",
+      "product_count": {
+        "one": "{{ count }} product",
+        "other": "{{ count }} products"
+      },
+      "no_products": "No products match these filters.",
+      "remove_filter": "Remove filter {{ filter }}",
+      "empty_collection": "This collection is empty right now.",
+      "shop_all": "Shop all jewelry"
+    },
+    "recently_viewed": "Recently viewed"
+  },
+  "cart": {
+    "title": "Your bag",
+    "empty": "Your bag is empty.",
+    "continue_shopping": "Continue shopping",
+    "checkout": "Checkout",
+    "subtotal": "Subtotal",
+    "remove": "Remove",
+    "note": "Gift message or order note",
+    "update": "Update",
+    "free_shipping_remaining": "You are {{ amount }} away from free shipping.",
+    "free_shipping_reached": "You have unlocked free shipping.",
+    "discounts": "Discounts",
+    "view_cart": "View bag",
+    "secure_checkout": "Secure checkout by Shopify",
+    "popular": "Popular categories"
+  },
+  "templates": {
+    "404": {
+      "title": "Page not found",
+      "subtext": "The page you are looking for doesn’t exist or has moved."
+    },
+    "contact": {
+      "name": "Name",
+      "email": "Email",
+      "phone": "Phone",
+      "message": "Message",
+      "send": "Send message",
+      "success": "Thank you. We’ll get back to you as soon as possible.",
+      "error": "Please correct the errors below.",
+      "hours": "Hours"
+    },
+    "blog": {
+      "read_more": "Read more",
+      "back": "Back to {{ title }}"
+    },
+    "collections": {
+      "title": "Collections"
+    }
+  },
+  "gift_cards": {
+    "issued": {
+      "title": "Your gift card",
+      "code": "Gift card code",
+      "copy": "Copy code",
+      "balance": "Balance: {{ value }}",
+      "expired": "Expired",
+      "print": "Print",
+      "shop_link": "Start shopping"
+    }
+  },
+  "password": {
+    "title": "Opening soon",
+    "enter": "Enter using password",
+    "password": "Password",
+    "submit": "Enter"
+  }
+}

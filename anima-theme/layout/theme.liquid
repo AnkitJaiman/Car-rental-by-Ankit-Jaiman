@@ -1,0 +1,129 @@
+<!doctype html>
+<html class="no-js" lang="{{ request.locale.iso_code }}">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta name="theme-color" content="{{ settings.color_background }}">
+    <link rel="canonical" href="{{ canonical_url }}">
+    <link rel="preconnect" href="https://cdn.shopify.com" crossorigin>
+
+    {%- if settings.favicon != blank -%}
+      <link rel="icon" type="image/png" href="{{ settings.favicon | image_url: width: 64, height: 64 }}">
+    {%- endif -%}
+
+    {%- liquid
+      if request.page_type == 'search' and search.terms != blank
+        assign seo_title = search.terms | split: '+' | join: ' ' | escape
+        assign search_word = 'general.search.title' | t
+        assign seo_title = seo_title | append: ' – ' | append: search_word
+      else
+        assign seo_title = page_title | escape
+      endif
+      if current_tags
+        assign meta_tags = current_tags | join: ', ' | escape
+        assign tags_text = 'general.meta.tags' | t: tags: meta_tags
+        assign seo_title = seo_title | append: ' – ' | append: tags_text
+      endif
+      if current_page != 1
+        assign page_text = 'general.meta.page' | t: page: current_page
+        assign seo_title = seo_title | append: ' – ' | append: page_text
+      endif
+      assign shop_name_escaped = shop.name | escape
+      unless page_title contains shop.name
+        assign seo_title = seo_title | append: ' | ' | append: shop_name_escaped
+      endunless
+    -%}
+    <title>{{ seo_title | strip }}</title>
+    {%- if page_description -%}
+      <meta name="description" content="{{ page_description | escape }}">
+    {%- endif -%}
+
+    {% render 'meta-tags' %}
+
+    {%- render 'theme-styles' -%}
+    {{ 'base.css' | asset_url | stylesheet_tag }}
+
+    <script src="{{ 'theme.js' | asset_url }}" defer="defer"></script>
+    <script>document.documentElement.className = document.documentElement.className.replace('no-js', 'js');</script>
+
+    {{ content_for_header }}
+  </head>
+
+  <body class="template-{{ template.name | handle }}{% if template.suffix %} template-{{ template.name }}-{{ template.suffix | handle }}{% endif %}">
+    <a class="skip-link visually-hidden visually-hidden--focusable" href="#MainContent">{{ 'accessibility.skip_to_content' | t }}</a>
+
+    {% sections 'header-group' %}
+
+    <main id="MainContent" class="main-content" role="main" tabindex="-1">
+      {{ content_for_layout }}
+    </main>
+
+    {% sections 'footer-group' %}
+
+    {%- if request.page_type == 'index' -%}
+      {%- capture search_target -%}{{ request.origin }}{{ routes.search_url }}?q={search_term_string}{%- endcapture -%}
+      <script type="application/ld+json">
+        [{
+          "@context": "https://schema.org",
+          "@type": "Organization",
+          "name": {{ shop.name | json }},
+          "url": {{ request.origin | append: routes.root_url | json }}
+          {%- if settings.seo_logo != blank -%},
+          "logo": {{ settings.seo_logo | image_url: width: 600 | prepend: 'https:' | json }}
+          {%- endif -%}
+          {%- assign same_as = '' -%}
+          {%- assign social_keys = 'social_instagram,social_tiktok,social_pinterest,social_facebook,social_youtube' | split: ',' -%}
+          {%- for key in social_keys -%}
+            {%- if settings[key] != blank -%}{%- assign same_as = same_as | append: settings[key] | append: '|' -%}{%- endif -%}
+          {%- endfor -%}
+          {%- if same_as != blank -%},
+          "sameAs": {{ same_as | remove_last: '|' | split: '|' | json }}
+          {%- endif -%}
+        },
+        {
+          "@context": "https://schema.org",
+          "@type": "WebSite",
+          "name": {{ shop.name | json }},
+          "url": {{ request.origin | append: routes.root_url | json }},
+          "potentialAction": { "@type": "SearchAction", "target": {{ search_target | json }}, "query-input": "required name=search_term_string" }
+        }]
+      </script>
+    {%- endif -%}
+
+    {%- section 'cart-drawer' -%}
+
+    <script>
+      window.theme = {
+        routes: {
+          root: {{ routes.root_url | json }},
+          cart: {{ routes.cart_url | json }},
+          cartAdd: {{ routes.cart_add_url | json }},
+          cartChange: {{ routes.cart_change_url | json }},
+          cartUpdate: {{ routes.cart_update_url | json }},
+          search: {{ routes.predictive_search_url | json }}
+        },
+        cartType: {{ settings.cart_type | json }},
+        moneyFormat: {{ shop.money_format | json }},
+        strings: {
+          addToCart: {{ 'products.product.add_to_cart' | t | json }},
+          soldOut: {{ 'products.product.sold_out' | t | json }},
+          unavailable: {{ 'products.product.unavailable' | t | json }},
+          added: {{ 'products.product.added' | t | json }},
+          inStock: {{ 'products.product.in_stock' | t | json }},
+          outOfStock: {{ 'products.product.out_of_stock' | t | json }},
+          error: {{ 'general.error' | t | json }},
+          close: {{ 'accessibility.close' | t | json }},
+          quickAdd: {{ 'accessibility.quick_add' | t | json }},
+          playVideo: {{ 'accessibility.play_video' | t | json }},
+          pauseVideo: {{ 'accessibility.pause_video' | t | json }},
+          playSlideshow: {{ 'accessibility.play_slideshow' | t | json }},
+          pauseSlideshow: {{ 'accessibility.pause_slideshow' | t | json }},
+          cart: {{ 'accessibility.cart' | t | json }},
+          cartCountOne: {{ 'accessibility.cart_count.one' | t: count: '[count]' | json }},
+          cartCountOther: {{ 'accessibility.cart_count.other' | t: count: '[count]' | json }}
+        }
+      };
+    </script>
+  </body>
+</html>

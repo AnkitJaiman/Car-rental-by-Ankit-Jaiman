@@ -1,0 +1,113 @@
+{%- liquid
+  assign cols = section.settings.columns
+  assign limit = section.settings.limit
+  assign layout = section.settings.layout
+  assign picked = section.blocks | where: 'type', 'product'
+  case cols
+    when 2
+      assign sizes = '(min-width: 990px) 45vw, 50vw'
+    when 3
+      assign sizes = '(min-width: 990px) 30vw, 50vw'
+    when 5
+      assign sizes = '(min-width: 990px) 18vw, 50vw'
+    else
+      assign sizes = '(min-width: 990px) 23vw, 50vw'
+  endcase
+  if layout == 'carousel'
+    assign sizes = '(min-width: 990px) 23vw, 70vw'
+  endif
+  assign collection_obj = section.settings.collection
+  assign has_items = false
+  for block in picked
+    if block.settings.product != blank
+      assign has_items = true
+    endif
+  endfor
+  if picked.size == 0 and collection_obj != blank and collection_obj.products.size > 0
+    assign has_items = true
+  endif
+-%}
+{%- if has_items or request.design_mode -%}
+<section class="section{% if section.settings.soft_bg %} section--soft{% endif %}" style="--pt: {{ section.settings.padding_top }}px; --pb: {{ section.settings.padding_bottom }}px;" data-slider-section>
+  <div class="page-width">
+    <div class="section-header section-header--{{ section.settings.header_alignment }}">
+      <div>
+        {%- if section.settings.eyebrow != blank -%}<p class="eyebrow">{{ section.settings.eyebrow | escape }}</p>{%- endif -%}
+        {%- if section.settings.heading != blank -%}<h2 class="section-header__title">{{ section.settings.heading | escape }}</h2>{%- endif -%}
+        {%- if section.settings.text != blank -%}<div class="section-header__text">{{ section.settings.text }}</div>{%- endif -%}
+      </div>
+      <div class="slider-controls">
+        {%- if section.settings.link_label != blank -%}
+          <a href="{{ section.settings.link | default: collection_obj.url | default: routes.all_products_collection_url }}" class="text-link link-underline" {% if layout == 'carousel' %} style="margin-right:16px"{% endif %}>{{ section.settings.link_label | escape }}</a>
+        {%- endif -%}
+        {%- if layout == 'carousel' -%}
+          <button type="button" class="slider-button" data-slider-prev aria-label="{{ 'general.previous' | t }}">{% render 'icon', name: 'chevron-left' %}</button>
+          <button type="button" class="slider-button" data-slider-next aria-label="{{ 'general.next' | t }}">{% render 'icon', name: 'chevron-right' %}</button>
+        {%- endif -%}
+      </div>
+    </div>
+
+    <div class="{% if layout == 'carousel' %}slider-wrap--bleed{% endif %}">
+      <ul class="{% if layout == 'carousel' %}slider slider--desktop{% else %}grid{% endif %}" role="list" data-slider
+        style="--cols: {{ cols }}; --cols-tablet: {% if cols > 3 %}3{% else %}{{ cols }}{% endif %}; --cols-mobile: {{ section.settings.columns_mobile }}; --slide-w: 70%;">
+        {%- if picked.size > 0 -%}
+          {%- for block in picked limit: limit -%}
+            {%- if block.settings.product != blank -%}
+              <li {{ block.shopify_attributes }}>{% render 'product-card', product: block.settings.product, sizes: sizes %}</li>
+            {%- elsif request.design_mode -%}
+              <li {{ block.shopify_attributes }}>{% render 'product-card-placeholder' %}</li>
+            {%- endif -%}
+          {%- endfor -%}
+        {%- elsif collection_obj != blank and collection_obj.products.size > 0 -%}
+          {%- for product in collection_obj.products limit: limit -%}
+            <li>{% render 'product-card', product: product, sizes: sizes %}</li>
+          {%- endfor -%}
+        {%- elsif request.design_mode -%}
+          {%- for i in (1..limit) -%}
+            <li>{% render 'product-card-placeholder' %}</li>
+          {%- endfor -%}
+        {%- endif -%}
+      </ul>
+    </div>
+  </div>
+</section>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "Featured products",
+  "tag": "div",
+  "class": "section-featured-products",
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Small text above heading", "default": "Just in" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "New arrivals" },
+    { "type": "richtext", "id": "text", "label": "Text" },
+    { "type": "select", "id": "header_alignment", "label": "Heading alignment", "default": "left", "options": [
+      { "value": "left", "label": "Left" }, { "value": "center", "label": "Center" }
+    ]},
+    { "type": "collection", "id": "collection", "label": "Collection", "info": "Used when no individual products are added as blocks. Product order follows the collection’s sort order in Shopify admin." },
+    { "type": "range", "id": "limit", "label": "Maximum products", "min": 2, "max": 16, "step": 1, "default": 8 },
+    { "type": "select", "id": "layout", "label": "Layout", "default": "carousel", "options": [
+      { "value": "grid", "label": "Grid" }, { "value": "carousel", "label": "Carousel" }
+    ]},
+    { "type": "range", "id": "columns", "label": "Columns (desktop)", "min": 2, "max": 5, "step": 1, "default": 4 },
+    { "type": "select", "id": "columns_mobile", "label": "Columns (mobile, grid only)", "default": "2", "options": [{ "value": "1", "label": "1" }, { "value": "2", "label": "2" }] },
+    { "type": "text", "id": "link_label", "label": "Link label", "default": "View all" },
+    { "type": "url", "id": "link", "label": "Link", "info": "Defaults to the chosen collection." },
+    { "type": "checkbox", "id": "soft_bg", "label": "Soft background", "default": false },
+    { "type": "header", "content": "Spacing" },
+    { "type": "range", "id": "padding_top", "label": "Top padding", "min": 0, "max": 160, "step": 8, "unit": "px", "default": 80 },
+    { "type": "range", "id": "padding_bottom", "label": "Bottom padding", "min": 0, "max": 160, "step": 8, "unit": "px", "default": 80 }
+  ],
+  "blocks": [
+    {
+      "type": "product",
+      "name": "Product",
+      "settings": [
+        { "type": "product", "id": "product", "label": "Product" }
+      ]
+    }
+  ],
+  "presets": [{ "name": "Featured products" }]
+}
+{% endschema %}

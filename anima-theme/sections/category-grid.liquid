@@ -1,0 +1,129 @@
+{%- liquid
+  assign cat_lazy = true
+  if section.index <= 2
+    assign cat_lazy = false
+  endif
+-%}
+{%- liquid
+  assign cols = section.settings.columns
+  assign mobile_carousel = section.settings.mobile_carousel
+  case cols
+    when 2
+      assign sizes = '(min-width: 990px) 50vw, 80vw'
+    when 3
+      assign sizes = '(min-width: 990px) 33vw, 80vw'
+    else
+      assign sizes = '(min-width: 990px) 25vw, 70vw'
+  endcase
+-%}
+<section class="section" style="--pt: {{ section.settings.padding_top }}px; --pb: {{ section.settings.padding_bottom }}px;">
+  <div class="page-width">
+    {%- if section.settings.heading != blank or section.settings.eyebrow != blank -%}
+      <div class="section-header section-header--{{ section.settings.header_alignment }}">
+        <div>
+          {%- if section.settings.eyebrow != blank -%}<p class="eyebrow">{{ section.settings.eyebrow | escape }}</p>{%- endif -%}
+          {%- if section.settings.heading != blank -%}<h2 class="section-header__title">{{ section.settings.heading | escape }}</h2>{%- endif -%}
+        </div>
+        {%- if section.settings.link_label != blank -%}
+          <a href="{{ section.settings.link | default: routes.collections_url }}" class="text-link link-underline">{{ section.settings.link_label | escape }}</a>
+        {%- endif -%}
+      </div>
+    {%- endif -%}
+    <div class="{% if mobile_carousel %}slider-wrap--bleed{% endif %}">
+      <ul class="{% if mobile_carousel %}slider category-slider{% else %}grid{% endif %}" role="list"
+        style="--cols: {{ cols }}; --cols-tablet: {% if cols > 3 %}2{% else %}{{ cols }}{% endif %}; --cols-mobile: {{ section.settings.columns_mobile }}; --gap-x: {{ section.settings.gap }}px; --gap-y: {{ section.settings.gap }}px; --slide-w: 72%;">
+        {%- for block in section.blocks -%}
+          {%- liquid
+            assign c = block.settings.collection
+            assign img = block.settings.image | default: c.featured_image
+            assign title = block.settings.title | default: c.title
+            assign url = block.settings.link | default: c.url
+            assign hide = false
+            if section.settings.hide_empty and c != blank and c.products_count == 0
+              assign hide = true
+            endif
+            if c == blank and block.settings.image == blank and block.settings.link == blank and request.design_mode == false
+              assign hide = true
+            endif
+          -%}
+          {%- unless hide -%}
+            <li class="reveal" {{ block.shopify_attributes }}>
+              <a href="{{ url | default: '#' }}" class="category-card{% if section.settings.style == 'overlay' %} category-card--overlay{% endif %}">
+                <div class="media media--{{ section.settings.image_ratio }}">
+                  {%- if img != blank -%}
+                    {% render 'image', image: img, sizes: sizes, decorative: true, lazy: cat_lazy, widths: '360, 540, 720, 900, 1200' %}
+                  {%- else -%}
+                    {{ 'collection-1' | placeholder_svg_tag: 'placeholder-svg' }}
+                  {%- endif -%}
+                </div>
+                <div class="category-card__info">
+                  <h3 class="category-card__title">{{ title | default: 'Collection' | escape }}</h3>
+                  {%- if section.settings.cta_label != blank -%}<span class="category-card__cta">{{ section.settings.cta_label | escape }}</span>{%- endif -%}
+                </div>
+              </a>
+            </li>
+          {%- endunless -%}
+        {%- endfor -%}
+      </ul>
+    </div>
+  </div>
+</section>
+{%- if mobile_carousel -%}
+<style>
+  @media (min-width: 750px) {
+    #shopify-section-{{ section.id }} .category-slider { grid-auto-flow: row; grid-template-columns: repeat({% if cols > 3 %}2{% else %}{{ cols }}{% endif %}, minmax(0, 1fr)); overflow: visible; padding: 0; gap: {{ section.settings.gap }}px; }
+  }
+  @media (min-width: 990px) {
+    #shopify-section-{{ section.id }} .category-slider { grid-template-columns: repeat({{ cols }}, minmax(0, 1fr)); }
+  }
+</style>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "Shop by category",
+  "tag": "div",
+  "class": "section-category-grid",
+  "max_blocks": 8,
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Small text above heading", "default": "Explore" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Shop by category" },
+    { "type": "select", "id": "header_alignment", "label": "Heading alignment", "default": "left", "options": [
+      { "value": "left", "label": "Left" }, { "value": "center", "label": "Center" }
+    ]},
+    { "type": "text", "id": "link_label", "label": "Link label", "default": "Shop all" },
+    { "type": "url", "id": "link", "label": "Link" },
+    { "type": "select", "id": "style", "label": "Card style", "default": "below", "options": [
+      { "value": "below", "label": "Title below image" }, { "value": "overlay", "label": "Title on image" }
+    ]},
+    { "type": "text", "id": "cta_label", "label": "Card link label", "default": "Shop now" },
+    { "type": "select", "id": "image_ratio", "label": "Image ratio", "default": "portrait", "options": [
+      { "value": "square", "label": "Square" }, { "value": "portrait", "label": "Portrait (4:5)" }, { "value": "tall", "label": "Tall (2:3)" }, { "value": "landscape", "label": "Landscape (3:2)" }
+    ]},
+    { "type": "range", "id": "columns", "label": "Columns (desktop)", "min": 2, "max": 5, "step": 1, "default": 4 },
+    { "type": "select", "id": "columns_mobile", "label": "Columns (mobile, grid only)", "default": "2", "options": [{ "value": "1", "label": "1" }, { "value": "2", "label": "2" }] },
+    { "type": "checkbox", "id": "mobile_carousel", "label": "Swipeable carousel on mobile", "default": true },
+    { "type": "range", "id": "gap", "label": "Card spacing", "min": 0, "max": 48, "step": 4, "unit": "px", "default": 16 },
+    { "type": "checkbox", "id": "hide_empty", "label": "Hide empty collections", "default": true },
+    { "type": "header", "content": "Spacing" },
+    { "type": "range", "id": "padding_top", "label": "Top padding", "min": 0, "max": 160, "step": 8, "unit": "px", "default": 80 },
+    { "type": "range", "id": "padding_bottom", "label": "Bottom padding", "min": 0, "max": 160, "step": 8, "unit": "px", "default": 80 }
+  ],
+  "blocks": [
+    {
+      "type": "category",
+      "name": "Category",
+      "settings": [
+        { "type": "collection", "id": "collection", "label": "Collection" },
+        { "type": "image_picker", "id": "image", "label": "Image", "info": "Defaults to the collection image." },
+        { "type": "text", "id": "title", "label": "Title", "info": "Defaults to the collection title." },
+        { "type": "url", "id": "link", "label": "Link", "info": "Defaults to the collection." }
+      ]
+    }
+  ],
+  "presets": [{
+    "name": "Shop by category",
+    "blocks": [{ "type": "category" }, { "type": "category" }, { "type": "category" }, { "type": "category" }]
+  }]
+}
+{% endschema %}

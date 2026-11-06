@@ -1,0 +1,50 @@
+<article class="section" style="--pt: 0px; --pb: 96px;">
+  <div class="page-width page-width--narrow">
+    <header class="article__header">
+      <p class="eyebrow"><a href="{{ blog.url }}">{{ blog.title | escape }}</a></p>
+      <h1>{{ article.title | escape }}</h1>
+      <p class="article-card__meta">{{ article.published_at | time_tag: format: 'date' }}{% if article.author != blank %} · {{ article.author | escape }}{% endif %}</p>
+    </header>
+  </div>
+  {%- if article.image -%}
+    <div class="page-width article__image">
+      <div class="media media--wide">{% render 'image', image: article.image, sizes: '100vw', lazy: false, priority: true %}</div>
+    </div>
+  {%- endif -%}
+  <div class="page-width page-width--narrow">
+    <div class="rte main-page__content">{{ article.content }}</div>
+    {%- if blog.comments_enabled? -%}
+      <div class="article-comments" style="margin-top:56px;max-width:640px">
+        {%- for comment in article.comments -%}
+          <div class="article-comment" style="padding:16px 0;border-bottom:1px solid var(--color-line)"><div class="rte">{{ comment.content }}</div><p class="text-muted" style="font-size:1.25rem">{{ comment.author | escape }}</p></div>
+        {%- endfor -%}
+        {%- form 'new_comment', article -%}
+          {%- if form.posted_successfully? -%}<p class="form-message form-message--success" role="status">{{ 'templates.contact.success' | t }}</p>{%- endif -%}
+          {%- if form.errors -%}<div class="form-message form-message--error" role="alert">{{ form.errors | default_errors }}</div>{%- endif -%}
+          <label class="field"><span class="field__label">{{ 'templates.contact.name' | t }} *</span><input class="field__input" type="text" name="comment[author]" value="{{ form.author }}" required></label>
+          <label class="field"><span class="field__label">{{ 'templates.contact.email' | t }} *</span><input class="field__input" type="email" name="comment[email]" value="{{ form.email }}" required></label>
+          <label class="field"><span class="field__label">{{ 'templates.contact.message' | t }} *</span><textarea class="field__input" name="comment[body]" required>{{ form.body }}</textarea></label>
+          <button type="submit" class="button">{{ 'templates.contact.send' | t }}</button>
+        {%- endform -%}
+      </div>
+    {%- endif -%}
+    <p style="margin-top:48px"><a href="{{ blog.url }}" class="text-link link-underline">{{ 'templates.blog.back' | t: title: blog.title | escape }}</a></p>
+  </div>
+</article>
+<script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "headline": {{ article.title | json }},
+    "datePublished": {{ article.published_at | date: '%Y-%m-%dT%H:%M:%S%z' | json }},
+    "dateModified": {{ article.updated_at | default: article.published_at | date: '%Y-%m-%dT%H:%M:%S%z' | json }},
+    "mainEntityOfPage": {{ request.origin | append: article.url | json }},
+    "author": { "@type": "Person", "name": {{ article.author | json }} },
+    {%- if article.image -%}"image": [{{ article.image | image_url: width: 1200 | prepend: 'https:' | json }}],{%- endif -%}
+    "publisher": { "@type": "Organization", "name": {{ shop.name | json }} }
+  }
+</script>
+
+{% schema %}
+{ "name": "Blog post", "class": "section-main-article", "settings": [] }
+{% endschema %}

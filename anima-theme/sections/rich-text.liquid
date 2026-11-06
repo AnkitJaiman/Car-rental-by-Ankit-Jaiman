@@ -1,0 +1,52 @@
+<section class="section{% if section.settings.soft_bg %} section--soft{% endif %}" style="--pt: {{ section.settings.padding_top }}px; --pb: {{ section.settings.padding_bottom }}px;">
+  <div class="page-width page-width--narrow text-{{ section.settings.alignment }}">
+    {%- for block in section.blocks -%}
+      {%- case block.type -%}
+        {%- when 'eyebrow' -%}<p class="eyebrow" {{ block.shopify_attributes }}>{{ block.settings.text | escape }}</p>
+        {%- when 'heading' -%}
+          {%- if block.settings.tag == 'h1' -%}
+            <h1 class="{{ block.settings.size }}" {{ block.shopify_attributes }}>{{ block.settings.heading | escape }}</h1>
+          {%- else -%}
+            <h2 class="{{ block.settings.size }}" {{ block.shopify_attributes }}>{{ block.settings.heading | escape }}</h2>
+          {%- endif -%}
+        {%- when 'text' -%}<div class="rte main-page__content" {{ block.shopify_attributes }}>{{ block.settings.text }}</div>
+        {%- when 'page' -%}
+          {%- if block.settings.page != blank -%}<div class="rte main-page__content" {{ block.shopify_attributes }}>{{ block.settings.page.content }}</div>{%- endif -%}
+        {%- when 'button' -%}
+          {%- if block.settings.label != blank -%}<div style="margin-top:2.4rem" {{ block.shopify_attributes }}><a href="{{ block.settings.link | default: '#' }}" class="button{% if block.settings.style == 'secondary' %} button--secondary{% endif %}">{{ block.settings.label | escape }}</a></div>{%- endif -%}
+      {%- endcase -%}
+    {%- endfor -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Rich text",
+  "tag": "div",
+  "class": "section-rich-text",
+  "settings": [
+    { "type": "select", "id": "alignment", "label": "Alignment", "default": "center", "options": [
+      { "value": "left", "label": "Left" }, { "value": "center", "label": "Center" }
+    ]},
+    { "type": "checkbox", "id": "soft_bg", "label": "Soft background", "default": false },
+    { "type": "range", "id": "padding_top", "label": "Top padding", "min": 0, "max": 160, "step": 8, "unit": "px", "default": 64 },
+    { "type": "range", "id": "padding_bottom", "label": "Bottom padding", "min": 0, "max": 160, "step": 8, "unit": "px", "default": 64 }
+  ],
+  "blocks": [
+    { "type": "eyebrow", "name": "Small text", "settings": [{ "type": "text", "id": "text", "label": "Text" }] },
+    { "type": "heading", "name": "Heading", "settings": [
+      { "type": "text", "id": "heading", "label": "Heading", "default": "Heading" },
+      { "type": "select", "id": "size", "label": "Size", "default": "h1", "options": [{ "value": "h2", "label": "Medium" }, { "value": "h1", "label": "Large" }, { "value": "h0", "label": "Extra large" }] },
+      { "type": "select", "id": "tag", "label": "HTML tag (SEO)", "default": "h2", "options": [{ "value": "h1", "label": "H1 (page title)" }, { "value": "h2", "label": "H2" }] }
+    ]},
+    { "type": "text", "name": "Text", "settings": [{ "type": "richtext", "id": "text", "label": "Text", "default": "<p>Share information about your brand.</p>" }] },
+    { "type": "page", "name": "Page content", "settings": [{ "type": "page", "id": "page", "label": "Page", "info": "Shows the content written in Online Store › Pages." }] },
+    { "type": "button", "name": "Button", "settings": [
+      { "type": "text", "id": "label", "label": "Label", "default": "Learn more" },
+      { "type": "url", "id": "link", "label": "Link" },
+      { "type": "select", "id": "style", "label": "Style", "default": "primary", "options": [{ "value": "primary", "label": "Solid" }, { "value": "secondary", "label": "Outline" }] }
+    ]}
+  ],
+  "presets": [{ "name": "Rich text", "blocks": [{ "type": "heading" }, { "type": "text" }] }]
+}
+{% endschema %}

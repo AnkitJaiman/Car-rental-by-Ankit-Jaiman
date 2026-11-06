@@ -1,0 +1,55 @@
+{%- liquid
+  assign img = nil
+  if section.settings.show_image
+    assign img = collection.image
+  endif
+-%}
+<div class="collection-banner{% if img %} collection-banner--image{% endif %}" style="--banner-h: {{ section.settings.height }}px; --overlay: {{ section.settings.overlay | divided_by: 100.0 }};">
+  {%- if img -%}
+    <div class="collection-banner__media">
+      {{ img | image_url: width: 2400 | image_tag: widths: '750, 1100, 1500, 1900, 2400', sizes: '100vw', loading: 'eager', fetchpriority: 'high', alt: '' }}
+    </div>
+  {%- endif -%}
+  <div class="page-width collection-banner__content collection-banner__content--{{ section.settings.alignment }}">
+    {%- if section.settings.show_breadcrumbs -%}
+      <nav class="breadcrumbs" aria-label="{{ 'general.breadcrumb' | t }}">
+        <ol>
+          <li><a href="{{ routes.root_url }}">{{ 'general.home' | t }}</a></li>
+          <li><a href="{{ routes.collections_url }}">{{ 'templates.collections.title' | t }}</a></li>
+          <li aria-current="page">{{ collection.title | escape }}</li>
+        </ol>
+      </nav>
+    {%- endif -%}
+    <h1 class="collection-banner__title">{{ collection.title | escape }}</h1>
+    {%- if section.settings.show_description and collection.description != blank -%}
+      <div class="collection-banner__description rte" data-collapsible-text>{{ collection.description }}</div>
+    {%- endif -%}
+  </div>
+</div>
+
+<script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": {{ 'general.home' | t | json }}, "item": {{ request.origin | append: routes.root_url | json }} },
+      { "@type": "ListItem", "position": 2, "name": {{ collection.title | json }}, "item": {{ request.origin | append: collection.url | json }} }
+    ]
+  }
+</script>
+
+{% schema %}
+{
+  "name": "Collection banner",
+  "class": "section-collection-banner",
+  "settings": [
+    { "type": "paragraph", "content": "Title, image and description come from the collection in Shopify admin." },
+    { "type": "checkbox", "id": "show_image", "label": "Show collection image", "default": true },
+    { "type": "range", "id": "height", "label": "Image height", "min": 200, "max": 700, "step": 20, "unit": "px", "default": 380 },
+    { "type": "range", "id": "overlay", "label": "Image overlay", "min": 0, "max": 80, "step": 5, "unit": "%", "default": 25 },
+    { "type": "checkbox", "id": "show_description", "label": "Show collection description", "default": true },
+    { "type": "checkbox", "id": "show_breadcrumbs", "label": "Show breadcrumbs", "default": true },
+    { "type": "select", "id": "alignment", "label": "Alignment", "default": "center", "options": [{ "value": "left", "label": "Left" }, { "value": "center", "label": "Center" }] }
+  ]
+}
+{% endschema %}

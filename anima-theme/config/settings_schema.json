@@ -1,0 +1,437 @@
+[
+  {
+    "name": "theme_info",
+    "theme_name": "Anima Editorial",
+    "theme_version": "1.0.0",
+    "theme_author": "Anima Jewels",
+    "theme_documentation_url": "https://www.animajewel.store",
+    "theme_support_url": "https://www.animajewel.store/pages/contact"
+  },
+  {
+    "name": "Colors",
+    "settings": [
+      {
+        "type": "color",
+        "id": "color_background",
+        "label": "Background",
+        "default": "#FFFFFF"
+      },
+      {
+        "type": "color",
+        "id": "color_background_soft",
+        "label": "Soft background",
+        "info": "Used for alternate sections and product image backgrounds.",
+        "default": "#F7F4F0"
+      },
+      {
+        "type": "color",
+        "id": "color_text",
+        "label": "Text",
+        "default": "#1C1B1A"
+      },
+      {
+        "type": "color",
+        "id": "color_text_muted",
+        "label": "Muted text",
+        "default": "#6B6560"
+      },
+      {
+        "type": "color",
+        "id": "color_border",
+        "label": "Lines and borders",
+        "default": "#E6E1DB"
+      },
+      {
+        "type": "color",
+        "id": "color_accent",
+        "label": "Accent",
+        "default": "#9C7F52"
+      },
+      {
+        "type": "color",
+        "id": "color_button",
+        "label": "Button background",
+        "default": "#1C1B1A"
+      },
+      {
+        "type": "color",
+        "id": "color_button_text",
+        "label": "Button text",
+        "default": "#FFFFFF"
+      },
+      {
+        "type": "color",
+        "id": "color_sale",
+        "label": "Sale price",
+        "default": "#8A2F2F"
+      },
+      {
+        "type": "color",
+        "id": "color_badge",
+        "label": "Badge background",
+        "default": "#FFFFFF"
+      },
+      {
+        "type": "color",
+        "id": "color_badge_text",
+        "label": "Badge text",
+        "default": "#1C1B1A"
+      }
+    ]
+  },
+  {
+    "name": "Typography",
+    "settings": [
+      {
+        "type": "header",
+        "content": "Headings"
+      },
+      {
+        "type": "font_picker",
+        "id": "type_heading_font",
+        "label": "Font",
+        "default": "playfair_display_n4"
+      },
+      {
+        "type": "range",
+        "id": "heading_scale",
+        "label": "Size scale",
+        "min": 80,
+        "max": 140,
+        "step": 5,
+        "unit": "%",
+        "default": 100
+      },
+      {
+        "type": "range",
+        "id": "heading_letter_spacing",
+        "label": "Letter spacing",
+        "min": -5,
+        "max": 20,
+        "step": 1,
+        "default": 0
+      },
+      {
+        "type": "checkbox",
+        "id": "heading_uppercase",
+        "label": "Uppercase headings",
+        "default": false
+      },
+      {
+        "type": "header",
+        "content": "Body"
+      },
+      {
+        "type": "font_picker",
+        "id": "type_body_font",
+        "label": "Font",
+        "default": "assistant_n4"
+      },
+      {
+        "type": "range",
+        "id": "body_scale",
+        "label": "Size scale",
+        "min": 90,
+        "max": 120,
+        "step": 5,
+        "unit": "%",
+        "default": 100
+      }
+    ]
+  },
+  {
+    "name": "Layout",
+    "settings": [
+      {
+        "type": "range",
+        "id": "page_width",
+        "label": "Page width",
+        "min": 1000,
+        "max": 1800,
+        "step": 20,
+        "unit": "px",
+        "default": 1440
+      },
+      {
+        "type": "range",
+        "id": "page_gutter_desktop",
+        "label": "Side margin (desktop)",
+        "min": 16,
+        "max": 80,
+        "step": 4,
+        "unit": "px",
+        "default": 48
+      },
+      {
+        "type": "range",
+        "id": "page_gutter_mobile",
+        "label": "Side margin (mobile)",
+        "min": 12,
+        "max": 32,
+        "step": 2,
+        "unit": "px",
+        "default": 16
+      }
+    ]
+  },
+  {
+    "name": "Buttons and media",
+    "settings": [
+      {
+        "type": "range",
+        "id": "button_radius",
+        "label": "Button corner radius",
+        "min": 0,
+        "max": 40,
+        "step": 2,
+        "unit": "px",
+        "default": 0
+      },
+      {
+        "type": "range",
+        "id": "button_letter_spacing",
+        "label": "Button letter spacing",
+        "min": 0,
+        "max": 30,
+        "step": 1,
+        "default": 14
+      },
+      {
+        "type": "range",
+        "id": "media_radius",
+        "label": "Image corner radius",
+        "info": "Product, collection and editorial images.",
+        "min": 0,
+        "max": 24,
+        "step": 2,
+        "unit": "px",
+        "default": 0
+      },
+      {
+        "type": "range",
+        "id": "inspiration_radius",
+        "label": "Inspiration Station card radius",
+        "min": 0,
+        "max": 32,
+        "step": 2,
+        "unit": "px",
+        "default": 14
+      }
+    ]
+  },
+  {
+    "name": "Animations",
+    "settings": [
+      {
+        "type": "checkbox",
+        "id": "animations_enabled",
+        "label": "Enable subtle animations",
+        "info": "Reveal-on-scroll and hover transitions. Visitors with reduced-motion settings never see animations.",
+        "default": true
+      },
+      {
+        "type": "range",
+        "id": "animation_duration",
+        "label": "Duration",
+        "min": 150,
+        "max": 800,
+        "step": 50,
+        "unit": "ms",
+        "default": 400
+      }
+    ]
+  },
+  {
+    "name": "Product cards",
+    "settings": [
+      {
+        "type": "select",
+        "id": "card_image_ratio",
+        "label": "Image ratio",
+        "default": "portrait",
+        "options": [
+          {
+            "value": "square",
+            "label": "Square"
+          },
+          {
+            "value": "portrait",
+            "label": "Portrait (4:5)"
+          },
+          {
+            "value": "tall",
+            "label": "Tall (2:3)"
+          },
+          {
+            "value": "natural",
+            "label": "Natural"
+          }
+        ]
+      },
+      {
+        "type": "checkbox",
+        "id": "card_secondary_image",
+        "label": "Show second image on hover",
+        "default": true
+      },
+      {
+        "type": "checkbox",
+        "id": "card_show_vendor",
+        "label": "Show vendor",
+        "default": false
+      },
+      {
+        "type": "checkbox",
+        "id": "card_quick_add",
+        "label": "Enable quick add",
+        "default": true
+      },
+      {
+        "type": "checkbox",
+        "id": "card_show_sale_badge",
+        "label": "Show sale badge",
+        "default": true
+      },
+      {
+        "type": "checkbox",
+        "id": "card_show_soldout_badge",
+        "label": "Show sold out badge",
+        "default": true
+      },
+      {
+        "type": "text",
+        "id": "card_new_tag",
+        "label": "Product tag for “New” badge",
+        "info": "Products with this tag get a “New” badge. Leave blank to disable.",
+        "default": "new"
+      },
+      {
+        "type": "checkbox",
+        "id": "card_show_swatch_count",
+        "label": "Show number of colors",
+        "default": true
+      }
+    ]
+  },
+  {
+    "name": "Cart",
+    "settings": [
+      {
+        "type": "select",
+        "id": "cart_type",
+        "label": "Cart type",
+        "default": "drawer",
+        "options": [
+          {
+            "value": "drawer",
+            "label": "Drawer"
+          },
+          {
+            "value": "page",
+            "label": "Page"
+          }
+        ]
+      },
+      {
+        "type": "text",
+        "id": "cart_free_shipping_threshold",
+        "label": "Free shipping threshold",
+        "info": "Number only, in your store currency (e.g. 35). Leave blank to hide the progress message. Must match your real shipping rates.",
+        "default": "35"
+      },
+      {
+        "type": "richtext",
+        "id": "cart_note_text",
+        "label": "Text under checkout button",
+        "default": "<p>Taxes and shipping calculated at checkout.</p>"
+      },
+      {
+        "type": "checkbox",
+        "id": "cart_show_note",
+        "label": "Enable order note (gift message)",
+        "default": true
+      },
+      {
+        "type": "link_list",
+        "id": "cart_empty_menu",
+        "label": "Empty bag links",
+        "info": "Shown in the empty bag, e.g. your main categories.",
+        "default": "main-menu"
+      }
+    ]
+  },
+  {
+    "name": "Store information",
+    "settings": [
+      {
+        "type": "image_picker",
+        "id": "favicon",
+        "label": "Favicon",
+        "info": "32 × 32 px PNG recommended."
+      },
+      {
+        "type": "image_picker",
+        "id": "seo_logo",
+        "label": "Logo for search engines",
+        "info": "Used in Google structured data. Square or wide PNG."
+      },
+      {
+        "type": "text",
+        "id": "support_email",
+        "label": "Support email",
+        "default": "animajewels@animajewel.in"
+      },
+      {
+        "type": "text",
+        "id": "support_phone",
+        "label": "Support phone"
+      },
+      {
+        "type": "text",
+        "id": "support_hours",
+        "label": "Support hours"
+      }
+    ]
+  },
+  {
+    "name": "Social media",
+    "settings": [
+      {
+        "type": "text",
+        "id": "social_instagram",
+        "label": "Instagram URL"
+      },
+      {
+        "type": "text",
+        "id": "social_tiktok",
+        "label": "TikTok URL"
+      },
+      {
+        "type": "text",
+        "id": "social_pinterest",
+        "label": "Pinterest URL"
+      },
+      {
+        "type": "text",
+        "id": "social_facebook",
+        "label": "Facebook URL"
+      },
+      {
+        "type": "text",
+        "id": "social_youtube",
+        "label": "YouTube URL"
+      }
+    ]
+  },
+  {
+    "name": "Search",
+    "settings": [
+      {
+        "type": "checkbox",
+        "id": "predictive_search",
+        "label": "Enable search suggestions",
+        "default": true
+      }
+    ]
+  }
+]
