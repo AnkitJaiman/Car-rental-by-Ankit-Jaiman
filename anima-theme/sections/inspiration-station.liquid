@@ -140,8 +140,8 @@
         {%- if section.settings.link_label != blank and section.settings.header_alignment == 'center' and inspo_link != blank -%}
           <a href="{{ inspo_link }}" class="text-link link-underline" style="margin-right:16px"{% if inspo_link contains 'http' %} target="_blank" rel="noopener"{% endif %}>{{ section.settings.link_label | escape }}</a>
         {%- endif -%}
-        <button type="button" class="slider-button" data-inspo-prev aria-label="{{ 'general.previous' | t }}">{% render 'icon', name: 'chevron-left' %}</button>
-        <button type="button" class="slider-button" data-inspo-next aria-label="{{ 'general.next' | t }}">{% render 'icon', name: 'chevron-right' %}</button>
+        {%- if section.settings.show_arrows -%}<button type="button" class="slider-button" data-inspo-prev aria-label="{{ 'general.previous' | t }}">{% render 'icon', name: 'chevron-left' %}</button>
+        <button type="button" class="slider-button" data-inspo-next aria-label="{{ 'general.next' | t }}">{% render 'icon', name: 'chevron-right' %}</button>{%- endif -%}
       </div>
     </div>
   </div>
@@ -185,6 +185,7 @@
     ]},
     { "type": "checkbox", "id": "center_track", "label": "Center posts when they all fit on screen", "default": true },
     { "type": "checkbox", "id": "start_centered", "label": "Start scrolled to the middle post", "default": true },
+    { "type": "checkbox", "id": "show_arrows", "label": "Show arrow buttons", "default": false },
     { "type": "checkbox", "id": "autoplay", "label": "Slide automatically", "info": "Pauses when a shopper touches or hovers, and for visitors who turn off animations.", "default": true },
     { "type": "range", "id": "autoplay_speed", "label": "Change every", "min": 2, "max": 8, "step": 1, "unit": "s", "default": 4 },
     { "type": "range", "id": "width_sm", "label": "Small card width", "min": 140, "max": 360, "step": 10, "unit": "px", "default": 220 },

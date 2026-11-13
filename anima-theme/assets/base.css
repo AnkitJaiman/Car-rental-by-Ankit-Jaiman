@@ -888,3 +888,7 @@ body.scroll-lock .drawer__body, body.scroll-lock .quick-add-modal__panel, body.s
 .trust-strip--marquee .trust-strip__item:first-child { padding-left: 28px; }
 .trust-strip--marquee:hover .trust-strip__list, .trust-strip--marquee:focus-within .trust-strip__list { animation-play-state: paused; }
 @media (prefers-reduced-motion: reduce) { .trust-strip--marquee .trust-strip__list { animation: none; } .trust-strip--marquee .trust-strip__item--clone { display: none; } }
+
+/* ---------- Video controls: tap the video to pause; button only shows for keyboard users ---------- */
+.inspo-card__play:not(:focus-visible) { opacity: 0; pointer-events: none; }
+[data-inspo-video] video { cursor: pointer; }

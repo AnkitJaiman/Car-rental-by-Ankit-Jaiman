@@ -757,6 +757,8 @@
       var video = wrap.querySelector('video');
       var btn = wrap.querySelector('[data-inspo-play]');
       setPlayState(wrap, false);
+      // Tapping the video itself plays or pauses it (the visible button is hidden).
+      if (video && btn) video.addEventListener('click', function (e) { e.preventDefault(); btn.click(); });
       if (btn) btn.addEventListener('click', function (e) {
         e.preventDefault(); e.stopPropagation();
         if (video.dataset.src && !video.src) video.src = video.dataset.src;

@@ -40,7 +40,7 @@
         {%- if section.settings.link_label != blank -%}
           <a href="{{ section.settings.link | default: collection_obj.url | default: routes.all_products_collection_url }}" class="text-link link-underline" {% if layout == 'carousel' %} style="margin-right:16px"{% endif %}>{{ section.settings.link_label | escape }}</a>
         {%- endif -%}
-        {%- if layout == 'carousel' -%}
+        {%- if layout == 'carousel' and section.settings.show_arrows -%}
           <button type="button" class="slider-button" data-slider-prev aria-label="{{ 'general.previous' | t }}">{% render 'icon', name: 'chevron-left' %}</button>
           <button type="button" class="slider-button" data-slider-next aria-label="{{ 'general.next' | t }}">{% render 'icon', name: 'chevron-right' %}</button>
         {%- endif -%}
@@ -95,6 +95,7 @@
     { "type": "text", "id": "link_label", "label": "Link label", "default": "View all" },
     { "type": "url", "id": "link", "label": "Link", "info": "Defaults to the chosen collection." },
     { "type": "checkbox", "id": "soft_bg", "label": "Soft background", "default": false },
+    { "type": "checkbox", "id": "show_arrows", "label": "Show arrow buttons", "default": false },
     { "type": "checkbox", "id": "autoplay", "label": "Slide automatically", "info": "Pauses when a shopper touches or hovers, and for visitors who turn off animations.", "default": true },
     { "type": "range", "id": "autoplay_speed", "label": "Change every", "min": 2, "max": 8, "step": 1, "unit": "s", "default": 4 },
     { "type": "header", "content": "Spacing" },

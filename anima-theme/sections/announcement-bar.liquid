@@ -14,7 +14,7 @@
     data-announcement-bar data-autoplay="{{ section.settings.autoplay }}" data-speed="{{ section.settings.speed | times: 1000 }}">
     <div class="page-width announcement-bar__inner">
       {%- if count > 1 -%}
-        <button type="button" class="announcement-bar__nav announcement-bar__nav--prev" data-ab-prev aria-label="{{ 'general.previous' | t }}">{% render 'icon', name: 'chevron-left' %}</button>
+        {%- if section.settings.show_arrows -%}<button type="button" class="announcement-bar__nav announcement-bar__nav--prev" data-ab-prev aria-label="{{ 'general.previous' | t }}">{% render 'icon', name: 'chevron-left' %}</button>{%- endif -%}
       {%- endif -%}
       <div aria-live="polite">
         {%- assign shown = 0 -%}
@@ -32,7 +32,7 @@
         {%- endfor -%}
       </div>
       {%- if count > 1 -%}
-        <button type="button" class="announcement-bar__nav announcement-bar__nav--next" data-ab-next aria-label="{{ 'general.next' | t }}">{% render 'icon', name: 'chevron-right' %}</button>
+        {%- if section.settings.show_arrows -%}<button type="button" class="announcement-bar__nav announcement-bar__nav--next" data-ab-next aria-label="{{ 'general.next' | t }}">{% render 'icon', name: 'chevron-right' %}</button>{%- endif -%}
       {%- endif -%}
     </div>
   </div>
@@ -48,6 +48,7 @@
   "class": "section-announcement",
   "max_blocks": 6,
   "settings": [
+    { "type": "checkbox", "id": "show_arrows", "label": "Show arrow buttons", "default": false },
     { "type": "checkbox", "id": "enabled", "label": "Show announcement bar", "default": true },
     { "type": "select", "id": "show_on", "label": "Show on", "default": "all", "options": [
       { "value": "all", "label": "Desktop and mobile" },
