@@ -23,7 +23,7 @@
             "heading_size": "h0",
             "text": "<p>Natural blue-green sapphires, hand-set in genuine 925 sterling silver.</p>",
             "button_label": "Shop Montana sapphire",
-            "button_link": "shopify://collections/montana-sapphire",
+            "button_link": "shopify://collections/montana-sapphire-jewelry",
             "button_label_2": "Our story",
             "button_link_2": "shopify://pages/our-story",
             "vertical": "bottom",
@@ -121,14 +121,14 @@
         "c2": {
           "type": "category",
           "settings": {
-            "collection": "moissanite-engagement-rings",
+            "collection": "engagement-rings",
             "title": "Engagement Rings"
           }
         },
         "c3": {
           "type": "category",
           "settings": {
-            "collection": "necklaces",
+            "collection": "necklaces-pendants",
             "image": "shopify://shop_images/Necklace-36_1.jpg",
             "title": "Necklaces"
           }
@@ -152,7 +152,7 @@
         "c6": {
           "type": "category",
           "settings": {
-            "collection": "montana-sapphire",
+            "collection": "montana-sapphire-jewelry",
             "title": "Montana Sapphire"
           }
         }
@@ -380,9 +380,9 @@
     "spotlight": {
       "type": "editorial-spotlight",
       "settings": {
-        "collection": "moissanite-engagement-rings",
+        "collection": "engagement-rings",
         "eyebrow": "Spotlight",
-        "heading": "Moissanite engagement rings",
+        "heading": "Engagement rings",
         "use_collection_description": true,
         "show_products": true,
         "button_label": "Explore the collection",

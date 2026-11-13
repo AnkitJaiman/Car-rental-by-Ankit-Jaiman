@@ -162,7 +162,8 @@
       "send": "Send message",
       "success": "Thank you. We’ll get back to you as soon as possible.",
       "error": "Please correct the errors below.",
-      "hours": "Hours"
+      "hours": "Hours",
+      "order_number": "Order number"
     },
     "blog": {
       "read_more": "Read more",
