@@ -2,20 +2,14 @@
   "sections": {
     "hero": {
       "type": "hero",
-      "settings": {
-        "height_desktop": 85,
-        "height_mobile": 75,
-        "text_color": "light",
-        "autoplay": true,
-        "speed": 6,
-        "aria_label": "Featured"
-      },
       "blocks": {
         "slide-1": {
           "type": "slide",
           "settings": {
-            "image": "shopify://shop_images/aster-round-montana-sapphire-band-12-25-01.jpg",
+            "image": "shopify://shop_images/AJ-RNG-005-925-MTG_2.jpg",
             "image_position": "center center",
+            "image_mobile": "shopify://shop_images/AJ-RNG-005-925-MTG_2.jpg",
+            "image_mobile_position": "center center",
             "overlay": 25,
             "overlay_color": "#000000",
             "eyebrow": "Montana sapphire · 925 sterling silver",
@@ -32,67 +26,39 @@
           }
         }
       },
-      "block_order": [
-        "slide-1"
-      ]
+      "block_order": ["slide-1"],
+      "settings": {
+        "height_desktop": 85,
+        "height_mobile": 75,
+        "text_color": "light",
+        "autoplay": true,
+        "speed": 6,
+        "aria_label": "Featured"
+      }
     },
     "trust": {
       "type": "trust-strip",
-      "settings": {
-        "color_bg": "#FFFFFF",
-        "color_text": "#1C1B1A",
-        "mobile_marquee": true,
-        "ticker_speed": 40
-      },
       "blocks": {
-        "t1": {
-          "type": "item",
-          "settings": {
-            "text": "925 sterling silver",
-            "icon": "none"
-          }
-        },
-        "t2": {
-          "type": "item",
-          "settings": {
-            "text": "Nickel & lead free",
-            "icon": "none"
-          }
-        },
-        "t3": {
-          "type": "item",
-          "settings": {
-            "text": "Free US shipping over $35",
-            "icon": "none",
-            "link": "shopify://pages/shipping-policy"
-          }
-        },
-        "t4": {
-          "type": "item",
-          "settings": {
-            "text": "Free 30-day returns",
-            "icon": "none",
-            "link": "shopify://pages/refund-policy"
-          }
-        },
-        "t5": {
-          "type": "item",
-          "settings": {
-            "text": "Secure checkout",
-            "icon": "none"
-          }
-        }
+        "t1": { "type": "item", "settings": { "text": "925 sterling silver", "icon": "none", "link": "" } },
+        "t2": { "type": "item", "settings": { "text": "Nickel & lead free", "icon": "none", "link": "" } },
+        "t3": { "type": "item", "settings": { "text": "Free US shipping over $35", "icon": "none", "link": "shopify://pages/shipping-policy" } },
+        "t4": { "type": "item", "settings": { "text": "Free 30-day returns", "icon": "none", "link": "shopify://pages/refund-policy" } },
+        "t5": { "type": "item", "settings": { "text": "Secure checkout", "icon": "none", "link": "" } }
       },
-      "block_order": [
-        "t1",
-        "t2",
-        "t3",
-        "t4",
-        "t5"
-      ]
+      "block_order": ["t1", "t2", "t3", "t4", "t5"],
+      "settings": { "color_bg": "#ffffff", "color_text": "#1c1b1a", "mobile_marquee": true, "ticker_speed": 40 }
     },
     "categories": {
       "type": "category-grid",
+      "blocks": {
+        "c1": { "type": "category", "settings": { "collection": "rings", "title": "Rings", "link": "" } },
+        "c2": { "type": "category", "settings": { "collection": "engagement-rings", "title": "Engagement Rings", "link": "" } },
+        "c3": { "type": "category", "settings": { "collection": "necklaces-pendants", "title": "Necklaces", "link": "" } },
+        "c4": { "type": "category", "settings": { "collection": "earrings", "title": "Earrings", "link": "" } },
+        "c5": { "type": "category", "settings": { "collection": "bracelets", "title": "Bracelets", "link": "" } },
+        "c6": { "type": "category", "settings": { "collection": "montana-sapphire-jewelry", "title": "Montana Sapphire", "link": "" } }
+      },
+      "block_order": ["c1", "c2", "c3", "c4", "c5", "c6"],
       "settings": {
         "eyebrow": "Explore",
         "heading": "Shop by category",
@@ -107,73 +73,18 @@
         "mobile_carousel": true,
         "gap": 16,
         "hide_empty": true,
-        "padding_top": 88,
-        "padding_bottom": 40,
         "autoplay": true,
-        "autoplay_speed": 4
-      },
-      "blocks": {
-        "c1": {
-          "type": "category",
-          "settings": {
-            "collection": "rings",
-            "image": "shopify://shop_images/Rings.jpg",
-            "title": "Rings"
-          }
-        },
-        "c2": {
-          "type": "category",
-          "settings": {
-            "collection": "engagement-rings",
-            "title": "Engagement Rings"
-          }
-        },
-        "c3": {
-          "type": "category",
-          "settings": {
-            "collection": "necklaces-pendants",
-            "image": "shopify://shop_images/Necklace-36_1.jpg",
-            "title": "Necklaces"
-          }
-        },
-        "c4": {
-          "type": "category",
-          "settings": {
-            "collection": "earrings",
-            "image": "shopify://shop_images/WhiteDiamonds-EARRING.jpg",
-            "title": "Earrings"
-          }
-        },
-        "c5": {
-          "type": "category",
-          "settings": {
-            "collection": "bracelets",
-            "image": "shopify://shop_images/TEN-BRACELET.jpg",
-            "title": "Bracelets"
-          }
-        },
-        "c6": {
-          "type": "category",
-          "settings": {
-            "collection": "montana-sapphire-jewelry",
-            "title": "Montana Sapphire"
-          }
-        }
-      },
-      "block_order": [
-        "c1",
-        "c2",
-        "c3",
-        "c4",
-        "c5",
-        "c6"
-      ]
+        "autoplay_speed": 4,
+        "padding_top": 88,
+        "padding_bottom": 40
+      }
     },
     "new-arrivals": {
       "type": "featured-products",
       "settings": {
         "eyebrow": "Just in",
         "heading": "New arrivals",
+        "text": "",
         "header_alignment": "left",
         "collection": "new-arrivals",
         "limit": 10,
@@ -181,15 +92,23 @@
         "columns": 4,
         "columns_mobile": "2",
         "link_label": "View all",
+        "link": "",
         "soft_bg": false,
-        "padding_top": 48,
-        "padding_bottom": 88,
         "autoplay": true,
-        "autoplay_speed": 4
+        "autoplay_speed": 4,
+        "padding_top": 48,
+        "padding_bottom": 88
       }
     },
     "story": {
       "type": "image-with-text",
+      "blocks": {
+        "e": { "type": "eyebrow", "settings": { "text": "Our story" } },
+        "h": { "type": "heading", "settings": { "heading": "Anima means soul", "size": "h1" } },
+        "t": { "type": "text", "settings": { "text": "<p>Anima pairs Montana sapphire, emerald and lab-created moissanite with genuine 925 sterling silver. Our gold-tone styles are gold-plated over that same sterling silver, never over brass.</p><p>We design jewelry to be worn every day, priced honestly, with free 30-day returns.</p>" } },
+        "btn": { "type": "button", "settings": { "label": "Read our story", "link": "shopify://pages/our-story", "style": "primary" } }
+      },
+      "block_order": ["e", "h", "t", "btn"],
       "settings": {
         "image": "shopify://shop_images/Our_Story_Page.jpg",
         "image_position": "center center",
@@ -200,52 +119,33 @@
         "soft_bg": true,
         "padding_top": 96,
         "padding_bottom": 96
-      },
-      "blocks": {
-        "e": {
-          "type": "eyebrow",
-          "settings": {
-            "text": "Our story"
-          }
-        },
-        "h": {
-          "type": "heading",
-          "settings": {
-            "heading": "Anima means soul",
-            "size": "h1"
-          }
-        },
-        "t": {
-          "type": "text",
-          "settings": {
-            "text": "<p>Anima pairs Montana sapphire, emerald and lab-created moissanite with genuine 925 sterling silver. Our gold-tone styles are gold-plated over that same sterling silver, never over brass.</p><p>We design jewelry to be worn every day, priced honestly, with free 30-day returns.</p>"
-          }
-        },
-        "btn": {
-          "type": "button",
-          "settings": {
-            "label": "Read our story",
-            "link": "shopify://pages/our-story",
-            "style": "primary"
-          }
-        }
-      },
-      "block_order": [
-        "e",
-        "h",
-        "t",
-        "btn"
-      ]
+      }
     },
     "inspiration": {
       "type": "inspiration-station",
+      "blocks": {
+        "post-1": { "type": "post", "settings": { "visible": true, "video": "shopify://files/videos/reel-1-five-stone-ring.mp4", "video_url": "", "size": "auto", "creator_name": "Anima Jewels", "username": "anima_jewel_", "profile_url": "https://www.instagram.com/reel/DeewyhszpGr/?mdxt=djdwdDl3d2p4Znpq", "caption": "", "product": "emerald-cut-montana-sapphire-ring" } },
+        "post-2": { "type": "post", "settings": { "visible": true, "video": "shopify://files/videos/reel-2-cluster-ring.mp4", "video_url": "https://www.instagram.com/reel/De9RZI7T5oK/?vrfl=MXFvZm1yNDl4a2d4aw==", "size": "auto", "creator_name": "", "username": "", "profile_url": "https://www.instagram.com/reel/De9RZI7T5oK/?vrfl=MXFvZm1yNDl4a2d4aw==", "caption": "Natural Montana Sapphire Ring", "product": "oval-montana-sapphire-stone-ring" } },
+        "post-3": { "type": "post", "settings": { "visible": true, "video": "shopify://files/videos/reel-3-five-stone-oval-ring.mp4", "video_url": "", "size": "auto", "creator_name": "", "username": "", "profile_url": "", "caption": "", "product": "hexagon-montana-sapphire-ring" } },
+        "post-4": { "type": "post", "settings": { "visible": true, "video_url": "", "size": "auto", "creator_name": "", "username": "", "profile_url": "", "caption": "", "product": "montana-sapphire-eight-stone-ring-round-gemstones" } },
+        "post-5": { "type": "post", "settings": { "visible": true, "video_url": "", "size": "auto", "creator_name": "", "username": "", "profile_url": "", "caption": "", "product": "emerald-starburst-band-ring-round-emerald-gemstones" } },
+        "post-6": { "type": "post", "settings": { "visible": true, "video_url": "", "size": "auto", "creator_name": "", "username": "", "profile_url": "", "caption": "", "product": "montana-sapphire-five-stone-ring-in-gold-plated-925-sterling-silver" } },
+        "post-7": { "type": "post", "settings": { "visible": true, "video_url": "", "size": "auto", "creator_name": "", "username": "", "profile_url": "", "caption": "", "product": "montana-sapphire-cluster-ring-with-oval-round-gemstones" } },
+        "post-8": { "type": "post", "settings": { "visible": true, "video_url": "", "size": "auto", "creator_name": "", "username": "", "profile_url": "", "caption": "", "product": "montana-sapphire-five-stone-ring-oval-gemstones" } },
+        "post-9": { "type": "post", "settings": { "visible": true, "video_url": "", "size": "auto", "creator_name": "", "username": "", "profile_url": "", "caption": "", "product": "montana-sapphire-eight-stone-ring-round-gemstones" } },
+        "post-10": { "type": "post", "settings": { "visible": true, "video_url": "", "size": "auto", "creator_name": "", "username": "", "profile_url": "", "caption": "", "product": "emerald-starburst-band-ring-round-emerald-gemstones" } },
+        "post-11": { "type": "post", "settings": { "visible": true, "video_url": "", "size": "auto", "creator_name": "", "username": "", "profile_url": "", "caption": "", "product": "montana-sapphire-five-stone-ring-in-gold-plated-925-sterling-silver" } },
+        "post-12": { "type": "post", "settings": { "visible": true, "video_url": "", "size": "auto", "creator_name": "", "username": "", "profile_url": "", "caption": "", "product": "montana-sapphire-cluster-ring-with-oval-round-gemstones" } }
+      },
+      "block_order": ["post-1", "post-2", "post-3", "post-4", "post-5", "post-6", "post-7", "post-8", "post-9", "post-10", "post-11", "post-12"],
       "settings": {
         "eyebrow": "Styled by you",
         "heading": "Inspiration Station",
         "text": "<p>Real looks, real pieces. Tap a piece to shop it.</p>",
         "header_alignment": "center",
         "link_label": "Follow us on Instagram",
-        "max_posts": 12,
+        "link": "",
+        "max_posts": 5,
         "use_library": false,
         "show_creator": false,
         "show_caption": false,
@@ -254,6 +154,8 @@
         "align": "stagger",
         "center_track": true,
         "start_centered": true,
+        "autoplay": true,
+        "autoplay_speed": 4,
         "width_sm": 220,
         "height_sm": 330,
         "width_md": 250,
@@ -265,138 +167,28 @@
         "mobile_scale": 72,
         "gap_mobile": 12,
         "video_playback": "autoplay",
-        "color_bg": "#FFFFFF",
+        "color_bg": "#ffffff",
         "padding_top": 96,
-        "padding_bottom": 88,
-        "autoplay": true,
-        "autoplay_speed": 4
-      },
-      "blocks": {
-        "post-1": {
-          "type": "post",
-          "settings": {
-            "visible": true,
-            "size": "auto",
-            "product": "montana-sapphire-five-stone-ring-in-gold-plated-925-sterling-silver"
-          }
-        },
-        "post-2": {
-          "type": "post",
-          "settings": {
-            "visible": true,
-            "size": "auto",
-            "product": "montana-sapphire-cluster-ring-with-oval-round-gemstones"
-          }
-        },
-        "post-3": {
-          "type": "post",
-          "settings": {
-            "visible": true,
-            "size": "auto",
-            "product": "montana-sapphire-five-stone-ring-oval-gemstones"
-          }
-        },
-        "post-4": {
-          "type": "post",
-          "settings": {
-            "visible": true,
-            "size": "auto",
-            "product": "montana-sapphire-eight-stone-ring-round-gemstones"
-          }
-        },
-        "post-5": {
-          "type": "post",
-          "settings": {
-            "visible": true,
-            "size": "auto",
-            "product": "emerald-starburst-band-ring-round-emerald-gemstones"
-          }
-        },
-        "post-6": {
-          "type": "post",
-          "settings": {
-            "visible": true,
-            "size": "auto",
-            "product": "montana-sapphire-five-stone-ring-in-gold-plated-925-sterling-silver"
-          }
-        },
-        "post-7": {
-          "type": "post",
-          "settings": {
-            "visible": true,
-            "size": "auto",
-            "product": "montana-sapphire-cluster-ring-with-oval-round-gemstones"
-          }
-        },
-        "post-8": {
-          "type": "post",
-          "settings": {
-            "visible": true,
-            "size": "auto",
-            "product": "montana-sapphire-five-stone-ring-oval-gemstones"
-          }
-        },
-        "post-9": {
-          "type": "post",
-          "settings": {
-            "visible": true,
-            "size": "auto",
-            "product": "montana-sapphire-eight-stone-ring-round-gemstones"
-          }
-        },
-        "post-10": {
-          "type": "post",
-          "settings": {
-            "visible": true,
-            "size": "auto",
-            "product": "emerald-starburst-band-ring-round-emerald-gemstones"
-          }
-        },
-        "post-11": {
-          "type": "post",
-          "settings": {
-            "visible": true,
-            "size": "auto",
-            "product": "montana-sapphire-five-stone-ring-in-gold-plated-925-sterling-silver"
-          }
-        },
-        "post-12": {
-          "type": "post",
-          "settings": {
-            "visible": true,
-            "size": "auto",
-            "product": "montana-sapphire-cluster-ring-with-oval-round-gemstones"
-          }
-        }
-      },
-      "block_order": [
-        "post-1",
-        "post-2",
-        "post-3",
-        "post-4",
-        "post-5",
-        "post-6",
-        "post-7",
-        "post-8",
-        "post-9",
-        "post-10",
-        "post-11",
-        "post-12"
-      ]
+        "padding_bottom": 88
+      }
     },
     "spotlight": {
       "type": "editorial-spotlight",
       "settings": {
         "collection": "engagement-rings",
+        "image_position": "center center",
+        "image_ratio": "portrait",
         "eyebrow": "Spotlight",
         "heading": "Engagement rings",
+        "text": "",
         "use_collection_description": true,
         "show_products": true,
         "button_label": "Explore the collection",
+        "button_link": "",
         "layout": "image_right",
-        "image_ratio": "portrait",
-        "color_bg": "#F7F4F0",
-        "color_text": "#1C1B1A",
+        "overlay": 25,
+        "color_bg": "#f7f4f0",
+        "color_text": "#1c1b1a",
         "padding_top": 0,
         "padding_bottom": 0
       }
@@ -406,6 +198,7 @@
       "settings": {
         "eyebrow": "Made to stack",
         "heading": "Bracelets",
+        "text": "",
         "header_alignment": "left",
         "collection": "bracelets",
         "limit": 4,
@@ -413,10 +206,10 @@
         "columns": 4,
         "columns_mobile": "2",
         "link_label": "Shop bracelets",
+        "link": "shopify://collections/bracelets",
         "soft_bg": false,
         "padding_top": 96,
-        "padding_bottom": 64,
-        "link": "shopify://collections/bracelets"
+        "padding_bottom": 64
       }
     },
     "reviews": {
@@ -428,15 +221,23 @@
         "soft_bg": true,
         "padding_top": 88,
         "padding_bottom": 88
-      },
-      "blocks": {},
-      "block_order": []
+      }
     },
     "social": {
       "type": "social-gallery",
+      "blocks": {
+        "tile-1": { "type": "tile", "settings": { "username": "", "caption": "", "link": "" } },
+        "tile-2": { "type": "tile", "settings": { "username": "", "caption": "", "link": "" } },
+        "tile-3": { "type": "tile", "settings": { "username": "", "caption": "", "link": "" } },
+        "tile-4": { "type": "tile", "settings": { "username": "", "caption": "", "link": "" } },
+        "tile-5": { "type": "tile", "settings": { "username": "", "caption": "", "link": "" } },
+        "tile-6": { "type": "tile", "settings": { "username": "", "caption": "", "link": "" } }
+      },
+      "block_order": ["tile-1", "tile-2", "tile-3", "tile-4", "tile-5", "tile-6"],
       "settings": {
         "eyebrow": "Community",
         "heading": "Join our community",
+        "text": "",
         "network": "instagram",
         "columns": 6,
         "columns_mobile": "2",
@@ -444,55 +245,11 @@
         "gap": 6,
         "full_width": false,
         "button_label": "Follow on Instagram",
+        "button_link": "",
         "padding_top": 80,
         "padding_bottom": 80
-      },
-      "blocks": {
-        "tile-1": {
-          "type": "tile",
-          "settings": {}
-        },
-        "tile-2": {
-          "type": "tile",
-          "settings": {}
-        },
-        "tile-3": {
-          "type": "tile",
-          "settings": {}
-        },
-        "tile-4": {
-          "type": "tile",
-          "settings": {}
-        },
-        "tile-5": {
-          "type": "tile",
-          "settings": {}
-        },
-        "tile-6": {
-          "type": "tile",
-          "settings": {}
-        }
-      },
-      "block_order": [
-        "tile-1",
-        "tile-2",
-        "tile-3",
-        "tile-4",
-        "tile-5",
-        "tile-6"
-      ]
+      }
     }
   },
-  "order": [
-    "hero",
-    "trust",
-    "categories",
-    "new-arrivals",
-    "story",
-    "inspiration",
-    "spotlight",
-    "bestsellers",
-    "reviews",
-    "social"
-  ]
+  "order": ["hero", "trust", "categories", "new-arrivals", "story", "inspiration", "spotlight", "bestsellers", "reviews", "social"]
 }
