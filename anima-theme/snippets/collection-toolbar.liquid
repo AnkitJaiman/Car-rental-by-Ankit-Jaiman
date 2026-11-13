@@ -1,0 +1,32 @@
+{%- comment -%} Params: results (collection or search), section, filter_layout {%- endcomment -%}
+{%- liquid
+  if results.sort_by
+    assign sort_by = results.sort_by
+  else
+    assign sort_by = results.default_sort_by
+  endif
+  assign count = results.products_count | default: results.results_count
+-%}
+<div class="collection-toolbar">
+  <div class="collection-toolbar__left">
+    {%- if section.settings.enable_filtering and results.filters.size > 0 -%}
+      <button type="button" class="collection-toolbar__filter-button" data-drawer-open="FacetsDrawer" aria-controls="FacetsDrawer">
+        {% render 'icon', name: 'filter' %} {{ 'products.facets.filter' | t }}
+      </button>
+    {%- endif -%}
+    <span class="text-muted" data-product-count>{{ 'products.facets.product_count' | t: count: count }}</span>
+  </div>
+  {%- if section.settings.enable_sorting and results.sort_options.size > 0 -%}
+    <div class="collection-toolbar__sort">
+      <label for="SortBy-{{ section.id }}" class="hide-mobile-label">{{ 'products.facets.sort_by' | t }}</label>
+      <div class="select">
+        <select id="SortBy-{{ section.id }}" class="select__select" name="sort_by" data-sort-select aria-label="{{ 'products.facets.sort_by' | t }}">
+          {%- for option in results.sort_options -%}
+            <option value="{{ option.value | escape }}"{% if option.value == sort_by %} selected{% endif %}>{{ option.name | escape }}</option>
+          {%- endfor -%}
+        </select>
+      </div>
+    </div>
+  {%- endif -%}
+</div>
+<style>@media (max-width: 749px) { .hide-mobile-label { display: none; } }</style>

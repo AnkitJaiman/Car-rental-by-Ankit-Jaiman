@@ -1,0 +1,103 @@
+{%- comment -%}
+  Product card — all data from Shopify.
+  Params: product (required), sizes, lazy (default true), ratio (overrides theme setting), show_quick_add (default theme setting)
+{%- endcomment -%}
+{%- liquid
+  assign ratio_setting = ratio | default: settings.card_image_ratio
+  assign card_sizes = sizes | default: '(min-width: 990px) 25vw, 50vw'
+  assign featured = product.featured_media
+  assign secondary = nil
+  if settings.card_secondary_image and product.media.size > 1
+    assign secondary = product.media[1]
+  endif
+  assign quick_add = settings.card_quick_add
+  if show_quick_add == false
+    assign quick_add = false
+  endif
+  assign new_tag = settings.card_new_tag | strip | downcase
+  assign is_new = false
+  if new_tag != blank
+    for tag in product.tags
+      assign t = tag | downcase
+      if t == new_tag
+        assign is_new = true
+        break
+      endif
+    endfor
+  endif
+  assign color_option = nil
+  for option in product.options_with_values
+    assign o = option.name | downcase
+    if o == 'color' or o == 'colour' or o == 'metal' or o == 'finish'
+      assign color_option = option
+      break
+    endif
+  endfor
+-%}
+<div class="product-card">
+  <div class="product-card__media-wrap">
+  <a href="{{ product.url | within: collection }}" class="product-card__media" tabindex="-1" aria-hidden="true">
+    <div class="media media--{{ ratio_setting }}"{% if ratio_setting == 'natural' and featured %} style="--ratio: {{ featured.preview_image.aspect_ratio | default: 1 }}"{% endif %}>
+      {%- if featured -%}
+        {%- capture primary_class -%}product-card__img--primary{% if secondary %} has-secondary{% endif %}{%- endcapture -%}
+        {% render 'image', image: featured.preview_image, sizes: card_sizes, lazy: lazy, class: primary_class, alt: product.title, widths: '300, 450, 600, 800, 1000' %}
+        {%- if secondary -%}
+          {% render 'image', image: secondary.preview_image, sizes: card_sizes, class: 'product-card__img--secondary', alt: '', widths: '300, 450, 600, 800, 1000' %}
+        {%- endif -%}
+      {%- else -%}
+        {{ 'product-1' | placeholder_svg_tag: 'media__placeholder' }}
+      {%- endif -%}
+    </div>
+  </a>
+
+  <div class="product-card__badges">
+    {%- if product.available == false and settings.card_show_soldout_badge -%}
+      <span class="badge badge--soldout">{{ 'products.product.sold_out' | t }}</span>
+    {%- elsif product.compare_at_price > product.price and settings.card_show_sale_badge -%}
+      <span class="badge badge--sale">{{ 'products.product.on_sale' | t }}</span>
+    {%- endif -%}
+    {%- if is_new -%}
+      <span class="badge">{{ 'products.product.new' | t }}</span>
+    {%- endif -%}
+  </div>
+
+  {%- if quick_add and product.available -%}
+    {%- liquid
+      assign product_title_escaped = product.title | escape
+      if product.has_only_default_variant
+        assign qa_label = 'products.product.add_to_cart' | t
+      else
+        assign qa_label = 'products.product.choose_options' | t
+      endif
+    -%}
+    <div class="product-card__quick-add">
+      {%- if product.has_only_default_variant -%}
+        <form method="post" action="{{ routes.cart_add_url }}" data-product-form>
+          <input type="hidden" name="id" value="{{ product.selected_or_first_available_variant.id }}">
+          <input type="hidden" name="quantity" value="1">
+          <button type="submit" class="button product-card__qa-button" aria-label="{{ 'accessibility.quick_add_for' | t: label: qa_label, product: product_title_escaped }}">
+            <span class="product-card__qa-label">{{ qa_label }}</span>
+            <span class="product-card__qa-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M12 5v14M5 12h14"/></svg></span>
+          </button>
+        </form>
+      {%- else -%}
+        <button type="button" class="button product-card__qa-button" data-quick-add="{{ product.url | within: collection }}" aria-haspopup="dialog" aria-label="{{ 'accessibility.quick_add_for' | t: label: qa_label, product: product_title_escaped }}">
+          <span class="product-card__qa-label">{{ qa_label }}</span>
+          <span class="product-card__qa-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M12 5v14M5 12h14"/></svg></span>
+        </button>
+      {%- endif -%}
+    </div>
+  {%- endif -%}
+  </div>
+
+  <div class="product-card__info">
+    {%- if settings.card_show_vendor -%}
+      <span class="product-card__vendor"><span class="visually-hidden">{{ 'accessibility.vendor' | t }}</span>{{ product.vendor | escape }}</span>
+    {%- endif -%}
+    <h3 class="product-card__title"><a href="{{ product.url | within: collection }}">{{ product.title | escape }}</a></h3>
+    {% render 'price', product: product, show_from: true %}
+    {%- if settings.card_show_swatch_count and color_option and color_option.values.size > 1 -%}
+      <span class="product-card__meta">{{ 'products.product.colors' | t: count: color_option.values.size }}</span>
+    {%- endif -%}
+  </div>
+</div>

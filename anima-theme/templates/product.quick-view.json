@@ -1,0 +1,48 @@
+{
+  "layout": false,
+  "sections": {
+    "main": {
+      "type": "main-product",
+      "settings": {
+        "gallery_layout": "carousel",
+        "image_ratio": "portrait",
+        "show_breadcrumbs": false,
+        "show_view_details": true,
+        "padding_top": 0,
+        "padding_bottom": 0
+      },
+      "blocks": {
+        "title": {
+          "type": "title",
+          "settings": {}
+        },
+        "price": {
+          "type": "price",
+          "settings": {}
+        },
+        "variants": {
+          "type": "variant_picker",
+          "settings": {
+            "show_swatches": true,
+            "size_guide_page": "ring-size-guide"
+          }
+        },
+        "buy": {
+          "type": "buy_buttons",
+          "settings": {
+            "show_dynamic_checkout": false
+          }
+        }
+      },
+      "block_order": [
+        "title",
+        "price",
+        "variants",
+        "buy"
+      ]
+    }
+  },
+  "order": [
+    "main"
+  ]
+}

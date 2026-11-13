@@ -1,0 +1,124 @@
+{
+  "sections": {
+    "intro": {
+      "type": "rich-text",
+      "settings": {
+        "alignment": "center",
+        "padding_top": 64,
+        "padding_bottom": 24
+      },
+      "blocks": {
+        "e": {
+          "type": "eyebrow",
+          "settings": {
+            "text": "Shipping & delivery"
+          }
+        },
+        "h": {
+          "type": "heading",
+          "settings": {
+            "heading": "Our shipping policy",
+            "size": "h1",
+            "tag": "h1"
+          }
+        },
+        "t": {
+          "type": "text",
+          "settings": {
+            "text": "<p>We want to get your Anima Jewels pieces to you as safely and quickly as possible. Here is everything you need to know about our dispatch process and timelines.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "e",
+        "h",
+        "t"
+      ]
+    },
+    "tips": {
+      "type": "multicolumn",
+      "settings": {
+        "heading": "",
+        "columns": 2,
+        "columns_mobile": "1",
+        "alignment": "left",
+        "padding_top": 40,
+        "padding_bottom": 64
+      },
+      "blocks": {
+        "c0": {
+          "type": "column",
+          "settings": {
+            "icon": "none",
+            "title": "Free shipping over $35",
+            "text": "<p>Enjoy free standard shipping on all orders over $35. For orders under $35, a flat standard shipping rate applies.</p>"
+          }
+        },
+        "c1": {
+          "type": "column",
+          "settings": {
+            "icon": "none",
+            "title": "Processing time",
+            "text": "<p>All orders are processed and dispatched within 1–2 business days. You will receive a confirmation email with a tracking link the moment your package ships.</p>"
+          }
+        },
+        "c2": {
+          "type": "column",
+          "settings": {
+            "icon": "none",
+            "title": "Delivery timelines",
+            "text": "<p>Standard delivery typically takes 3–7 business days after your order ships, depending on your location. Please allow extra time during holidays and sales events.</p>"
+          }
+        },
+        "c3": {
+          "type": "column",
+          "settings": {
+            "icon": "none",
+            "title": "US delivery only",
+            "text": "<p>We currently ship within the United States only.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "c0",
+        "c1",
+        "c2",
+        "c3"
+      ]
+    },
+    "note": {
+      "type": "rich-text",
+      "settings": {
+        "alignment": "center",
+        "soft_bg": true,
+        "padding_top": 56,
+        "padding_bottom": 56
+      },
+      "blocks": {
+        "h": {
+          "type": "heading",
+          "settings": {
+            "heading": "Important address note",
+            "size": "h2",
+            "tag": "h2"
+          }
+        },
+        "t": {
+          "type": "text",
+          "settings": {
+            "text": "<p>Please ensure your shipping address is entered completely and accurately at checkout. We cannot be held responsible for packages delayed or returned due to incorrect addresses.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "h",
+        "t"
+      ]
+    }
+  },
+  "order": [
+    "intro",
+    "tips",
+    "note"
+  ]
+}

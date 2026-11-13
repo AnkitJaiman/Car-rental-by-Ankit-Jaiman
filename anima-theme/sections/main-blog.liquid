@@ -1,0 +1,26 @@
+<div class="section" style="--pt: 0px; --pb: 96px;">
+  <div class="page-width">
+    <header class="page-header"><h1 class="page-header__title">{{ blog.title | escape }}</h1></header>
+    {%- paginate blog.articles by 12 -%}
+      <ul class="grid" role="list" style="--cols: 3; --cols-tablet: 2; --cols-mobile: 1;">
+        {%- for article in blog.articles -%}
+          <li>
+            <a href="{{ article.url }}" class="article-card">
+              <div class="media media--landscape">
+                {%- assign lazy_img = true -%}{%- if forloop.index <= 3 -%}{%- assign lazy_img = false -%}{%- endif -%}{%- if article.image -%}{% render 'image', image: article.image, sizes: '(min-width: 990px) 33vw, 100vw', lazy: lazy_img %}{%- else -%}{{ 'lifestyle-1' | placeholder_svg_tag: 'placeholder-svg' }}{%- endif -%}
+              </div>
+              <h2 class="article-card__title">{{ article.title | escape }}</h2>
+              <p class="article-card__meta">{{ article.published_at | time_tag: format: 'date' }}</p>
+              {%- if article.excerpt_or_content != blank -%}<p class="text-muted">{{ article.excerpt_or_content | strip_html | truncatewords: 24 }}</p>{%- endif -%}
+            </a>
+          </li>
+        {%- endfor -%}
+      </ul>
+      {% render 'pagination', paginate: paginate, style: 'numbers' %}
+    {%- endpaginate -%}
+  </div>
+</div>
+
+{% schema %}
+{ "name": "Blog posts", "class": "section-main-blog", "settings": [] }
+{% endschema %}

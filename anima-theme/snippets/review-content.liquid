@@ -1,0 +1,14 @@
+{%- assign r = block.settings -%}
+{%- if r.rating > 0 -%}
+  <div class="testimonial__stars" role="img" aria-label="{{ 'accessibility.rating' | t: rating: r.rating }}">
+    {%- for i in (1..5) -%}{%- if i <= r.rating -%}{% render 'icon', name: 'star' %}{%- else -%}{% render 'icon', name: 'star-empty' %}{%- endif -%}{%- endfor -%}
+  </div>
+{%- endif -%}
+<blockquote class="testimonial__quote">{{ r.quote | default: 'Add a genuine customer review.' | escape | newline_to_br }}</blockquote>
+<div class="testimonial__author">
+  {%- if r.avatar != blank -%}<span class="testimonial__avatar">{{ r.avatar | image_url: width: 120 | image_tag: loading: 'lazy', alt: r.author, widths: '60, 120', sizes: '48px' }}</span>{%- endif -%}
+  {%- if r.author != blank -%}<span>{{ r.author | escape }}</span>{%- endif -%}
+</div>
+{%- if r.product != blank -%}
+  <p class="testimonial__product" style="margin:0"><a href="{{ r.product.url }}">{{ r.product.title | escape }}</a></p>
+{%- endif -%}

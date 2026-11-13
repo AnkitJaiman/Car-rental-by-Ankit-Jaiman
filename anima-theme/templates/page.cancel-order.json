@@ -1,0 +1,74 @@
+{
+  "sections": {
+    "intro": {
+      "type": "rich-text",
+      "settings": {
+        "alignment": "center",
+        "padding_top": 64,
+        "padding_bottom": 0
+      },
+      "blocks": {
+        "e": {
+          "type": "eyebrow",
+          "settings": {
+            "text": "Orders"
+          }
+        },
+        "h": {
+          "type": "heading",
+          "settings": {
+            "heading": "Cancel an order",
+            "size": "h1",
+            "tag": "h1"
+          }
+        },
+        "t": {
+          "type": "text",
+          "settings": {
+            "text": "<p>Changed your mind? Send us a cancellation request with your order number. Requests made within 24 hours of placing the order can be cancelled before your piece ships, with a full refund to your original payment method.</p><p>Once an order has shipped it can no longer be cancelled, but you can still return it under our <a href=\"/pages/refund-policy\">returns policy</a>.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "e",
+        "h",
+        "t"
+      ]
+    },
+    "form": {
+      "type": "contact-form",
+      "settings": {
+        "heading": "",
+        "text": "<p>You can find your order number in your confirmation email, or in your account under Orders.</p>",
+        "show_order_field": true,
+        "subject": "Order cancellation request",
+        "padding_top": 48,
+        "padding_bottom": 96
+      },
+      "blocks": {
+        "d1": {
+          "type": "detail",
+          "settings": {
+            "title": "When can I cancel?",
+            "text": "<p>Within 24 hours of placing your order, before it ships.</p>"
+          }
+        },
+        "d2": {
+          "type": "detail",
+          "settings": {
+            "title": "Refunds",
+            "text": "<p>Cancelled orders are refunded in full to the original payment method.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "d1",
+        "d2"
+      ]
+    }
+  },
+  "order": [
+    "intro",
+    "form"
+  ]
+}

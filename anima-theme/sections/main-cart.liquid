@@ -1,0 +1,52 @@
+<div class="section" style="--pt: 48px; --pb: 96px;" data-cart-page data-section-id="{{ section.id }}">
+  <div class="page-width">
+    <header class="page-header" style="padding-top:0"><h1 class="page-header__title">{{ 'cart.title' | t }}</h1></header>
+    {%- if cart.item_count > 0 -%}
+      <div class="cart-page">
+        <div>
+          <div data-cart-items>
+          {% render 'cart-progress' %}
+          <form action="{{ routes.cart_url }}" method="post" id="CartFormPage" novalidate>
+            {% render 'cart-line-items', heading_tag: 'h2' %}
+            <noscript><button type="submit" class="button button--secondary" style="margin-top:16px">{{ 'cart.update' | t }}</button></noscript>
+          </form>
+          </div>
+          <p style="margin-top:24px"><a href="{{ routes.all_products_collection_url }}" class="text-link link-underline">{{ 'cart.continue_shopping' | t }}</a></p>
+        </div>
+        <aside class="cart-page__summary">
+          {%- if settings.cart_show_note -%}
+            <label class="field cart-note"><span class="field__label">{{ 'cart.note' | t }}</span>
+              <textarea class="field__input" name="note" form="CartFormPage" data-cart-note>{{ cart.note | escape }}</textarea>
+            </label>
+          {%- endif -%}
+          {% render 'cart-summary', form_suffix: 'Page', show_dynamic: section.settings.show_dynamic %}
+        </aside>
+      </div>
+    {%- else -%}
+{%- assign empty_menu = settings.cart_empty_menu -%}
+      <div class="cart-empty">
+        <p>{{ 'cart.empty' | t }}</p>
+        <a href="{{ routes.all_products_collection_url }}" class="button" data-cart-focus-fallback>{{ 'cart.continue_shopping' | t }}</a>
+        {%- if empty_menu.links.size > 0 -%}
+          <p class="eyebrow" style="margin-top:32px">{{ 'cart.popular' | t }}</p>
+          <ul class="cart-empty__links" role="list">
+            {%- for link in empty_menu.links limit: 6 -%}
+              {%- if link.type == 'collection_link' and link.object.products_count == 0 -%}{%- continue -%}{%- endif -%}
+                  {%- unless link.url == routes.root_url or link.url == '#' or link.type == 'page_link' or link.type == 'blog_link' -%}<li><a href="{{ link.url }}">{{ link.title | escape }}</a></li>{%- endunless -%}
+            {%- endfor -%}
+          </ul>
+        {%- endif -%}
+      </div>
+    {%- endif -%}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Cart",
+  "class": "section-main-cart",
+  "settings": [
+    { "type": "checkbox", "id": "show_dynamic", "label": "Show accelerated checkout buttons", "info": "Shop Pay, PayPal, Apple Pay… when enabled in Shopify payments settings.", "default": true }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,124 @@
+{
+  "sections": {
+    "intro": {
+      "type": "rich-text",
+      "settings": {
+        "alignment": "center",
+        "padding_top": 64,
+        "padding_bottom": 24
+      },
+      "blocks": {
+        "e": {
+          "type": "eyebrow",
+          "settings": {
+            "text": "Returns & refunds"
+          }
+        },
+        "h": {
+          "type": "heading",
+          "settings": {
+            "heading": "Our refund policy",
+            "size": "h1",
+            "tag": "h1"
+          }
+        },
+        "t": {
+          "type": "text",
+          "settings": {
+            "text": "<p>We want you to love your Anima Jewels pieces. If you are not completely satisfied, returns are free within 30 days. Here is how it works.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "e",
+        "h",
+        "t"
+      ]
+    },
+    "tips": {
+      "type": "multicolumn",
+      "settings": {
+        "heading": "",
+        "columns": 2,
+        "columns_mobile": "1",
+        "alignment": "left",
+        "padding_top": 40,
+        "padding_bottom": 64
+      },
+      "blocks": {
+        "c0": {
+          "type": "column",
+          "settings": {
+            "icon": "none",
+            "title": "Free 30-day returns",
+            "text": "<p>You have 30 days after receiving your item to request a return or exchange, and we cover the return shipping.</p>"
+          }
+        },
+        "c1": {
+          "type": "column",
+          "settings": {
+            "icon": "none",
+            "title": "Item condition",
+            "text": "<p>To be eligible, your jewelry must be unworn, free of scratches, and returned in its original packaging (including the anti-tarnish pouch).</p>"
+          }
+        },
+        "c2": {
+          "type": "column",
+          "settings": {
+            "icon": "none",
+            "title": "How to start a return",
+            "text": "<p><a href=\"/pages/contact\">Contact us</a> with your order number within 30 days of delivery. We will send return instructions and a free return label.</p>"
+          }
+        },
+        "c3": {
+          "type": "column",
+          "settings": {
+            "icon": "none",
+            "title": "Refund processing",
+            "text": "<p>Approved refunds are credited back to your original payment method within 5–7 business days.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "c0",
+        "c1",
+        "c2",
+        "c3"
+      ]
+    },
+    "note": {
+      "type": "rich-text",
+      "settings": {
+        "alignment": "center",
+        "soft_bg": true,
+        "padding_top": 56,
+        "padding_bottom": 56
+      },
+      "blocks": {
+        "h": {
+          "type": "heading",
+          "settings": {
+            "heading": "Return conditions",
+            "size": "h2",
+            "tag": "h2"
+          }
+        },
+        "t": {
+          "type": "text",
+          "settings": {
+            "text": "<p>Items must be unworn and in their original packaging. Some items are final sale and cannot be returned. Items sent back without first requesting a return can’t be accepted. You can cancel an order within 24 hours of placing it. These terms do not limit your rights under applicable law; see our full <a href=\"/policies/refund-policy\">refund policy</a>.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "h",
+        "t"
+      ]
+    }
+  },
+  "order": [
+    "intro",
+    "tips",
+    "note"
+  ]
+}

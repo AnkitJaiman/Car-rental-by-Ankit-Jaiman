@@ -1,0 +1,34 @@
+{%- comment -%}
+  Native Shopify newsletter form (creates a customer with marketing consent).
+  Params: form_id (required, unique per page), button_label, boxed
+{%- endcomment -%}
+{%- liquid
+  assign nl_success = success_message
+  if nl_success == blank
+    assign nl_success = 'general.newsletter.success' | t
+  endif
+  assign nl_error = error_message
+  if nl_error == blank
+    assign nl_error = 'general.newsletter.error' | t
+  endif
+  assign nl_button = button_label
+  if nl_button == blank
+    assign nl_button = 'general.newsletter.subscribe' | t
+  endif
+-%}
+{%- form 'customer', id: form_id, class: 'newsletter-form' -%}
+  <input type="hidden" name="contact[tags]" value="newsletter">
+  {%- if form.posted_successfully? -%}
+    <p class="form-message form-message--success" role="status" tabindex="-1" autofocus>{{ nl_success | escape }}</p>
+  {%- else -%}
+    <div class="newsletter__form">
+      <label for="{{ form_id }}-email" class="visually-hidden">{{ 'general.newsletter.email' | t }}</label>
+      <input type="email" id="{{ form_id }}-email" name="contact[email]" value="{{ form.email }}" placeholder="{{ 'general.newsletter.email' | t }}" autocomplete="email" required
+        {% if form.errors %}aria-invalid="true" aria-describedby="{{ form_id }}-error"{% endif %}>
+      <button type="submit">{{ nl_button | escape }}</button>
+    </div>
+    {%- if form.errors -%}
+      <p class="form-message form-message--error" id="{{ form_id }}-error" role="alert">{{ nl_error | escape }}</p>
+    {%- endif -%}
+  {%- endif -%}
+{%- endform -%}

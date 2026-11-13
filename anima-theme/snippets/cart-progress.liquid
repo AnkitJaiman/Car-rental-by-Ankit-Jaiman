@@ -1,0 +1,28 @@
+{%- liquid
+  assign threshold_text = settings.cart_free_shipping_threshold | strip
+-%}
+{%- comment -%} The threshold is in the store currency, so the bar is hidden for other currencies. {%- endcomment -%}
+{%- if threshold_text != blank and cart.item_count > 0 and cart.currency.iso_code == shop.currency -%}
+  {%- liquid
+    assign threshold = threshold_text | times: 100 | round
+    assign total = cart.total_price
+    assign remaining = threshold | minus: total
+    if threshold > 0
+      assign pct = total | times: 100 | divided_by: threshold
+    else
+      assign pct = 100
+    endif
+    if pct > 100
+      assign pct = 100
+    endif
+  -%}
+  <div class="cart-progress" role="status">
+    {%- if remaining > 0 -%}
+      {%- assign remaining_money = remaining | money -%}
+      {{ 'cart.free_shipping_remaining' | t: amount: remaining_money }}
+    {%- else -%}
+      {{ 'cart.free_shipping_reached' | t }}
+    {%- endif -%}
+    <div class="cart-progress__bar" aria-hidden="true"><span style="width: {{ pct }}%"></span></div>
+  </div>
+{%- endif -%}

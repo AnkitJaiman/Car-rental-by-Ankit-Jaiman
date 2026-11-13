@@ -1,0 +1,74 @@
+{%- liquid
+  assign visible_blocks = section.blocks | where: 'type', 'announcement'
+  assign count = 0
+  for block in visible_blocks
+    if block.settings.text != blank
+      assign count = count | plus: 1
+    endif
+  endfor
+-%}
+{%- if section.settings.enabled and count > 0 -%}
+  {%- capture visibility -%}{% if section.settings.show_on == 'desktop' %} hide-mobile{% elsif section.settings.show_on == 'mobile' %} hide-desktop{% endif %}{%- endcapture -%}
+  <div class="announcement-bar{{ visibility }}" role="region" aria-label="{{ section.settings.aria_label | escape }}"
+    style="--ab-bg: {{ section.settings.color_bg }}; --ab-text: {{ section.settings.color_text }};"
+    data-announcement-bar data-autoplay="{{ section.settings.autoplay }}" data-speed="{{ section.settings.speed | times: 1000 }}">
+    <div class="page-width announcement-bar__inner">
+      {%- if count > 1 -%}
+        <button type="button" class="announcement-bar__nav announcement-bar__nav--prev" data-ab-prev aria-label="{{ 'general.previous' | t }}">{% render 'icon', name: 'chevron-left' %}</button>
+      {%- endif -%}
+      <div aria-live="polite">
+        {%- assign shown = 0 -%}
+        {%- for block in section.blocks -%}
+          {%- if block.settings.text != blank -%}
+            <p class="announcement-bar__slide{% if shown == 0 %} is-active{% endif %}" style="margin:0" data-ab-slide {{ block.shopify_attributes }}>
+              {%- if block.settings.link != blank -%}
+                <a href="{{ block.settings.link }}">{{ block.settings.text | escape }}</a>
+              {%- else -%}
+                {{ block.settings.text | escape }}
+              {%- endif -%}
+            </p>
+            {%- assign shown = shown | plus: 1 -%}
+          {%- endif -%}
+        {%- endfor -%}
+      </div>
+      {%- if count > 1 -%}
+        <button type="button" class="announcement-bar__nav announcement-bar__nav--next" data-ab-next aria-label="{{ 'general.next' | t }}">{% render 'icon', name: 'chevron-right' %}</button>
+      {%- endif -%}
+    </div>
+  </div>
+  <style>
+    @media (max-width: 749px) { .announcement-bar.hide-mobile { display: none; } }
+    @media (min-width: 750px) { .announcement-bar.hide-desktop { display: none; } }
+  </style>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "Announcement bar",
+  "class": "section-announcement",
+  "max_blocks": 6,
+  "settings": [
+    { "type": "checkbox", "id": "enabled", "label": "Show announcement bar", "default": true },
+    { "type": "select", "id": "show_on", "label": "Show on", "default": "all", "options": [
+      { "value": "all", "label": "Desktop and mobile" },
+      { "value": "desktop", "label": "Desktop only" },
+      { "value": "mobile", "label": "Mobile only" }
+    ]},
+    { "type": "checkbox", "id": "autoplay", "label": "Rotate announcements automatically", "default": true },
+    { "type": "range", "id": "speed", "label": "Change every", "min": 3, "max": 12, "step": 1, "unit": "s", "default": 5 },
+    { "type": "color", "id": "color_bg", "label": "Background", "default": "#1C1B1A" },
+    { "type": "color", "id": "color_text", "label": "Text", "default": "#FFFFFF" },
+    { "type": "text", "id": "aria_label", "label": "Accessible label", "default": "Announcements" }
+  ],
+  "blocks": [
+    {
+      "type": "announcement",
+      "name": "Announcement",
+      "settings": [
+        { "type": "text", "id": "text", "label": "Text", "default": "Free US shipping on orders over $35" },
+        { "type": "url", "id": "link", "label": "Link (optional)" }
+      ]
+    }
+  ]
+}
+{% endschema %}
