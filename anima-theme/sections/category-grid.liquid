@@ -30,7 +30,7 @@
       </div>
     {%- endif -%}
     <div class="{% if mobile_carousel %}slider-wrap--bleed{% endif %}">
-      <ul class="{% if mobile_carousel %}slider category-slider{% else %}grid{% endif %}" role="list"
+      <ul class="{% if mobile_carousel %}slider category-slider{% else %}grid{% endif %}" role="list"{% if mobile_carousel and section.settings.autoplay %} data-autoplay-track data-autoplay-interval="{{ section.settings.autoplay_speed | times: 1000 }}" data-autoplay-align="start"{% endif %}
         style="--cols: {{ cols }}; --cols-tablet: {% if cols > 3 %}2{% else %}{{ cols }}{% endif %}; --cols-mobile: {{ section.settings.columns_mobile }}; --gap-x: {{ section.settings.gap }}px; --gap-y: {{ section.settings.gap }}px; --slide-w: 72%;">
         {%- for block in section.blocks -%}
           {%- liquid
@@ -105,6 +105,8 @@
     { "type": "checkbox", "id": "mobile_carousel", "label": "Swipeable carousel on mobile", "default": true },
     { "type": "range", "id": "gap", "label": "Card spacing", "min": 0, "max": 48, "step": 4, "unit": "px", "default": 16 },
     { "type": "checkbox", "id": "hide_empty", "label": "Hide empty collections", "default": true },
+    { "type": "checkbox", "id": "autoplay", "label": "Slide automatically", "info": "Pauses when a shopper touches or hovers, and for visitors who turn off animations.", "default": true },
+    { "type": "range", "id": "autoplay_speed", "label": "Change every", "min": 2, "max": 8, "step": 1, "unit": "s", "default": 4 },
     { "type": "header", "content": "Spacing" },
     { "type": "range", "id": "padding_top", "label": "Top padding", "min": 0, "max": 160, "step": 8, "unit": "px", "default": 80 },
     { "type": "range", "id": "padding_bottom", "label": "Bottom padding", "min": 0, "max": 160, "step": 8, "unit": "px", "default": 80 }

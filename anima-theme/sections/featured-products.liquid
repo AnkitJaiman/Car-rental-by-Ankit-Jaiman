@@ -48,7 +48,7 @@
     </div>
 
     <div class="{% if layout == 'carousel' %}slider-wrap--bleed{% endif %}">
-      <ul class="{% if layout == 'carousel' %}slider slider--desktop{% else %}grid{% endif %}" role="list" data-slider
+      <ul class="{% if layout == 'carousel' %}slider slider--desktop{% else %}grid{% endif %}" role="list" data-slider{% if layout == 'carousel' and section.settings.autoplay %} data-autoplay-track data-autoplay-interval="{{ section.settings.autoplay_speed | times: 1000 }}" data-autoplay-align="start"{% endif %}
         style="--cols: {{ cols }}; --cols-tablet: {% if cols > 3 %}3{% else %}{{ cols }}{% endif %}; --cols-mobile: {{ section.settings.columns_mobile }}; --slide-w: 70%;">
         {%- if picked.size > 0 -%}
           {%- for block in picked limit: limit -%}
@@ -95,6 +95,8 @@
     { "type": "text", "id": "link_label", "label": "Link label", "default": "View all" },
     { "type": "url", "id": "link", "label": "Link", "info": "Defaults to the chosen collection." },
     { "type": "checkbox", "id": "soft_bg", "label": "Soft background", "default": false },
+    { "type": "checkbox", "id": "autoplay", "label": "Slide automatically", "info": "Pauses when a shopper touches or hovers, and for visitors who turn off animations.", "default": true },
+    { "type": "range", "id": "autoplay_speed", "label": "Change every", "min": 2, "max": 8, "step": 1, "unit": "s", "default": 4 },
     { "type": "header", "content": "Spacing" },
     { "type": "range", "id": "padding_top", "label": "Top padding", "min": 0, "max": 160, "step": 8, "unit": "px", "default": 80 },
     { "type": "range", "id": "padding_bottom", "label": "Bottom padding", "min": 0, "max": 160, "step": 8, "unit": "px", "default": 80 }

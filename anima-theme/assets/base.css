@@ -881,3 +881,10 @@ body.scroll-lock .drawer__body, body.scroll-lock .quick-add-modal__panel, body.s
 .predictive__empty { padding-top: 24px; color: var(--color-text-muted); margin: 0; }
 .search-modal.has-results [data-search-start] { display: none; }
 @media (max-width: 749px) { .search-modal__panel { max-height: 100vh; height: 100%; } .search-modal .drawer__overlay { display: none; } }
+
+/* ---------- Auto-moving sections ---------- */
+.trust-strip--marquee .trust-strip__list { display: flex; flex-wrap: nowrap; justify-content: flex-start; width: max-content; padding: 16px 0; overflow: visible; animation: marquee var(--ts-speed, 40s) linear infinite; }
+.trust-strip--marquee .trust-strip__item { flex-shrink: 0; white-space: nowrap; padding: 0 28px; }
+.trust-strip--marquee .trust-strip__item:first-child { padding-left: 28px; }
+.trust-strip--marquee:hover .trust-strip__list, .trust-strip--marquee:focus-within .trust-strip__list { animation-play-state: paused; }
+@media (prefers-reduced-motion: reduce) { .trust-strip--marquee .trust-strip__list { animation: none; } .trust-strip--marquee .trust-strip__item--clone { display: none; } }

@@ -816,6 +816,55 @@
   }
 
   /* ------------------------------------------------------------------ */
+  /* Autoplay for horizontal tracks (categories, products, inspiration)  */
+  /* ------------------------------------------------------------------ */
+  function initAutoplay(root) {
+    if (reduceMotion) return;
+    $$('[data-autoplay-track]', root).forEach(function (track) {
+      if (track.dataset.autoplayReady) return;
+      track.dataset.autoplayReady = 'true';
+      var interval = Math.max(parseInt(track.dataset.autoplayInterval, 10) || 4000, 2000);
+      var align = track.dataset.autoplayAlign || 'start';
+      var visible = false, hovered = false, holdUntil = 0;
+      var items = function () { return Array.prototype.filter.call(track.children, function (c) { return c.getClientRects().length; }); };
+      var targetFor = function (el) {
+        var tr = track.getBoundingClientRect(), er = el.getBoundingClientRect();
+        var cs = getComputedStyle(track);
+        var pad = parseFloat(cs.scrollPaddingLeft) || parseFloat(cs.paddingLeft) || 0;
+        return align === 'center'
+          ? track.scrollLeft + (er.left - tr.left) - (track.clientWidth - er.width) / 2
+          : track.scrollLeft + (er.left - tr.left) - pad;
+      };
+      var step = function () {
+        if (!visible || hovered || document.hidden || Date.now() < holdUntil) return;
+        var max = track.scrollWidth - track.clientWidth;
+        if (max <= 4) return;
+        var list = items(); if (list.length < 2) return;
+        var current = track.scrollLeft, next = null;
+        for (var i = 0; i < list.length; i++) {
+          var t = targetFor(list[i]);
+          if (t > current + 24) { next = t; break; }
+        }
+        if (next === null || current >= max - 4) next = 0;
+        track.scrollTo({ left: Math.min(Math.max(next, 0), max), behavior: 'smooth' });
+      };
+      // A shopper's own swipe, wheel, key press or arrow click pauses autoplay for a while.
+      var hold = function () { holdUntil = Date.now() + interval * 2.5; };
+      ['pointerdown', 'touchstart', 'wheel', 'keydown'].forEach(function (ev) { track.addEventListener(ev, hold, { passive: true }); });
+      track.addEventListener('mouseenter', function () { hovered = true; });
+      track.addEventListener('mouseleave', function () { hovered = false; });
+      track.addEventListener('focusin', function () { hovered = true; });
+      track.addEventListener('focusout', function () { hovered = false; });
+      var section = track.closest('.shopify-section') || track.parentElement;
+      $$('[data-slider-prev], [data-slider-next], [data-inspo-prev], [data-inspo-next]', section).forEach(function (b) { b.addEventListener('click', hold); });
+      if ('IntersectionObserver' in window) {
+        new IntersectionObserver(function (en) { visible = en[0].isIntersecting; }, { threshold: 0.3 }).observe(track);
+      } else { visible = true; }
+      setInterval(step, interval);
+    });
+  }
+
+  /* ------------------------------------------------------------------ */
   /* Hero slideshow & fade carousel                                      */
   /* ------------------------------------------------------------------ */
   function initHeroVideos(root) {
@@ -1074,6 +1123,7 @@
     initHero(document);
     initFadeCarousels(document);
     initReveal(document);
+    initAutoplay(document);
     initCollection();
     initRecommendations();
     initRecentlyViewed();
@@ -1087,6 +1137,7 @@
     $$('[data-product-section]', root).forEach(initProduct);
     initInspiration(root); initHero(root); initFadeCarousels(root); initReveal(root); initSliders(); initAnnouncement();
     initCollection(root); initRecommendations(root); initRecentlyViewed(root);
+    initAutoplay(root);
     if ($('[data-header]', root)) { initHeader(); initSearch(); }
   });
   document.addEventListener('shopify:block:select', function (e) {

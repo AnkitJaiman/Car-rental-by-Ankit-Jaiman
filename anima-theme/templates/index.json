@@ -41,7 +41,8 @@
       "settings": {
         "color_bg": "#FFFFFF",
         "color_text": "#1C1B1A",
-        "mobile_marquee": false
+        "mobile_marquee": true,
+        "ticker_speed": 40
       },
       "blocks": {
         "t1": {
@@ -107,7 +108,9 @@
         "gap": 16,
         "hide_empty": true,
         "padding_top": 88,
-        "padding_bottom": 40
+        "padding_bottom": 40,
+        "autoplay": true,
+        "autoplay_speed": 4
       },
       "blocks": {
         "c1": {
@@ -180,7 +183,9 @@
         "link_label": "View all",
         "soft_bg": false,
         "padding_top": 48,
-        "padding_bottom": 88
+        "padding_bottom": 88,
+        "autoplay": true,
+        "autoplay_speed": 4
       }
     },
     "story": {
@@ -262,7 +267,9 @@
         "video_playback": "autoplay",
         "color_bg": "#FFFFFF",
         "padding_top": 96,
-        "padding_bottom": 88
+        "padding_bottom": 88,
+        "autoplay": true,
+        "autoplay_speed": 4
       },
       "blocks": {
         "post-1": {

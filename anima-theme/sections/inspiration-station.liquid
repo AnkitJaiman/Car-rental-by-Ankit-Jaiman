@@ -131,7 +131,7 @@
   </div>
 
 
-  <ul class="inspo__track" role="list" data-inspo-track tabindex="0" aria-label="{{ section.settings.heading | escape }}">{{ inspo_items }}</ul>
+  <ul class="inspo__track" role="list" data-inspo-track tabindex="0"{% if section.settings.autoplay %} data-autoplay-track data-autoplay-interval="{{ section.settings.autoplay_speed | times: 1000 }}" data-autoplay-align="center"{% endif %} aria-label="{{ section.settings.heading | escape }}">{{ inspo_items }}</ul>
 
   <div class="page-width">
     <div class="inspo__footer">
@@ -185,6 +185,8 @@
     ]},
     { "type": "checkbox", "id": "center_track", "label": "Center posts when they all fit on screen", "default": true },
     { "type": "checkbox", "id": "start_centered", "label": "Start scrolled to the middle post", "default": true },
+    { "type": "checkbox", "id": "autoplay", "label": "Slide automatically", "info": "Pauses when a shopper touches or hovers, and for visitors who turn off animations.", "default": true },
+    { "type": "range", "id": "autoplay_speed", "label": "Change every", "min": 2, "max": 8, "step": 1, "unit": "s", "default": 4 },
     { "type": "range", "id": "width_sm", "label": "Small card width", "min": 140, "max": 360, "step": 10, "unit": "px", "default": 220 },
     { "type": "range", "id": "height_sm", "label": "Small card image height", "min": 180, "max": 560, "step": 10, "unit": "px", "default": 330 },
     { "type": "range", "id": "width_md", "label": "Medium card width", "min": 160, "max": 400, "step": 10, "unit": "px", "default": 250 },

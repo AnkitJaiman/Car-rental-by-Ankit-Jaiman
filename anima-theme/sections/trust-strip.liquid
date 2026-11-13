@@ -1,6 +1,7 @@
 {%- if section.blocks.size > 0 -%}
-<div class="trust-strip{% if section.settings.mobile_marquee %} trust-strip--marquee{% endif %}" style="--ts-bg: {{ section.settings.color_bg }}; --ts-text: {{ section.settings.color_text }};">
-  <div class="page-width" style="padding:0;overflow:hidden">
+{%- assign ticker = section.settings.mobile_marquee -%}
+<div class="trust-strip{% if ticker %} trust-strip--marquee{% endif %}" style="--ts-bg: {{ section.settings.color_bg }}; --ts-text: {{ section.settings.color_text }}; --ts-speed: {{ section.settings.ticker_speed }}s;">
+  <div class="{% if ticker %}trust-strip__viewport{% else %}page-width{% endif %}" style="padding:0;overflow:hidden">
     <ul class="trust-strip__list" role="list">
       {%- for block in section.blocks -%}
         <li class="trust-strip__item" {{ block.shopify_attributes }}>
@@ -8,19 +9,19 @@
           {%- if block.settings.link != blank -%}<a href="{{ block.settings.link }}">{{ block.settings.text | escape }}</a>{%- else -%}<span>{{ block.settings.text | escape }}</span>{%- endif -%}
         </li>
       {%- endfor -%}
-      {%- if section.settings.mobile_marquee -%}
-        {%- for block in section.blocks -%}
-          <li class="trust-strip__item trust-strip__item--clone" aria-hidden="true">
-            {%- if block.settings.icon != 'none' -%}{% render 'icon', name: block.settings.icon %}{%- endif -%}<span>{{ block.settings.text | escape }}</span>
-          </li>
+      {%- if ticker -%}
+        {%- comment -%} Copies make the loop seamless on wide screens; hidden from screen readers. {%- endcomment -%}
+        {%- for i in (1..5) -%}
+          {%- for block in section.blocks -%}
+            <li class="trust-strip__item trust-strip__item--clone" aria-hidden="true">
+              {%- if block.settings.icon != 'none' -%}{% render 'icon', name: block.settings.icon %}{%- endif -%}<span>{{ block.settings.text | escape }}</span>
+            </li>
+          {%- endfor -%}
         {%- endfor -%}
       {%- endif -%}
     </ul>
   </div>
 </div>
-{%- if section.settings.mobile_marquee -%}
-  <style>@media (min-width: 750px) { #shopify-section-{{ section.id }} .trust-strip__item--clone { display: none; } }</style>
-{%- endif -%}
 {%- endif -%}
 
 {% schema %}
@@ -31,7 +32,8 @@
   "settings": [
     { "type": "color", "id": "color_bg", "label": "Background", "default": "#FFFFFF" },
     { "type": "color", "id": "color_text", "label": "Text", "default": "#1C1B1A" },
-    { "type": "checkbox", "id": "mobile_marquee", "label": "Scroll automatically on mobile", "default": false }
+    { "type": "checkbox", "id": "mobile_marquee", "label": "Scroll continuously (ticker)", "info": "Moves on all screen sizes. Pauses on hover and for visitors who turn off animations.", "default": true },
+    { "type": "range", "id": "ticker_speed", "label": "Ticker loop time", "min": 20, "max": 80, "step": 5, "unit": "s", "default": 40 }
   ],
   "blocks": [
     {
