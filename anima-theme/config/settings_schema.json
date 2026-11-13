@@ -379,7 +379,7 @@
         "type": "text",
         "id": "support_email",
         "label": "Support email",
-        "default": "sale@animajewel.store"
+        "default": "support@animajewel.store"
       },
       {
         "type": "text",
