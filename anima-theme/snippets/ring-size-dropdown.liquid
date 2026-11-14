@@ -1,0 +1,85 @@
+{%- comment -%}
+  Ring size dropdown: when a "Size" option has more than 8 values, the long list of
+  size buttons is replaced with one tidy dropdown. The original buttons stay in the
+  page (hidden), so the theme's variant logic keeps working unchanged.
+{%- endcomment -%}
+<style>
+  .variant-select { max-width: 24rem; }
+  .variant-select .select__select { cursor: pointer; -webkit-appearance: none; appearance: none; padding-right: 4.4rem; }
+  .variant-options.is-replaced-by-select { display: none !important; }
+</style>
+<script>
+  (function () {
+    var MIN_VALUES = 8;
+    function enhance(root) {
+      (root || document).querySelectorAll('[data-variant-picker] fieldset:not([data-size-dropdown])').forEach(function (fs) {
+        var legend = fs.querySelector('legend');
+        var list = fs.querySelector('.variant-options');
+        if (!legend || !list) return;
+        var name = (legend.textContent.split(':')[0] || '').trim();
+        if (!/size/i.test(name)) return;
+        var radios = Array.prototype.slice.call(list.querySelectorAll('input[type="radio"]'));
+        if (radios.length <= MIN_VALUES) return;
+        fs.setAttribute('data-size-dropdown', '');
+
+        var wrap = document.createElement('div');
+        wrap.className = 'select variant-select';
+        var sel = document.createElement('select');
+        sel.className = 'select__select';
+        sel.setAttribute('aria-label', name);
+        var noneChecked = !radios.some(function (r) { return r.checked; });
+        var offset = 0;
+        if (noneChecked) {
+          var ph = document.createElement('option');
+          ph.value = '';
+          ph.textContent = (window.theme && theme.strings && theme.strings.selectSize) || 'Select a size';
+          ph.disabled = true;
+          ph.selected = true;
+          sel.appendChild(ph);
+          offset = 1;
+        }
+        radios.forEach(function (r) {
+          var opt = document.createElement('option');
+          opt.value = r.value;
+          opt.textContent = r.value;
+          opt.dataset.label = r.value;
+          if (r.checked) opt.selected = true;
+          sel.appendChild(opt);
+        });
+        wrap.appendChild(sel);
+        list.parentNode.insertBefore(wrap, list);
+        list.classList.add('is-replaced-by-select');
+
+        // Choosing a size ticks the matching (hidden) button; the change event then
+        // bubbles up to the theme, which updates price, stock and Add to bag.
+        sel.addEventListener('change', function () {
+          radios.forEach(function (r) { r.checked = (r.value === sel.value); });
+        });
+
+        // Mirror the theme's "unavailable" marks as "Sold out" in the dropdown.
+        var mark = function () {
+          radios.forEach(function (r, i) {
+            var opt = sel.options[i + offset];
+            if (opt) opt.textContent = opt.dataset.label + (r.classList.contains('is-unavailable') ? ' - Sold out' : '');
+            if (r.checked && sel.value !== r.value) sel.value = r.value;
+          });
+        };
+        if (window.MutationObserver) {
+          var mo = new MutationObserver(mark);
+          radios.forEach(function (r) { mo.observe(r, { attributes: true, attributeFilter: ['class'] }); });
+        }
+        mark();
+      });
+    }
+    enhance(document);
+    // Quick view / quick add popups load product HTML later.
+    if (window.MutationObserver) {
+      var pending = false;
+      new MutationObserver(function () {
+        if (pending) return;
+        pending = true;
+        requestAnimationFrame(function () { pending = false; enhance(document); });
+      }).observe(document.body, { childList: true, subtree: true });
+    }
+  })();
+</script>

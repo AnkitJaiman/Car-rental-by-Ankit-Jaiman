@@ -109,6 +109,8 @@
           addToCart: {{ 'products.product.add_to_cart' | t | json }},
           soldOut: {{ 'products.product.sold_out' | t | json }},
           unavailable: {{ 'products.product.unavailable' | t | json }},
+          selectSize: {{ 'products.product.select_size' | t | json }},
+          chooseSizeFirst: {{ 'products.product.choose_size_first' | t | json }},
           added: {{ 'products.product.added' | t | json }},
           inStock: {{ 'products.product.in_stock' | t | json }},
           outOfStock: {{ 'products.product.out_of_stock' | t | json }},
@@ -125,5 +127,7 @@
         }
       };
     </script>
+
+    {% render 'ring-size-dropdown' %}
   </body>
 </html>

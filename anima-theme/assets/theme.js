@@ -531,6 +531,15 @@
         if (payment) { payment.hidden = !enabled; $$('button', payment).forEach(function (b) { b.disabled = !enabled; }); }
         if (sticky) { var sb = $('[data-sticky-atc-button]', sticky); if (sb) { sb.disabled = !enabled; sb.textContent = label; } var sv = $('[data-sticky-atc-variant]', sticky); if (sv) sv.textContent = variant ? variant.title : selected.filter(Boolean).join(' / '); }
       };
+      if (selected.indexOf(null) > -1) {
+        // A size (or other option) has not been chosen yet: ask for it instead of guessing.
+        idInput.value = '';
+        setButtons(true, S.selectSize || S.unavailable);
+        if (payment) payment.hidden = true;
+        return;
+      }
+      var err = $('[data-form-error]', form);
+      if (err && err.dataset.chooseSize) { err.hidden = true; err.textContent = ''; delete err.dataset.chooseSize; }
       if (!variant) { idInput.value = ''; setButtons(false, S.unavailable); return; }
       idInput.value = variant.id;
       setButtons(variant.available, variant.available ? S.addToCart : S.soldOut);
@@ -559,6 +568,19 @@
       if (variant.featured_media && gallery && gallery._goToMedia) gallery._goToMedia(variant.featured_media.id);
     };
     picker.addEventListener('change', update);
+    if ($('fieldset[data-needs-choice]', picker)) update();
+    form.addEventListener('submit', function (e) {
+      if ($('[data-variant-id]', form).value) return;
+      var missing = $$('fieldset', picker).filter(function (fs) { return !$('input:checked', fs); })[0];
+      if (!missing) return;
+      e.preventDefault();
+      e.stopPropagation();
+      var err = $('[data-form-error]', form);
+      if (err) { err.textContent = S.chooseSizeFirst || S.selectSize; err.hidden = false; err.dataset.chooseSize = '1'; }
+      missing.scrollIntoView({ behavior: reduceMotion ? 'auto' : 'smooth', block: 'center' });
+      var target = $('select', missing) || $('input', missing);
+      if (target) target.focus({ preventScroll: true });
+    });
   }
 
   function initGallery(gallery, section) {

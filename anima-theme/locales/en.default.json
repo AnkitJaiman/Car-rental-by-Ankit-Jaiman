@@ -90,6 +90,8 @@
       "choose_options": "Choose options",
       "sold_out": "Sold out",
       "unavailable": "Unavailable",
+      "select_size": "Select a size",
+      "choose_size_first": "Please choose your size first.",
       "added": "Added to bag",
       "on_sale": "Sale",
       "new": "New",

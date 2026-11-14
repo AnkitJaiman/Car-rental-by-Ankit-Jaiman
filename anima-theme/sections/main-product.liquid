@@ -1,5 +1,17 @@
 {%- liquid
   assign current_variant = product.selected_or_first_available_variant
+  comment
+    Size must be chosen by the shopper: no size is pre-selected unless the link names a variant.
+  endcomment
+  assign size_needs_choice = false
+  if product.selected_variant == blank
+    for opt in product.options_with_values
+      assign opt_name = opt.name | downcase
+      if opt_name contains 'size' and opt.values.size > 1
+        assign size_needs_choice = true
+      endif
+    endfor
+  endif
   assign gallery_layout = section.settings.gallery_layout
   assign media_count = product.media.size
   assign first_media = current_variant.featured_media | default: product.featured_media
@@ -161,10 +173,14 @@
                         if oname contains 'size'
                           assign is_size = true
                         endif
+                        assign leave_unticked = false
+                        if is_size and size_needs_choice and option.values.size > 1
+                          assign leave_unticked = true
+                        endif
                       -%}
-                      <fieldset>
+                      <fieldset{% if leave_unticked %} data-needs-choice{% endif %}>
                         <legend>
-                          <span style="margin:0;color:inherit;text-transform:uppercase;letter-spacing:.14em;font-weight:inherit">{{ option.name | escape }}:<span data-selected-value>{{ option.selected_value | escape }}</span></span>
+                          <span style="margin:0;color:inherit;text-transform:uppercase;letter-spacing:.14em;font-weight:inherit">{{ option.name | escape }}:<span data-selected-value>{% unless leave_unticked %}{{ option.selected_value | escape }}{% endunless %}</span></span>
                           {%- if is_size and block.settings.size_guide_page != blank -%}
                             <a href="{{ block.settings.size_guide_page.url }}" class="size-guide-link" data-size-guide aria-haspopup="dialog">{{ 'products.product.size_guide' | t }}</a>
                           {%- endif -%}
@@ -186,7 +202,7 @@
                               endcase
                             -%}
                             <div class="variant-option">
-                              <input type="radio" id="{{ input_id }}" name="{{ section.id }}-{{ option.name | handle }}" value="{{ value | escape }}" data-option-position="{{ option.position }}"{% if option.selected_value == value %} checked{% endif %}>
+                              <input type="radio" id="{{ input_id }}" name="{{ section.id }}-{{ option.name | handle }}" value="{{ value | escape }}" data-option-position="{{ option.position }}"{% if option.selected_value == value and leave_unticked == false %} checked{% endif %}>
                               <label for="{{ input_id }}">
                                 {%- if is_color and swatch and block.settings.show_swatches -%}<span class="swatch" style="--swatch: {{ swatch }}"></span>{%- endif -%}
                                 {{ value | escape }}
@@ -211,10 +227,10 @@
               {%- when 'buy_buttons' -%}
                 <div class="product-form" {{ block.shopify_attributes }}>
                   {%- form 'product', product, id: form_id, data-product-form: '', novalidate: 'novalidate' -%}
-                    <input type="hidden" name="id" value="{{ current_variant.id }}" data-variant-id>
+                    <input type="hidden" name="id" value="{% unless size_needs_choice %}{{ current_variant.id }}{% endunless %}" data-variant-id>
                     <div class="product-form__buttons">
-                      <button type="submit" name="add" class="button button--full" data-add-to-cart{% unless current_variant.available %} disabled{% endunless %}>
-                        <span data-add-to-cart-text>{%- if current_variant.available -%}{{ 'products.product.add_to_cart' | t }}{%- else -%}{{ 'products.product.sold_out' | t }}{%- endif -%}</span>
+                      <button type="submit" name="add" class="button button--full" data-add-to-cart{% unless current_variant.available or size_needs_choice %} disabled{% endunless %}>
+                        <span data-add-to-cart-text>{%- if size_needs_choice -%}{{ 'products.product.select_size' | t }}{%- elsif current_variant.available -%}{{ 'products.product.add_to_cart' | t }}{%- else -%}{{ 'products.product.sold_out' | t }}{%- endif -%}</span>
                       </button>
                       {%- if block.settings.show_dynamic_checkout -%}{{ form | payment_button }}{%- endif -%}
                     </div>
@@ -272,11 +288,11 @@
     <div class="sticky-atc" data-sticky-atc aria-hidden="true">
       <div class="sticky-atc__info">
         <p class="sticky-atc__title">{{ product.title | escape }}</p>
-        {%- unless product.has_only_default_variant -%}<p class="sticky-atc__variant" data-sticky-atc-variant>{{ current_variant.title | escape }}</p>{%- endunless -%}
+        {%- unless product.has_only_default_variant -%}<p class="sticky-atc__variant" data-sticky-atc-variant>{% unless size_needs_choice %}{{ current_variant.title | escape }}{% endunless %}</p>{%- endunless -%}
         <div data-sticky-atc-price>{% render 'price', product: product, variant: current_variant %}</div>
       </div>
-      <button type="button" class="button" data-sticky-atc-button tabindex="-1"{% unless current_variant.available %} disabled{% endunless %}>
-        {%- if current_variant.available -%}{{ 'products.product.add_to_cart' | t }}{%- else -%}{{ 'products.product.sold_out' | t }}{%- endif -%}
+      <button type="button" class="button" data-sticky-atc-button tabindex="-1"{% unless current_variant.available or size_needs_choice %} disabled{% endunless %}>
+        {%- if size_needs_choice -%}{{ 'products.product.select_size' | t }}{%- elsif current_variant.available -%}{{ 'products.product.add_to_cart' | t }}{%- else -%}{{ 'products.product.sold_out' | t }}{%- endif -%}
       </button>
     </div>
   {%- endif -%}
