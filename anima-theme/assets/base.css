@@ -892,3 +892,10 @@ body.scroll-lock .drawer__body, body.scroll-lock .quick-add-modal__panel, body.s
 /* ---------- Video controls: tap the video to pause; button only shows for keyboard users ---------- */
 .inspo-card__play:not(:focus-visible) { opacity: 0; pointer-events: none; }
 [data-inspo-video] video { cursor: pointer; }
+
+/* ---------- Audit fixes (1.5) ---------- */
+/* Checkout stays a solid, high-contrast button; touch screens never get stuck in the hover (outlined) state. */
+.cart-summary button[name="checkout"]:hover { background: var(--color-button); color: var(--color-button-text); opacity: .88; }
+@media (hover: none) {
+  .button:not(.button--secondary):not(.button--outline-light):not(.button--light):hover { background: var(--color-button); color: var(--color-button-text); }
+}

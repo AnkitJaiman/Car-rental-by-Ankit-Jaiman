@@ -71,10 +71,10 @@
 {%- if mobile_carousel -%}
 <style>
   @media (min-width: 750px) {
-    #shopify-section-{{ section.id }} .category-slider { grid-auto-flow: row; grid-template-columns: repeat({% if cols > 3 %}2{% else %}{{ cols }}{% endif %}, minmax(0, 1fr)); overflow: visible; padding: 0; gap: {{ section.settings.gap }}px; }
+    #shopify-section-{{ section.id }} .category-slider { grid-auto-flow: row; grid-template-columns: repeat({% if cols > 3 %}3{% else %}{{ cols }}{% endif %}, minmax(0, 1fr)); overflow: visible; padding: 0 var(--gutter); gap: {{ section.settings.gap }}px; }
   }
   @media (min-width: 990px) {
-    #shopify-section-{{ section.id }} .category-slider { grid-template-columns: repeat({{ cols }}, minmax(0, 1fr)); }
+    #shopify-section-{{ section.id }} .category-slider { grid-template-columns: repeat({{ cols }}, minmax(0, 1fr)); padding: 0; }
   }
 </style>
 {%- endif -%}

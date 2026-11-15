@@ -39,6 +39,7 @@
       <meta name="description" content="{{ page_description | escape }}">
     {%- endif -%}
 
+    {%- if request.page_type == 'search' -%}<meta name="robots" content="noindex, follow">{%- endif -%}
     {% render 'meta-tags' %}
 
     {%- render 'theme-styles' -%}
