@@ -787,6 +787,8 @@
         if (video.paused) { var p = video.play(); if (p && p.catch) p.catch(function () {}); wrap.dataset.userPaused = 'false'; setPlayState(wrap, true); }
         else { video.pause(); wrap.dataset.userPaused = 'true'; setPlayState(wrap, false); }
       });
+      // Centre-focus sections decide themselves which single video plays.
+      if (section && section.hasAttribute('data-focus')) return;
       if (videoObserver) videoObserver.observe(wrap);
       else if (video.dataset.src) video.src = video.dataset.src;
     });
@@ -835,8 +837,127 @@
       }
       sync();
       initVideos(sec);
+      if (sec.hasAttribute('data-focus')) initFocus(sec, track);
     });
     initVideos(root);
+  }
+
+  /* Centre focus: only the middle reel is sharp and playing; the rest wait, slightly blurred.
+     With nobody touching it, the next reel slides to the centre when the current one ends. */
+  function initFocus(sec, track) {
+    var originals = $$('.inspo-card', track);
+    if (!originals.length) return;
+    var n = originals.length;
+    // Endless row: a copy of the reels on each side, so there are always reels left and right of the centre.
+    if (n > 1) {
+      var copy = function (c) {
+        var k = c.cloneNode(true);
+        k.classList.add('is-clone');
+        k.setAttribute('aria-hidden', 'true');
+        k.removeAttribute('data-shopify-editor-block');
+        $$('a, button, [tabindex]', k).forEach(function (el) { el.setAttribute('tabindex', '-1'); });
+        $$('[data-inspo-video]', k).forEach(function (w) {
+          delete w.dataset.ready;
+          var v = w.querySelector('video');
+          if (v && v.getAttribute('src')) v.setAttribute('src', '');
+        });
+        return k;
+      };
+      originals.map(copy).forEach(function (k) { track.insertBefore(k, originals[0]); });
+      originals.map(copy).forEach(function (k) { track.appendChild(k); });
+      initVideos(sec);
+    }
+    var cards = $$('.inspo-card', track);
+    var auto = sec.dataset.focusAuto !== 'false' && !reduceMotion;
+    var interval = Math.max(parseInt(sec.dataset.focusInterval, 10) || 5000, 3000);
+    var current = null, visible = false, holdUntil = 0, timer = null;
+    var wrapOf = function (c) { return c && c.querySelector('[data-inspo-video]'); };
+    var vidOf = function (c) { var w = wrapOf(c); return w && w.querySelector('video'); };
+    var load = function (c) { var v = vidOf(c); if (v && v.dataset.src && !v.getAttribute('src')) { v.preload = 'auto'; v.src = v.dataset.src; } };
+    var play = function (c) {
+      var v = vidOf(c), w = wrapOf(c);
+      if (!v || reduceMotion || w.dataset.userPaused === 'true') return;
+      load(c);
+      var p = v.play(); if (p && p.catch) p.catch(function () {});
+      setPlayState(w, true);
+    };
+    var stop = function (c) { var v = vidOf(c); if (v && !v.paused) { v.pause(); setPlayState(wrapOf(c), false); } };
+    var nearest = function () {
+      var tr = track.getBoundingClientRect(), mid = tr.left + tr.width / 2, best = cards[0], bd = Infinity;
+      cards.forEach(function (c) { var r = c.getBoundingClientRect(), d = Math.abs(r.left + r.width / 2 - mid); if (d < bd) { bd = d; best = c; } });
+      return best;
+    };
+    var goTo = function (c, smooth) { track.scrollTo({ left: centerOffset(track, c), behavior: smooth && !reduceMotion ? 'smooth' : 'auto' }); };
+    var schedule = function () {
+      clearTimeout(timer);
+      if (!auto || !visible || !current) return;
+      var v = vidOf(current), wait = interval;
+      if (v) wait = (v.duration && isFinite(v.duration)) ? Math.min(Math.max((v.duration - v.currentTime) * 1000, 2500), 15000) : 15000;
+      timer = setTimeout(advance, wait);
+    };
+    var pausedByUser = false;
+    var advance = function () {
+      var w = wrapOf(current);
+      if (w && w.dataset.userPaused === 'true') { pausedByUser = true; timer = setTimeout(advance, 1500); return; }
+      if (pausedByUser) { pausedByUser = false; schedule(); return; } // resumed: let this reel finish first
+      if (!visible || document.hidden || Date.now() < holdUntil) { timer = setTimeout(advance, 1500); return; }
+      goTo(cards[(cards.indexOf(current) + 1) % cards.length], true);
+    };
+    var setFocus = function (c) {
+      if (!c || c === current) return;
+      if (current) { current.classList.remove('is-focus'); stop(current); }
+      current = c;
+      c.classList.add('is-focus');
+      cards.forEach(function (x) { if (x !== c) x.removeAttribute('aria-current'); });
+      c.setAttribute('aria-current', 'true');
+      var w = wrapOf(c); if (w) w.dataset.userPaused = 'false';
+      load(cards[(cards.indexOf(c) + 1) % cards.length]); // get the next reel ready
+      if (visible) play(c);
+      schedule();
+      clearTimeout(jumpTimer);
+      if (c.classList.contains('is-clone')) jumpTimer = setTimeout(jumpHome, 800);
+    };
+    // After landing on a copy, swap silently to the matching original so the loop never runs out.
+    var jumpTimer = null;
+    var jumpHome = function () {
+      if (!current || !current.classList.contains('is-clone')) return;
+      var twin = originals[cards.indexOf(current) % n];
+      var from = vidOf(current), to = vidOf(twin);
+      track.classList.add('is-jumping');
+      if (from && to) { load(twin); try { to.currentTime = from.currentTime; } catch (err) {} }
+      stop(current);
+      current.classList.remove('is-focus');
+      current.removeAttribute('aria-current');
+      current = twin;
+      twin.classList.add('is-focus');
+      twin.setAttribute('aria-current', 'true');
+      goTo(twin, false);
+      if (visible) play(twin);
+      requestAnimationFrame(function () { requestAnimationFrame(function () { track.classList.remove('is-jumping'); }); });
+    };
+    cards.forEach(function (c) {
+      var v = vidOf(c);
+      if (v) v.addEventListener('loadedmetadata', function () { if (c === current) schedule(); });
+    });
+    // Tapping a side reel brings it to the centre instead of opening or playing it there.
+    track.addEventListener('click', function (e) {
+      var c = e.target.closest('.inspo-card');
+      if (c && c !== current) { e.preventDefault(); e.stopPropagation(); holdUntil = Date.now() + 6000; goTo(c, true); }
+    }, true);
+    ['pointerdown', 'touchstart', 'wheel', 'keydown'].forEach(function (ev) {
+      track.addEventListener(ev, function () { holdUntil = Date.now() + 6000; }, { passive: true });
+    });
+    track.addEventListener('scroll', debounce(function () { setFocus(nearest()); }, 120), { passive: true });
+    if ('IntersectionObserver' in window) {
+      new IntersectionObserver(function (en) {
+        visible = en[0].isIntersecting;
+        if (visible) { play(current); schedule(); } else { stop(current); clearTimeout(timer); }
+      }, { threshold: 0.35 }).observe(track);
+    } else { visible = true; }
+    window.addEventListener('resize', debounce(function () { if (current) goTo(current, false); }, 150));
+    var start = originals[Math.floor((n - 1) / 2)];
+    goTo(start, false);
+    setFocus(start);
   }
 
   /* ------------------------------------------------------------------ */

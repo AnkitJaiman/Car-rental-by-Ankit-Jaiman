@@ -899,3 +899,18 @@ body.scroll-lock .drawer__body, body.scroll-lock .quick-add-modal__panel, body.s
 @media (hover: none) {
   .button:not(.button--secondary):not(.button--outline-light):not(.button--light):hover { background: var(--color-button); color: var(--color-button-text); }
 }
+
+/* ---------- Inspiration Station: centre focus ---------- */
+.inspo--focus { --fw: var(--inspo-focus-w, 250px); }
+@media (max-width: 749px) { .inspo--focus { --fw: min(60vw, var(--inspo-focus-w, 250px)); } }
+.inspo--focus .inspo__track { align-items: flex-start; justify-content: flex-start; gap: 14px; padding: 6px calc(50% - var(--fw) / 2) 6px; scroll-padding: 0; }
+.inspo--focus .inspo-card.inspo-card { --card-w: var(--fw); --card-h: calc(var(--fw) * 1.5); margin-top: 0; opacity: .45; filter: blur(2.5px) saturate(.85); transform: scale(.86); transition: transform .7s cubic-bezier(.22,.8,.24,1), opacity .7s ease, filter .7s ease; cursor: pointer; }
+.inspo--focus .inspo-card.inspo-card.is-focus { opacity: 1; filter: none; transform: none; cursor: auto; }
+.inspo--focus .inspo-card:not(.is-focus) .inspo-product { pointer-events: none; }
+.inspo--focus .inspo-card .inspo-card__media img { transform: none !important; }
+.inspo--focus .inspo-card.is-focus .inspo-card__media { box-shadow: 0 14px 34px -18px rgba(28,27,26,.45); }
+.inspo--focus .inspo__progress { display: none; }
+.inspo--focus .inspo__track.is-jumping .inspo-card { transition: none !important; }
+.inspo--focus .inspo__footer { justify-content: center; margin-top: 8px; }
+.inspo--focus .inspo__footer .slider-controls a { margin-right: 0 !important; }
+@media (prefers-reduced-motion: reduce) { .inspo--focus .inspo-card.inspo-card { transition: none; } }

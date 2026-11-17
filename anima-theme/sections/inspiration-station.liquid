@@ -15,6 +15,11 @@
   elsif section.settings.pattern == 'uniform'
     assign pattern = 'md' | split: ','
   endif
+  assign focus = false
+  if section.settings.layout == 'focus'
+    assign focus = true
+    assign pattern = 'md' | split: ','
+  endif
   assign pattern_size = pattern.size
   assign autoplay = false
   if section.settings.video_playback == 'autoplay'
@@ -109,13 +114,13 @@
   assign inspo_link = section.settings.link | default: settings.social_instagram
 -%}
 {%- if inspo_items != blank or request.design_mode -%}
-<section class="section inspo{% if section.settings.align == 'stagger' %} inspo--stagger{% endif %}{% if section.settings.mobile_layout == 'uniform' %} inspo--mobile-uniform{% endif %}{% if section.settings.center_track %} inspo--centered{% endif %}"
+<section class="section inspo{% if focus %} inspo--focus{% elsif section.settings.align == 'stagger' %} inspo--stagger{% endif %}{% if section.settings.mobile_layout == 'uniform' %} inspo--mobile-uniform{% endif %}{% if section.settings.center_track %} inspo--centered{% endif %}"
   style="--pt: {{ section.settings.padding_top }}px; --pb: {{ section.settings.padding_bottom }}px; --inspo-bg: {{ section.settings.color_bg }};
     --inspo-gap: {{ section.settings.gap }}px; --inspo-gap-mobile: {{ section.settings.gap_mobile }}px; --inspo-align: {% if section.settings.align == 'stagger' %}flex-start{% else %}{{ section.settings.align }}{% endif %};
     --inspo-w-sm: {{ section.settings.width_sm }}px; --inspo-w-md: {{ section.settings.width_md }}px; --inspo-w-lg: {{ section.settings.width_lg }}px;
     --inspo-h-sm: {{ section.settings.height_sm }}px; --inspo-h-md: {{ section.settings.height_md }}px; --inspo-h-lg: {{ section.settings.height_lg }}px;
-    --inspo-mobile-scale: {{ section.settings.mobile_scale | divided_by: 100.0 }};"
-  data-inspiration data-autoplay-video="{{ autoplay }}" data-start-centered="{{ section.settings.start_centered }}"
+    --inspo-mobile-scale: {{ section.settings.mobile_scale | divided_by: 100.0 }}; --inspo-focus-w: {{ section.settings.focus_width }}px;"
+  data-inspiration data-autoplay-video="{{ autoplay }}"{% if focus %} data-focus data-focus-auto="{{ section.settings.autoplay }}" data-focus-interval="{{ section.settings.autoplay_speed | times: 1000 }}"{% endif %} data-start-centered="{{ section.settings.start_centered }}"
   aria-labelledby="InspoHeading-{{ section.id }}">
   <div class="page-width">
     <div class="section-header section-header--{{ section.settings.header_alignment }}">
@@ -131,7 +136,7 @@
   </div>
 
 
-  <ul class="inspo__track" role="list" data-inspo-track tabindex="0"{% if section.settings.autoplay %} data-autoplay-track data-autoplay-interval="{{ section.settings.autoplay_speed | times: 1000 }}" data-autoplay-align="center"{% endif %} aria-label="{{ section.settings.heading | escape }}">{{ inspo_items }}</ul>
+  <ul class="inspo__track" role="list" data-inspo-track tabindex="0"{% if section.settings.autoplay and focus == false %} data-autoplay-track data-autoplay-interval="{{ section.settings.autoplay_speed | times: 1000 }}" data-autoplay-align="center"{% endif %} aria-label="{{ section.settings.heading | escape }}">{{ inspo_items }}</ul>
 
   <div class="page-width">
     <div class="inspo__footer">
@@ -171,6 +176,11 @@
     { "type": "checkbox", "id": "show_caption", "label": "Show caption", "default": false },
     { "type": "checkbox", "id": "show_product", "label": "Show product card under each post", "default": true },
     { "type": "header", "content": "Desktop layout" },
+    { "type": "select", "id": "layout", "label": "Layout", "default": "focus", "options": [
+      { "value": "focus", "label": "Centre focus (one reel plays in the middle)" },
+      { "value": "gallery", "label": "Staggered gallery" }
+    ] },
+    { "type": "range", "id": "focus_width", "label": "Centre focus: card width", "min": 200, "max": 320, "step": 10, "unit": "px", "default": 250 },
     { "type": "select", "id": "pattern", "label": "Card size pattern", "info": "Used by posts set to “Automatic” size.", "default": "wave", "options": [
       { "value": "wave", "label": "Wave (small → large → small)" },
       { "value": "rise", "label": "Rise" },
