@@ -48,3 +48,5 @@ cp .env.example .env.local   # fill in
 npm run migrate && npm run dev   # http://localhost:3100
 npm test                         # commission rule tests
 ```
+
+<!-- deploy: 2026-11-18T12:04Z -->
