@@ -16,7 +16,7 @@ export default async function AdminHome() {
                      coalesce(sum(commission_amount) filter (where status='pending'),0) pending from affiliate_orders`),
     one<any>(`select coalesce(sum(amount),0) paid from payouts`),
     one<any>(`select count(*) filter (where status='pending_approval')::int pending, count(*) filter (where status='active')::int active from affiliate_codes`),
-    monthlySeries(null, 6),
+    monthlySeries('ALL_INFLUENCERS', 6),
     q<any>(`select i.id, u.full_name, count(o.id) filter (where o.status not in ('cancelled','refunded'))::int orders,
                    coalesce(sum(o.eligible_amount) filter (where o.status not in ('cancelled','refunded')),0) revenue
               from influencers i join users u on u.id = i.user_id left join affiliate_orders o on o.influencer_id = i.id

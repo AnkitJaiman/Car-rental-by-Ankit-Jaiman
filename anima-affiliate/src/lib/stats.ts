@@ -17,7 +17,11 @@ export async function influencerTotals(influencerId: string) {
     conversion: clicks.n > 0 ? (t.valid_orders / clicks.n) * 100 : null };
 }
 
-export async function monthlySeries(influencerId: string | null, months = 6) {
+// Pass an influencer id, or the explicit string 'ALL_INFLUENCERS' (admin overview only). Anything else is refused.
+export async function monthlySeries(scope: string, months = 6) {
+  const all = scope === 'ALL_INFLUENCERS';
+  if (!all && !/^[0-9a-f-]{36}$/.test(scope)) throw new Error('monthlySeries: an influencer id is required');
+  const influencerId = all ? null : scope;
   const rows = await q<any>(
     `with m as (select generate_series(date_trunc('month', now()) - ($2::int - 1) * interval '1 month', date_trunc('month', now()), interval '1 month') as month)
      select to_char(m.month, 'Mon') as label,
