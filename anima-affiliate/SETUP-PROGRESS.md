@@ -18,6 +18,7 @@ All keys are in the owner's note: **Desktop › "All login key"**.
 - [x] Deployment Protection (Vercel Authentication) disabled
 - [x] Database connected (DATABASE_URL fixed), all 14 environment variables present
 - [x] Step 7 – Admin account created via /setup (setup page now closed)
-- [ ] Step 5e – Vercel › Settings › Domains › add `partners.animajewel.store`; add the CNAME record it shows in GoDaddy DNS
-- [ ] Step 6 – Shopify webhooks to `https://partners.animajewel.store/api/webhooks/shopify` (order create/update/paid/cancelled, dispute)
-- [ ] Step 8 – Claude checks the live portal, then switches the website's "Apply" / "Influencer sign in" buttons from UpPromote to the portal
+- [x] Step 5e – partners.animajewel.store connected (GoDaddy CNAME), HTTPS live
+- [x] Step 6 – Shopify webhooks (order creation/update/payment/cancellation) + SHOPIFY_WEBHOOK_SECRET in Vercel. Dispute webhook not offered by Shopify admin: mark chargebacks manually in Admin › Orders
+- [x] Step 8 – Theme "Anima Editorial 1.9 (own influencer portal)" points Apply / Influencer sign in to partners.animajewel.store
+- [ ] Owner publishes theme 1.9, then decides whether to uninstall UpPromote
