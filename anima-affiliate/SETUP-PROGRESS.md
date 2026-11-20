@@ -1,6 +1,6 @@
 # Influencer portal – setup progress (resume here)
 
-Last updated: 18 Nov 2026. No keys or passwords are stored in this file.
+Last updated: 20 Nov 2026. No keys or passwords are stored in this file.
 All keys are in the owner's note: **Desktop › "All login key"**.
 
 ## Done
@@ -14,11 +14,10 @@ All keys are in the owner's note: **Desktop › "All login key"**.
 - [x] Step 5c – Production branch tracking set to `claude/jewelry-website-usa-xzeimv`
 
 ## Next (start here tomorrow)
-- [ ] Step 5d – Vercel › Deployments: check for a new deployment from `claude/jewelry-website-usa-xzeimv`
-      (a commit was pushed to trigger it). If none: Create New › Deployment › branch `claude/jewelry-website-usa-xzeimv`.
-      Wait for green "Ready", note the `….vercel.app` address.
-      (The earlier failed build used `main`, which has no anima-affiliate folder. That is expected.)
+- [x] Step 5d – Deployed and Ready at https://animajewels.vercel.app (vercel.json sets framework nextjs)
+- [x] Deployment Protection (Vercel Authentication) disabled
+- [x] Database connected (DATABASE_URL fixed), all 14 environment variables present
+- [x] Step 7 – Admin account created via /setup (setup page now closed)
 - [ ] Step 5e – Vercel › Settings › Domains › add `partners.animajewel.store`; add the CNAME record it shows in GoDaddy DNS
 - [ ] Step 6 – Shopify webhooks to `https://partners.animajewel.store/api/webhooks/shopify` (order create/update/paid/cancelled, dispute)
-- [ ] Step 7 – Open `/setup`, enter SETUP_TOKEN (from the note), create the admin login
 - [ ] Step 8 – Claude checks the live portal, then switches the website's "Apply" / "Influencer sign in" buttons from UpPromote to the portal
