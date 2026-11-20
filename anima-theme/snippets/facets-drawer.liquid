@@ -1,0 +1,18 @@
+{%- if results.filters.size > 0 -%}
+  <div class="drawer drawer--left" id="FacetsDrawer" aria-hidden="true">
+    <button type="button" class="drawer__overlay" data-drawer-close tabindex="-1" aria-label="{{ 'general.close' | t }}"></button>
+    <div class="drawer__panel" role="dialog" aria-modal="true" aria-label="{{ 'products.facets.filter_and_sort' | t }}" tabindex="-1">
+      <div class="drawer__header">
+        <h2 class="drawer__title">{{ 'products.facets.filter' | t }}</h2>
+        <button type="button" class="icon-button" data-drawer-close aria-label="{{ 'general.close' | t }}">{% render 'icon', name: 'close' %}</button>
+      </div>
+      <div class="drawer__body" style="padding:0 24px" data-facets-drawer-body>
+        {% render 'facets', results: results, id_prefix: 'Drawer' %}
+      </div>
+      <div class="drawer__footer" style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+        <a href="{{ results.url | default: routes.search_url }}{% if results.terms %}?q={{ results.terms | url_encode }}{% endif %}" class="button button--secondary" data-facet-link>{{ 'products.facets.clear_all' | t }}</a>
+        <button type="button" class="button" data-drawer-close>{{ 'products.facets.apply' | t }}</button>
+      </div>
+    </div>
+  </div>
+{%- endif -%}

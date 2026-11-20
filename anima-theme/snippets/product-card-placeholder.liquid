@@ -1,0 +1,7 @@
+{%- comment -%} Shown only in the Theme Editor style empty state when no product is chosen. {%- endcomment -%}
+<div class="product-card">
+  <div class="media media--{{ settings.card_image_ratio | replace: 'natural', 'portrait' }}">{{ 'product-1' | placeholder_svg_tag: 'placeholder-svg' }}</div>
+  <div class="product-card__info">
+    <h3 class="product-card__title">{{ 'products.product.view_details' | t }}</h3>
+  </div>
+</div>

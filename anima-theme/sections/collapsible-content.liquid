@@ -1,0 +1,72 @@
+{%- comment -%} FAQ / collapsible content. Outputs FAQPage structured data for SEO when enabled. {%- endcomment -%}
+<section class="section{% if section.settings.soft_bg %} section--soft{% endif %}" style="--pt: {{ section.settings.padding_top }}px; --pb: {{ section.settings.padding_bottom }}px;">
+  <div class="page-width page-width--narrow">
+    {%- if section.settings.heading != blank -%}
+      <div class="section-header section-header--center">
+        <div>
+          {%- if section.settings.eyebrow != blank -%}<p class="eyebrow">{{ section.settings.eyebrow | escape }}</p>{%- endif -%}
+          {%- if section.settings.heading_tag == 'h1' -%}<h1 class="section-header__title h2">{{ section.settings.heading | escape }}</h1>{%- else -%}<h2 class="section-header__title">{{ section.settings.heading | escape }}</h2>{%- endif -%}
+          {%- if section.settings.text != blank -%}<div class="section-header__text">{{ section.settings.text }}</div>{%- endif -%}
+        </div>
+      </div>
+    {%- endif -%}
+    {%- for block in section.blocks -%}
+      {%- if block.type == 'group' -%}
+        {%- if section.settings.heading_tag == 'h1' -%}{%- assign gtag = 'h2' -%}{%- else -%}{%- assign gtag = 'h3' -%}{%- endif -%}
+        <{{ gtag }} class="faq__group-title h3" style="margin-top:{% unless forloop.first %}48px{% else %}0{% endunless %}" {{ block.shopify_attributes }}>{{ block.settings.title | escape }}</{{ gtag }}>
+      {%- else -%}
+        <details class="accordion" {{ block.shopify_attributes }}{% if section.settings.open_first and forloop.first %} open{% endif %}>
+          <summary>{{ block.settings.question | escape }}<span class="accordion__icon" aria-hidden="true"></span></summary>
+          <div class="accordion__content rte">{{ block.settings.answer }}{% if block.settings.page != blank %}{{ block.settings.page.content }}{% endif %}</div>
+        </details>
+      {%- endif -%}
+    {%- endfor -%}
+  </div>
+</section>
+{%- if section.settings.faq_schema -%}
+  {%- assign qs = section.blocks | where: 'type', 'item' -%}
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        {%- for block in qs -%}
+          {
+            "@type": "Question",
+            "name": {{ block.settings.question | json }},
+            "acceptedAnswer": { "@type": "Answer", "text": {{ block.settings.answer | strip_html | json }} }
+          }{% unless forloop.last %},{% endunless %}
+        {%- endfor -%}
+      ]
+    }
+  </script>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "Collapsible content",
+  "tag": "div",
+  "class": "section-collapsible",
+  "max_blocks": 40,
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Small text above heading" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Frequently asked questions" },
+    { "type": "select", "id": "heading_tag", "label": "Heading HTML tag (SEO)", "default": "h2", "options": [{ "value": "h1", "label": "H1 (use when this is the page title)" }, { "value": "h2", "label": "H2" }] },
+    { "type": "richtext", "id": "text", "label": "Text" },
+    { "type": "checkbox", "id": "open_first", "label": "Open first item", "default": false },
+    { "type": "checkbox", "id": "faq_schema", "label": "Add FAQ structured data (SEO)", "info": "Use on your FAQ page only.", "default": false },
+    { "type": "checkbox", "id": "soft_bg", "label": "Soft background", "default": false },
+    { "type": "range", "id": "padding_top", "label": "Top padding", "min": 0, "max": 160, "step": 8, "unit": "px", "default": 64 },
+    { "type": "range", "id": "padding_bottom", "label": "Bottom padding", "min": 0, "max": 160, "step": 8, "unit": "px", "default": 64 }
+  ],
+  "blocks": [
+    { "type": "group", "name": "Group title", "settings": [{ "type": "text", "id": "title", "label": "Title", "default": "Orders" }] },
+    { "type": "item", "name": "Question", "settings": [
+      { "type": "text", "id": "question", "label": "Question", "default": "Question" },
+      { "type": "richtext", "id": "answer", "label": "Answer", "default": "<p>Answer</p>" },
+      { "type": "page", "id": "page", "label": "Additional page content (optional)" }
+    ]}
+  ],
+  "presets": [{ "name": "Collapsible content", "blocks": [{ "type": "item" }, { "type": "item" }, { "type": "item" }] }]
+}
+{% endschema %}

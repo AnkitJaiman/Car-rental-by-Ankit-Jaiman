@@ -1,0 +1,52 @@
+{
+  "type": "header",
+  "name": "Header group",
+  "sections": {
+    "announcement-bar": {
+      "type": "announcement-bar",
+      "blocks": {
+        "announcement-1": {
+          "type": "announcement",
+          "settings": {
+            "text": "Free US shipping on orders over $35",
+            "link": "/pages/shipping-policy"
+          }
+        },
+        "announcement-2": {
+          "type": "announcement",
+          "settings": {
+            "text": "Free 30-day returns",
+            "link": "/pages/refund-policy"
+          }
+        }
+      },
+      "block_order": [
+        "announcement-1",
+        "announcement-2"
+      ],
+      "settings": {
+        "enabled": true,
+        "show_on": "all",
+        "autoplay": true,
+        "speed": 5,
+        "color_bg": "#1C1B1A",
+        "color_text": "#FFFFFF"
+      }
+    },
+    "header": {
+      "type": "header",
+      "settings": {
+        "logo": "shopify://shop_images/anima-logo-solid.png",
+        "menu": "main-menu",
+        "logo_position": "left",
+        "sticky": true,
+        "transparent_home": false,
+        "search_menu": "main-menu"
+      }
+    }
+  },
+  "order": [
+    "announcement-bar",
+    "header"
+  ]
+}

@@ -1,0 +1,58 @@
+{%- comment -%}
+  Design tokens generated from Theme settings (Theme settings › Colors / Typography / Layout).
+{%- endcomment -%}
+{%- liquid
+  assign heading_font = settings.type_heading_font
+  assign body_font = settings.type_body_font
+  assign body_font_bold = body_font | font_modify: 'weight', 'bold'
+  assign body_font_medium = body_font | font_modify: 'weight', '500'
+-%}
+{%- unless heading_font.system? -%}
+  {{ heading_font | font_url | preload_tag: as: 'font', type: 'font/woff2', crossorigin: true }}
+{%- endunless -%}
+{%- unless body_font.system? -%}
+  {{ body_font | font_url | preload_tag: as: 'font', type: 'font/woff2', crossorigin: true }}
+{%- endunless -%}
+<style>
+  {{ heading_font | font_face: font_display: 'swap' }}
+  {{ body_font | font_face: font_display: 'swap' }}
+  {{ body_font_bold | font_face: font_display: 'swap' }}
+  {{ body_font_medium | font_face: font_display: 'swap' }}
+
+  :root {
+    --color-bg: {{ settings.color_background }};
+    --color-bg-soft: {{ settings.color_background_soft }};
+    --color-text: {{ settings.color_text }};
+    --color-text-muted: {{ settings.color_text_muted }};
+    --color-line: {{ settings.color_border }};
+    --color-control: #8E8984;
+    --color-control: color-mix(in srgb, {{ settings.color_text }} 50%, {{ settings.color_background }});
+    --color-accent: {{ settings.color_accent }};
+    --color-button: {{ settings.color_button }};
+    --color-button-text: {{ settings.color_button_text }};
+    --color-sale: {{ settings.color_sale }};
+    --color-badge: {{ settings.color_badge }};
+    --color-badge-text: {{ settings.color_badge_text }};
+
+    --font-heading: {{ heading_font.family }}, {{ heading_font.fallback_families }};
+    --font-heading-weight: {{ heading_font.weight }};
+    --font-heading-style: {{ heading_font.style }};
+    --font-body: {{ body_font.family }}, {{ body_font.fallback_families }};
+    --font-body-weight: {{ body_font.weight }};
+    --font-body-weight-medium: {{ body_font_medium.weight | default: 500 }};
+    --font-body-weight-bold: {{ body_font_bold.weight | default: 700 }};
+    --heading-scale: {{ settings.heading_scale | divided_by: 100.0 }};
+    --body-scale: {{ settings.body_scale | divided_by: 100.0 }};
+    --heading-tracking: {{ settings.heading_letter_spacing | divided_by: 100.0 }}em;
+    --heading-case: {% if settings.heading_uppercase %}uppercase{% else %}none{% endif %};
+
+    --page-width: {{ settings.page_width }}px;
+    --gutter: {{ settings.page_gutter_mobile }}px;
+    --gutter-desktop: {{ settings.page_gutter_desktop }}px;
+    --radius-button: {{ settings.button_radius }}px;
+    --radius-media: {{ settings.media_radius }}px;
+    --radius-card: {{ settings.inspiration_radius }}px;
+    --button-tracking: {{ settings.button_letter_spacing | divided_by: 100.0 }}em;
+    --duration: {% if settings.animations_enabled %}{{ settings.animation_duration }}ms{% else %}0ms{% endif %};
+  }
+</style>
