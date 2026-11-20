@@ -37,7 +37,7 @@ function explainDbError(e: any): string {
   const code = String(e?.code || '');
   const msg = String(e?.message || '');
   if (!process.env.DATABASE_URL) return 'DATABASE_URL is missing in Vercel (Settings > Environment Variables). [no-url]';
-  if (code === '28P01' || /password authentication failed/i.test(msg)) return 'the database password inside DATABASE_URL is wrong. Copy it again from your note (no [ ] brackets). [28P01]';
+  if (code === '28P01' || /password authentication failed/i.test(msg)) return `the database password inside DATABASE_URL is wrong. ${urlCheck()} [28P01]`;
   if (code === '42P01' || /relation .* does not exist/i.test(msg)) return 'the tables are missing. Run db/schema.sql in the Supabase SQL editor. [42P01]';
   if (/tenant or user not found/i.test(msg)) return 'the user name in DATABASE_URL is wrong. Use the "Session pooler" link (user looks like postgres.xxxx). [user]';
   if (/ENOTFOUND|getaddrinfo/i.test(msg)) return 'the server address in DATABASE_URL is wrong. Copy the Session pooler link again. [host]';
@@ -45,4 +45,25 @@ function explainDbError(e: any): string {
   if (/Invalid URL|invalid connection|URI malformed|Cannot read properties of undefined/i.test(msg)) return 'DATABASE_URL is not a valid link. If the password has symbols like @ # % /, they break the link. [format]';
   if (/self.signed|certificate/i.test(msg)) return 'a secure-connection (SSL) problem. [ssl]';
   return `unexpected database error [${code || 'unknown'}].`;
+}
+
+// Safe hints about DATABASE_URL so the owner can compare it with their note. Never reveals the password.
+function urlCheck(): string {
+  try {
+    const raw = process.env.DATABASE_URL || '';
+    const hints: string[] = [];
+    if (raw !== raw.trim()) hints.push('it has a space at the start or end');
+    if (/^["']|["']$/.test(raw.trim())) hints.push('it is wrapped in quotes; remove them');
+    const u = new URL(raw.trim());
+    const pw = decodeURIComponent(u.password);
+    hints.push(`the password in Vercel has ${pw.length} characters`);
+    if (/[\[\]]/.test(pw)) hints.push('it still contains [ ] brackets');
+    if (/\*/.test(pw)) hints.push('it contains * stars');
+    if (/\s/.test(pw)) hints.push('it contains a space');
+    if (/YOUR-PASSWORD|database ?password/i.test(pw)) hints.push('it is still the placeholder text, not the real password');
+    if (!u.username.startsWith('postgres.')) hints.push('the user should start with postgres.');
+    return 'Check: ' + hints.join('; ') + '. Compare the length with the password in your note.';
+  } catch {
+    return 'DATABASE_URL is not a valid link.';
+  }
 }
