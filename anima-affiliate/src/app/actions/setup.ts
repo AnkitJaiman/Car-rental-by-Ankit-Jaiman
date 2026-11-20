@@ -8,8 +8,8 @@ import { audit } from '@/lib/audit';
 // One-time creation of the first admin, from the browser. Works only while no admin exists
 // and only with the SETUP_TOKEN set in the hosting settings.
 export async function setupAdminAction(fd: FormData) {
-  const expected = process.env.SETUP_TOKEN || '';
-  const token = String(fd.get('token') || '');
+  const expected = (process.env.SETUP_TOKEN || '').trim();
+  const token = String(fd.get('token') || '').trim();
   const a = Buffer.from(token), b = Buffer.from(expected);
   if (expected.length < 16 || a.length !== b.length || !timingSafeEqual(a, b)) redirect('/setup?err=' + encodeURIComponent('Setup code is incorrect.'));
   if (await one(`select 1 from users where role = 'admin'`)) redirect('/login?msg=' + encodeURIComponent('Setup is already complete. Please sign in.'));
